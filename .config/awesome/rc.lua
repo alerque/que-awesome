@@ -51,6 +51,8 @@ kbdcfg.switch_tr = function ()
 	os.execute( "xmodmap -e 'keycode 66 = ISO_Level3_Shift'" )
 end
 
+kbdcfg.switch_en()
+
 layouts =
 {
     awful.layout.suit.spiral,

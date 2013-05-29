@@ -1,1 +1,9 @@
 *
+!/.config
+!/.config/awesome
+!/.config/awesome/fraxbat.lua
+!/.config/awesome/gigamo.lua
+!/.config/awesome/rc.lua
+!/.config/awesome/theme.lua
+!/.gitignore.d
+!/.gitignore.d/que-awesome

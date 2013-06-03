@@ -294,13 +294,18 @@ for i = 1, 9 do
 	)
 end
 
+globalbuttons = awful.util.table.join(
+    awful.button({ }, 6, awful.tag.viewprev),
+    awful.button({ }, 7, awful.tag.viewnext)
+)
+
+root.buttons(globalbuttons)
+
 clientbuttons = awful.util.table.join(
+	globalbuttons,
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize),
-    awful.button({ }, 8, awful.tag.viewonly(tags[1][1])),
-    awful.button({ }, 9, awful.tag.viewnext),
-    awful.button({ }, 10, awful.tag.viewprev)
+    awful.button({ modkey, "Control" }, 1, awful.mouse.client.resize)
 )
 
 awful.rules.rules = {
@@ -345,12 +350,6 @@ end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
-root.buttons(awful.util.table.join(
-    awful.button({ }, 8, awful.tag.viewonly(tags[1][1])),
-    awful.button({ }, 9, awful.tag.viewnext),
-    awful.button({ }, 10, awful.tag.viewprev)
-))
 
 autorun = false
 autorunApps = {

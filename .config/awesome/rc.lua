@@ -127,15 +127,15 @@ globalkeys = awful.util.table.join(
 	awful.key({ winkey }, "*", function () awful.tag.incncol( 1) end),
     awful.key({ winkey }, "-", function () awful.tag.incncol(-1) end),
 
-    awful.key({ winkey }, ",", function () awful.tag.incmwfact( 0.1) end),
-    awful.key({ winkey }, "ö", function () awful.tag.incmwfact( 0.1) end),
-    awful.key({ winkey }, ".", function () awful.tag.incmwfact(-0.1) end),
-    awful.key({ winkey }, "ç", function () awful.tag.incmwfact(-0.1) end),
+    awful.key({ winkey }, ".", function () awful.tag.incmwfact( 0.1) end),
+    awful.key({ winkey }, "ç", function () awful.tag.incmwfact( 0.1) end),
+    awful.key({ winkey }, ",", function () awful.tag.incmwfact(-0.1) end),
+    awful.key({ winkey }, "ö", function () awful.tag.incmwfact(-0.1) end),
 
-    awful.key({ winkey, control }, ",", function () awful.tag.incnmaster( 1) end),
-    awful.key({ winkey, control }, "ö", function () awful.tag.incnmaster( 1) end),
-    awful.key({ winkey, control }, ".", function () awful.tag.incnmaster(-1) end),
-    awful.key({ winkey, control }, "ç", function () awful.tag.incnmaster(-1) end),
+    awful.key({ winkey, control }, ".", function () awful.tag.incnmaster( 1) end),
+    awful.key({ winkey, control }, "ç", function () awful.tag.incnmaster( 1) end),
+    awful.key({ winkey, control }, ",", function () awful.tag.incnmaster(-1) end),
+    awful.key({ winkey, control }, "ö", function () awful.tag.incnmaster(-1) end),
 
     awful.key({ winkey }, "space", function () awful.layout.inc(layouts, 1) end),
     awful.key({ winkey, control }, "space", function () awful.layout.inc(layouts, -1) end),

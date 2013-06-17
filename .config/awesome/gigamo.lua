@@ -1,8 +1,8 @@
 mybattery = widget({type = "textbox", name = "batterywidget", align = "right" })
 
 function batteryInfo(widget, adapter)
-	local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")
-	local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full_design")
+	local fcur = io.open("/sys/class/power_supply/"..adapter.."/energy_now")
+	local fcap = io.open("/sys/class/power_supply/"..adapter.."/energy_full_design")
 	local fsta = io.open("/sys/class/power_supply/"..adapter.."/status")
 	local cur = fcur:read()
 	local cap = fcap:read()
@@ -32,8 +32,8 @@ function batteryInfo(widget, adapter)
 	fsta:close()
 end
 
-local fpres= io.open("/sys/class/power_supply/BAT0/present", "r")
+local fpres = io.open("/sys/class/power_supply/BAT0/present", "r")
 if fpres then
 	awful.hooks.timer.register(15, function() batteryInfo(mybattery, "BAT0") end)
-	fpres.close()
+--	fpres.close()
 end

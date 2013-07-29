@@ -230,6 +230,11 @@ tagswidget = {}
 promptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright})
 promptbox.widget.width = 200
 
+tasklist = awful.widget.tasklist(function(c)
+	return awful.widget.tasklist.label.allscreen(c, lastscreen)
+	end, tasklist.buttons
+)
+
 for s = 1, screen.count() do
 	tags[s] = awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " bg " }, s, awful.layout.suit.spiral)
 	tags[s][1].selected = true
@@ -243,10 +248,6 @@ for s = 1, screen.count() do
 		))
 	tagswidget[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, taglist.buttons)
 
-	tasklist[s] = awful.widget.tasklist(function(c)
-		return awful.widget.tasklist.label.currenttags(c, s)
-		end, tasklist.buttons
-	)
 end
 
 require("gigamo");
@@ -259,14 +260,13 @@ wibox.widgets = {
 	kbdcfg.widget,
 	battery,
 	{
-		lastscreen == 2 and layoutbox[2] or nil,
-		lastscreen == 2 and tagswidget[2] or nil,
 		layoutbox[1],
 		tagswidget[1],
+		lastscreen == 2 and layoutbox[2] or nil,
+		lastscreen == 2 and tagswidget[2] or nil,
 		promptbox,
-		stats,
-		lastscreen == 2 and tasklist[2] or nil,
-		tasklist[1],
+		-- stats,
+		tasklist,
 		layout = awful.widget.layout.horizontal.leftright
 	},
 	layout = awful.widget.layout.horizontal.rightleft

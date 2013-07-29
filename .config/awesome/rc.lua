@@ -228,6 +228,7 @@ lastscreen = screen.count()
 
 tagswidget = {}
 promptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright})
+promptbox.widget.width = 200
 
 for s = 1, screen.count() do
 	tags[s] = awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " bg " }, s, awful.layout.suit.spiral)
@@ -258,13 +259,13 @@ wibox.widgets = {
 	kbdcfg.widget,
 	battery,
 	{
-		lastscreen == 2 and tagswidget[2] or nil,
-		tagswidget[1],
-		stats,
-		promptbox,
 		lastscreen == 2 and layoutbox[2] or nil,
-		lastscreen == 2 and tasklist[2] or nil,
+		lastscreen == 2 and tagswidget[2] or nil,
 		layoutbox[1],
+		tagswidget[1],
+		promptbox,
+		stats,
+		lastscreen == 2 and tasklist[2] or nil,
 		tasklist[1],
 		layout = awful.widget.layout.horizontal.leftright
 	},

@@ -64,9 +64,6 @@ layouts =
     awful.layout.suit.floating
 }
 
-tags = {}
-layoutbox = {}
-
 textclock = awful.widget.textclock({ align = "right" })
 systray = widget({ type = "systray" })
 
@@ -151,6 +148,7 @@ globalkeys = awful.util.table.join(
               end)
 )
 
+tags = {}
 for i = 1, 9 do
     globalkeys = awful.util.table.join(
 		globalkeys,
@@ -226,7 +224,6 @@ tasklist.buttons = awful.util.table.join(
 
 lastscreen = screen.count()
 
-tagswidget = {}
 promptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright})
 promptbox.widget.width = 200
 
@@ -235,6 +232,8 @@ tasklist = awful.widget.tasklist(function(c)
 	end, tasklist.buttons
 )
 
+layoutbox = {}
+tagswidget = {}
 for s = 1, screen.count() do
 	tags[s] = awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " bg " }, s, awful.layout.suit.spiral)
 	tags[s][1].selected = true

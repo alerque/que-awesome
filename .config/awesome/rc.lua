@@ -250,44 +250,26 @@ end
 
 require("gigamo");
 
-if screen.count() > 1 then
-	wibox = awful.wibox({ position = "top", screen = 2})
-	wibox.widgets = {
-		textclock,
-		systray,
-		kbdcfg.widget,
-		battery,
-		{
-			tagswidget[2],
-			tagswidget[1],
-			stats,
-			promptbox,
-			layoutbox[2],
-			tasklist[2],
-			layoutbox[1],
-			tasklist[1],
-			layout = awful.widget.layout.horizontal.leftright
-		},
-		layout = awful.widget.layout.horizontal.rightleft
-	}
-else
-	wibox = awful.wibox({ position = "top", screen = 1})
-	wibox.widgets = {
-		textclock,
-		systray,
-		kbdcfg.widget,
-		battery,
-		{
-			tagswidget[1],
-			stats,
-			layoutbox[1],
-			promptbox,
-			tasklist[1],
-			layout = awful.widget.layout.horizontal.leftright
-		},
-		layout = awful.widget.layout.horizontal.rightleft
-	}
-end
+wibox = awful.wibox({ position = "top", screen = lastscreen})
+
+wibox.widgets = {
+	textclock,
+	systray,
+	kbdcfg.widget,
+	battery,
+	{
+		lastscreen == 2 and tagswidget[2] or nil,
+		tagswidget[1],
+		stats,
+		promptbox,
+		lastscreen == 2 and layoutbox[2] or nil,
+		lastscreen == 2 and tasklist[2] or nil,
+		layoutbox[1],
+		tasklist[1],
+		layout = awful.widget.layout.horizontal.leftright
+	},
+	layout = awful.widget.layout.horizontal.rightleft
+}
 
 --bashets.start()
 

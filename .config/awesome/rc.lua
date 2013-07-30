@@ -312,16 +312,15 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true, tag = tags[1][2] } },
-    { rule = { class = "iceweasel" },
-      properties = { tag = tags[1][1] } },
     { rule = { class = "pidgin" },
       properties = { tag = tags[lastscreen][1] } },
     { rule = { class = "skype" },
       properties = { tag = tags[lastscreen][1] } },
-    { rule = { class = "rhythmbox" },
-      properties = { tag = tags[lastscreen][9] } }
+    { rule = { class = "Lyricue_display" },
+      properties = { tag = tags[1][9],
+					 maximized_horizontal = false,
+					 maximized_vertical = false,
+					 floating = true } }
 }
 
 client.add_signal("manage", function (c, startup)

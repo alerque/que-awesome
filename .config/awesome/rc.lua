@@ -19,6 +19,8 @@ beautiful.init(theme_path)
 theme.border_width = "0"
 --theme.wallpaper_cmd = "feh --bg-fill greece_flower_bg.jpg"
 
+hostname = awful.util.pread("uname -n")
+
 --terminal = "urxvt"
 terminal = "gnome-terminal"
 browser = "chrome"
@@ -39,6 +41,8 @@ kbdcfg.switch_en = function ()
 	os.execute( "setxkbmap us" )
 	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
 	os.execute( "xmodmap ~/.xmodmaprc" )
+	local f = io.open("~/.xmodmaprc-" .. hostname, "r")
+	if f~=nil then io.close(f) os.execute("xmodmap ~/.xmodmaprc-" .. hostname) end
 	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 end
 
@@ -47,9 +51,10 @@ kbdcfg.switch_tr = function ()
 	os.execute( "setxkbmap tr" )
 	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
 	os.execute( "xmodmap ~/.xmodmaprc" )
+	local f = io.open("~/.xmodmaprc-" .. hostname, "r")
+	if f~=nil then io.close(f) os.execute("xmodmap ~/.xmodmaprc-" .. hostname) end
 	os.execute( "xmodmap -e 'keycode 66 = ISO_Level3_Shift'" )
 end
-
 
 layouts =
 {
@@ -306,12 +311,12 @@ awful.rules.rules = {
     { rule = { class = "pidgin" },
       properties = { tag = tags[lastscreen][1] } },
     { rule = { class = "skype" },
-      properties = { tag = tags[lastscreen][1] } },
-    { rule = { class = "Lyricue_display" },
-      properties = { tag = tags[1][9],
-					 maximized_horizontal = false,
-					 maximized_vertical = false,
-					 floating = true } }
+      properties = { tag = tags[lastscreen][1] } }
+    --{ rule = { class = "Lyricue_display" },
+    --  properties = { tag = tags[1][9],
+	--				 maximized_horizontal = false,
+	--				 maximized_vertical = false,
+	--				 floating = true } }
 }
 
 client.add_signal("manage", function (c, startup)

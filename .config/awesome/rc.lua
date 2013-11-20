@@ -4,6 +4,7 @@ awful.rules = require("awful.rules")
 awful.widget.graph = require("awful.widget.graph")
 beautiful = require("beautiful")
 naughty = require("naughty")
+wibox = require("wibox");
 --require("bashets")
 --require("obvious")
 --require("obvious.keymap_switch")
@@ -31,10 +32,11 @@ winkey = "Mod4"
 control = "Control"
 shift = "Shift"
 
-naughty.config.default_preset.position = "bottom_right"
+--naughty.config.default_preset.position = "bottom_right"
 
 kbdcfg = {}
-kbdcfg.widget = wibox.widget.textbox({ type = "textbox", align = "right" })
+kbdcfg.widget = wibox.widget.textbox()
+kbdcfg.widget:set_align("right")
 
 kbdcfg.switch_en = function ()
 	kbdcfg.widget:set_text(" en ")
@@ -215,7 +217,7 @@ tasklist.buttons = awful.util.table.join(
                                                   instance:hide()
                                                   instance = nil
                                               else
-                                                  instance = awful.menu.clients(theme = { width = 250 })
+                                                  instance = awful.menu.clients()
                                               end
                                           end),
                      awful.button({ }, 4, function ()
@@ -229,7 +231,7 @@ tasklist.buttons = awful.util.table.join(
 
 lastscreen = screen.count()
 
-promptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright})
+promptbox = awful.widget.prompt()
 promptbox.widget.width = 200
 
 tasklist = awful.widget.tasklist(lastscreen, awful.widget.tasklist.filter.allscreen, tasklist.buttons)
@@ -251,7 +253,7 @@ for s = 1, screen.count() do
 
 end
 
-gigamo = require("gigamo");
+--gigamo = require("gigamo");
 
 wibox = awful.wibox({ position = "top", screen = lastscreen})
 
@@ -267,10 +269,8 @@ wibox.widgets = {
 		lastscreen == 2 and tagswidget[2] or nil,
 		promptbox,
 		-- stats,
-		tasklist,
-		layout = awful.widget.layout.horizontal.leftright
-	},
-	layout = awful.widget.layout.horizontal.rightleft
+		tasklist
+	}
 }
 
 --bashets.start()

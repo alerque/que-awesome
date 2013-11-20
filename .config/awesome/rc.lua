@@ -1,9 +1,9 @@
-require("awful")
-require("awful.autofocus")
-require("awful.rules")
-require("awful.widget.graph")
-require("beautiful")
-require("naughty")
+awful = require("awful")
+awful.autofocus = require("awful.autofocus")
+awful.rules = require("awful.rules")
+awful.widget.graph = require("awful.widget.graph")
+beautiful = require("beautiful")
+naughty = require("naughty")
 --require("bashets")
 --require("obvious")
 --require("obvious.keymap_switch")
@@ -34,10 +34,10 @@ shift = "Shift"
 naughty.config.default_preset.position = "bottom_right"
 
 kbdcfg = {}
-kbdcfg.widget = widget({ type = "textbox", align = "right" })
+kbdcfg.widget = wibox.widget.textbox({ type = "textbox", align = "right" })
 
 kbdcfg.switch_en = function ()
-	kbdcfg.widget.text = " en "
+	kbdcfg.widget:set_text(" en ")
 	os.execute( "setxkbmap us" )
 	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
 	os.execute( "xmodmap ~/.xmodmaprc" )
@@ -47,7 +47,7 @@ kbdcfg.switch_en = function ()
 end
 
 kbdcfg.switch_tr = function ()
-	kbdcfg.widget.text = " tr "
+	kbdcfg.widget:set_text(" tr ")
 	os.execute( "setxkbmap tr" )
 	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
 	os.execute( "xmodmap ~/.xmodmaprc" )
@@ -70,7 +70,7 @@ layouts =
 }
 
 textclock = awful.widget.textclock({ align = "right" })
-systray = widget({ type = "systray" })
+systray = wibox.widget.systray({ type = "systray" })
 
 stats = awful.widget.graph({})
 stats:set_width(10)
@@ -215,7 +215,7 @@ tasklist.buttons = awful.util.table.join(
                                                   instance:hide()
                                                   instance = nil
                                               else
-                                                  instance = awful.menu.clients({ width=250 })
+                                                  instance = awful.menu.clients(theme = { width = 250 })
                                               end
                                           end),
                      awful.button({ }, 4, function ()
@@ -232,10 +232,7 @@ lastscreen = screen.count()
 promptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright})
 promptbox.widget.width = 200
 
-tasklist = awful.widget.tasklist(function(c)
-	return awful.widget.tasklist.label.allscreen(c, lastscreen)
-	end, tasklist.buttons
-)
+tasklist = awful.widget.tasklist(lastscreen, awful.widget.tasklist.filter.allscreen, tasklist.buttons)
 
 layoutbox = {}
 tagswidget = {}
@@ -250,11 +247,11 @@ for s = 1, screen.count() do
 			awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
 			awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)
 		))
-	tagswidget[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, taglist.buttons)
+	tagswidget[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist.buttons)
 
 end
 
-require("gigamo");
+gigamo = require("gigamo");
 
 wibox = awful.wibox({ position = "top", screen = lastscreen})
 
@@ -319,9 +316,9 @@ awful.rules.rules = {
 	--				 floating = true } }
 }
 
-client.add_signal("manage", function (c, startup)
+client.connect_signal("manage", function (c, startup)
 
-    c:add_signal("mouse::enter", function(c)
+    c:connect_signal("mouse::enter", function(c)
         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
             and awful.client.focus.filter(c) then
             client.focus = c
@@ -338,8 +335,8 @@ client.add_signal("manage", function (c, startup)
     c.size_hints_honor = false
 end)
 
-client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 kbdcfg.switch_en()
 

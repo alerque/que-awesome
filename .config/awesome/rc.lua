@@ -70,6 +70,9 @@ mykbdcfg.switch_tr = function ()
 	os.execute( "xmodmap ~/.Xmodmap" )
 	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 end
+
+lastscreen = screen.count()
+
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"
 browser = "chrome"
@@ -399,10 +402,11 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
+    { rule = { class = "pidgin" },
+      properties = { tag = tags[lastscreen][1] } },
+    { rule = { class = "skype" },
+      properties = { tag = tags[lastscreen][1] } }
+    --{ rule = { class = "Lyricue_display" },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -481,5 +485,7 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
 mykbdcfg.switch_dvp()
+
 -- vim: ft=lua ts=4 sw=4 expandtab

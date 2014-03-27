@@ -42,6 +42,23 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 theme.border_width = "0"
 
+mykbdcfg = {}
+mykbdcfg.widget = wibox.widget.textbox()
+
+mykbdcfg.switch_dvp = function ()
+	mykbdcfg.widget:set_text(" dvp ")
+	os.execute( "setxkbmap dvp" )
+end
+
+mykbdcfg.switch_en = function ()
+	mykbdcfg.widget:set_text(" en ")
+	os.execute( "setxkbmap us" )
+end
+
+mykbdcfg.switch_tr = function ()
+	mykbdcfg.widget:set_text(" tr ")
+	os.execute( "setxkbmap tr" )
+end
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"
 browser = "chrome"
@@ -193,6 +210,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(mykbdcfg.widget)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -216,6 +234,10 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+	awful.key({ modkey,           }, "d", function () mykbdcfg.switch_dvp() end),
+	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_en() end),
+	awful.key({ modkey,           }, "t", function () mykbdcfg.switch_tr() end),
+
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -439,3 +461,5 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+mykbdcfg.switch_dvp()
+-- vim: ft=lua ts=4 sw=4 expandtab

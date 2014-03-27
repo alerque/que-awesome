@@ -235,8 +235,8 @@ end
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 6, awful.tag.viewprev),
+    awful.button({ }, 7, awful.tag.viewnext)
 ))
 -- }}}
 
@@ -249,6 +249,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+
+	awful.key({ modkey,           }, "b", awful.tag.viewnone),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -364,7 +366,13 @@ for i = 1, 9 do
                               awful.client.toggletag(tag)
                           end
                       end
-                  end))
+                  end)),
+        awful.key({ modkey,           }, "z",
+                  function ()
+                      if client.focus and tags[client.focus.screen][i] then
+                          awful.client.movetotag(tags[client.focus.screen][10])
+                      end
+                  end)
 end
 
 clientbuttons = awful.util.table.join(

@@ -310,8 +310,8 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
+    awful.key({ modkey,           }, "q",      function (c) c:kill()                         end),
+    awful.key({ modkey,           }, "g",      awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
@@ -376,9 +376,13 @@ for i = 1, 9 do
 end
 
 clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize))
+    awful.button({                   }, 1, function (c) client.focus = c; c:raise() end),
+    awful.button({ modkey,           }, 1, awful.mouse.client.move),
+    awful.button({ modkey, "Control" }, 1, awful.mouse.client.resize),
+    awful.button({                   }, 6, awful.tag.viewprev),
+    awful.button({                   }, 7, awful.tag.viewnext)
+)
+
 
 -- Set keys
 root.keys(globalkeys)

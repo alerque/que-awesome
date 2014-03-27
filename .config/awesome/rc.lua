@@ -38,9 +38,15 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+theme_path = ".config/awesome/theme.lua"
+
+beautiful.init(theme_path)
 
 theme.border_width = "0"
+
+hostname = awful.util.pread("uname -n")
+
+lastscreen = screen.count()
 
 mykbdcfg = {}
 mykbdcfg.widget = wibox.widget.textbox()
@@ -70,8 +76,6 @@ mykbdcfg.switch_tr = function ()
 	os.execute( "xmodmap ~/.Xmodmap" )
 	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 end
-
-lastscreen = screen.count()
 
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"

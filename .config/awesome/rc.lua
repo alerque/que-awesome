@@ -78,7 +78,8 @@ mykbdcfg.switch_tr = function ()
 end
 
 -- This is used later as the default terminal and editor to run.
-terminal = "gnome-terminal"
+terminal = "urxvt"
+--terminal = "gnome-terminal"
 browser = "chrome"
 editor = "gvim"
 editor_cmd = editor
@@ -407,6 +408,7 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
+                     size_hints_honor = false,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },

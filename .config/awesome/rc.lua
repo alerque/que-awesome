@@ -48,16 +48,27 @@ mykbdcfg.widget = wibox.widget.textbox()
 mykbdcfg.switch_dvp = function ()
 	mykbdcfg.widget:set_text(" dvp ")
 	os.execute( "setxkbmap dvp" )
+	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
+	os.execute( "xmodmap ~/.Xmodmap" )
+	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	--local f = io.open("~/.xmodmaprc-" .. hostname, "r")
+	--if f~=nil then io.close(f) os.execute("xmodmap ~/.xmodmaprc-" .. hostname) end
 end
 
 mykbdcfg.switch_en = function ()
 	mykbdcfg.widget:set_text(" en ")
 	os.execute( "setxkbmap us" )
+	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
+	os.execute( "xmodmap ~/.Xmodmap" )
+	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 end
 
 mykbdcfg.switch_tr = function ()
 	mykbdcfg.widget:set_text(" tr ")
 	os.execute( "setxkbmap tr" )
+	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
+	os.execute( "xmodmap ~/.Xmodmap" )
+	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 end
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"

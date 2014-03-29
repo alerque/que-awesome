@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+--local volume = require("volume")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -55,14 +56,14 @@ mykbdcfg.switch_dvp = function ()
 	mykbdcfg.widget:set_text(" dvp ")
 	os.execute( "setxkbmap dvp" )
 	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	os.execute( "xmodmap ~/.Xmodmap" )
-	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	--os.execute( "xmodmap ~/.Xmodmap" )
+	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 	--local f = io.open("~/.xmodmaprc-" .. hostname, "r")
 	--if f~=nil then io.close(f) os.execute("xmodmap ~/.xmodmaprc-" .. hostname) end
 end
 
-mykbdcfg.switch_en = function ()
-	mykbdcfg.widget:set_text(" en ")
+mykbdcfg.switch_us = function ()
+	mykbdcfg.widget:set_text(" us ")
 	os.execute( "setxkbmap us" )
 	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
 	os.execute( "xmodmap ~/.Xmodmap" )
@@ -72,9 +73,25 @@ end
 mykbdcfg.switch_tr = function ()
 	mykbdcfg.widget:set_text(" tr ")
 	os.execute( "setxkbmap tr" )
-	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	os.execute( "xmodmap ~/.Xmodmap" )
-	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	--os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
+	--os.execute( "xmodmap ~/.Xmodmap" )
+	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+end
+
+mykbdcfg.switch_trf = function ()
+	mykbdcfg.widget:set_text(" tr-f ")
+	os.execute( "setxkbmap tr f" )
+	--os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
+	--os.execute( "xmodmap ~/.Xmodmap" )
+	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+end
+
+mykbdcfg.switch_ptf = function ()
+	mykbdcfg.widget:set_text(" ptf ")
+	os.execute( "setxkbmap ptf" )
+	--os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
+	--os.execute( "xmodmap ~/.Xmodmap" )
+	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
 end
 
 -- This is used later as the default terminal and editor to run.
@@ -227,9 +244,8 @@ for s = 1, screen.count() do
 
     -- Create a tasklist widget
 
+    left_layout:add(mylayoutbox[s])
     left_layout:add(mytaglist[s])
-
-    right_layout:add(mylayoutbox[s])
 end
 
 left_layout:add(mypromptbox)
@@ -255,8 +271,10 @@ root.buttons(awful.util.table.join(
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "d", function () mykbdcfg.switch_dvp() end),
-	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_en() end),
+	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_us() end),
 	awful.key({ modkey,           }, "t", function () mykbdcfg.switch_tr() end),
+	awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_trf() end),
+	awful.key({ modkey,           }, "y", function () mykbdcfg.switch_ptf() end),
 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),

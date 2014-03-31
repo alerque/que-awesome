@@ -271,10 +271,10 @@ root.buttons(awful.util.table.join(
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "d", function () mykbdcfg.switch_dvp() end),
+	awful.key({ modkey,           }, "f", function () mykbdcfg.switch_ptf() end),
 	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_us() end),
-	awful.key({ modkey,           }, "t", function () mykbdcfg.switch_tr() end),
-	awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_trf() end),
-	awful.key({ modkey,           }, "y", function () mykbdcfg.switch_ptf() end),
+    awful.key({ modkey, "Shift"   }, "f", function () mykbdcfg.switch_trf() end),
+	awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_tr() end),
 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -339,7 +339,7 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey,           }, "y",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey,           }, "q",      function (c) c:kill()                         end),
     awful.key({ modkey,           }, "g",      awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
@@ -428,6 +428,10 @@ awful.rules.rules = {
                      keys = clientkeys,
                      size_hints_honor = false,
                      buttons = clientbuttons } },
+    { rule = { instance = "plugin-container" },
+        properties = { floating = true } },
+    { rule = { instance = "exe" },
+        properties = { floating = true } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pidgin" },
@@ -516,4 +520,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 mykbdcfg.switch_dvp()
 
--- vim: ft=lua ts=4 sw=4 expandtab
+-- vim: ft=lua ts=4 sw=4 expandtab fdm=marker

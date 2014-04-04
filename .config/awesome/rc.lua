@@ -177,8 +177,8 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
-                    awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+                    awful.button({ }, 4, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
+                    awful.button({ }, 5, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end)
                     )
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
@@ -262,10 +262,13 @@ mywibox:set_widget(layout)
 -- }}}
 
 -- {{{ Mouse bindings
-root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 6, awful.tag.viewprev),
-    awful.button({ }, 7, awful.tag.viewnext)
+globalButtons = awful.util.table.join(
+    awful.button({ modkey,           }, 8, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+    awful.button({ modkey,           }, 9, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+)
+
+root.buttons(awful.util.table.join(globalButtons,
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
 ))
 -- }}}
 
@@ -277,8 +280,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "f", function () mykbdcfg.switch_trf() end),
 	awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_tr() end),
 
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "Up",     awful.tag.viewprev       ),
+    awful.key({ modkey,           }, "Down",   awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
 	awful.key({ modkey,           }, "b", awful.tag.viewnone),
@@ -406,12 +409,10 @@ for i = 1, 9 do
                   end)
 end
 
-clientbuttons = awful.util.table.join(
+clientbuttons = awful.util.table.join(globalButtons,
     awful.button({                   }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey,           }, 1, awful.mouse.client.move),
-    awful.button({ modkey, "Control" }, 1, awful.mouse.client.resize),
-    awful.button({                   }, 6, awful.tag.viewprev),
-    awful.button({                   }, 7, awful.tag.viewnext)
+    awful.button({ modkey,           }, 3, awful.mouse.client.resize)
 )
 
 

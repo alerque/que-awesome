@@ -12,6 +12,7 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 --local volume = require("volume")
 local eminent = require("eminent")
+local revelation =  require("revelation")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -43,6 +44,7 @@ end
 theme_path = ".config/awesome/theme.lua"
 
 beautiful.init(theme_path)
+revelation.init()
 
 theme.border_width = "0"
 
@@ -264,7 +266,8 @@ mywibox:set_widget(layout)
 -- {{{ Mouse bindings
 globalButtons = awful.util.table.join(
     awful.button({ modkey,           }, 8, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-    awful.button({ modkey,           }, 9, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+    awful.button({ modkey,           }, 9, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
+	awful.button({                   }, 13, revelation)
 )
 
 root.buttons(awful.util.table.join(globalButtons,
@@ -285,6 +288,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
 	awful.key({ modkey,           }, "b", awful.tag.viewnone),
+	awful.key({ modkey,           }, "a", revelation),
 
     awful.key({ modkey,           }, "h", function() awful.client.focus.global_bydirection("left")  end),
     awful.key({ modkey,           }, "l", function() awful.client.focus.global_bydirection("right") end),

@@ -58,43 +58,41 @@ mykbdcfg.widget = wibox.widget.textbox()
 mykbdcfg.switch_dvp = function ()
 	mykbdcfg.widget:set_text(" dvp ")
 	os.execute( "setxkbmap dvp" )
-	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	--os.execute( "xmodmap ~/.Xmodmap" )
-	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
-	--local f = io.open("~/.xmodmaprc-" .. hostname, "r")
-	--if f~=nil then io.close(f) os.execute("xmodmap ~/.xmodmaprc-" .. hostname) end
+	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
+	os.execute( "setxkbmap -option compose:menu" )
+	os.execute( "setxkbmap -option lv3:caps_switch" )
 end
 
 mykbdcfg.switch_us = function ()
 	mykbdcfg.widget:set_text(" us ")
 	os.execute( "setxkbmap us" )
-	os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	os.execute( "xmodmap ~/.Xmodmap" )
-	os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
+	os.execute( "setxkbmap -option compose:menu" )
+	os.execute( "setxkbmap -option lv3:caps_switch" )
 end
 
 mykbdcfg.switch_tr = function ()
 	mykbdcfg.widget:set_text(" tr ")
 	os.execute( "setxkbmap tr" )
-	--os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	--os.execute( "xmodmap ~/.Xmodmap" )
-	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
+	os.execute( "setxkbmap -option compose:menu" )
+	os.execute( "setxkbmap -option lv3:caps_switch" )
 end
 
 mykbdcfg.switch_trf = function ()
 	mykbdcfg.widget:set_text(" tr-f ")
 	os.execute( "setxkbmap tr f" )
-	--os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	--os.execute( "xmodmap ~/.Xmodmap" )
-	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
+	os.execute( "setxkbmap -option compose:menu" )
+	os.execute( "setxkbmap -option lv3:caps_switch" )
 end
 
 mykbdcfg.switch_ptf = function ()
 	mykbdcfg.widget:set_text(" ptf ")
 	os.execute( "setxkbmap ptf" )
-	--os.execute( "setxkbmap -option 'nbsp:zwnj2nb3nnb4'" )
-	--os.execute( "xmodmap ~/.Xmodmap" )
-	--os.execute( "xmodmap -e 'keycode 66 = Mode_switch'" )
+	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
+	os.execute( "setxkbmap -option compose:menu" )
+	os.execute( "setxkbmap -option lv3:caps_switch" )
 end
 
 -- This is used later as the default terminal and editor to run.

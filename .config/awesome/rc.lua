@@ -428,24 +428,20 @@ root.keys(globalkeys)
 
 -- {{{ Rules
 awful.rules.rules = {
-    -- All clients will match this rule.
     { rule = { },
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      size_hints_honor = false,
-                     buttons = clientbuttons } },
-    { rule = { instance = "plugin-container" },
-        properties = { floating = true } },
-    { rule = { instance = "exe" },
-        properties = { floating = true } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "pidgin" },
-      properties = { tag = tags[lastscreen][1] } },
-    { rule = { class = "skype" },
-      properties = { tag = tags[lastscreen][1] } }
+                     buttons = clientbuttons }
+    },
+    { rule_any = { class = { "MPlayer" }, instance = { "plugin-container", "exe" }, role = { "GtkFileChooserDialog" } },
+        properties = { floating = true },
+        callback = function(c)
+                awful.placement.centered(c,nil)
+            end
+    }
     --{ rule = { class = "Lyricue_display" },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },

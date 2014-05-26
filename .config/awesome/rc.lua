@@ -103,7 +103,7 @@ end
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
 --terminal = "gnome-terminal"
-browser = "chrome"
+browser = "chromium"
 editor = "gvim"
 editor_cmd = editor
 
@@ -322,6 +322,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey,           }, "/", function () awful.util.spawn(browser) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 

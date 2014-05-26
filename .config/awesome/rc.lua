@@ -165,7 +165,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+menubar.utils.terminal = terminal .. "-e " -- Set the terminal for applications that require it
 -- }}}
 
 -- {{{ Wibox
@@ -335,16 +335,52 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
-    -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox:run() end),
+    -- Prompts
+    awful.key({ modkey },            "r", function () mypromptbox:run() end),
+    awful.key({ modkey },            "s", function ()
+                awful.prompt.run({ prompt = "ssh: " },
+                mypromptbox.widget,
+                function(h) awful.util.spawn(terminal .. " -e ssh " .. h) end)
+               --[[ function(cmd, cur_pos, ncomp)]]
+                    ---- get hosts and hostnames
+                    --local hosts = {}
+                    --f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
+                    --for host in f:lines() do
+                        --table.insert(hosts, host)
+                    --end
+                    --f:close()
+                    ---- abort completion under certain circumstances
+                    --if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
+                        --return cmd, cur_pos
+                    --end
+                    ---- match
+                    --local matches = {}
+                    --table.foreach(hosts, function(x)
+                        --if hosts[x]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
+                            --table.insert(matches, hosts[x])
+                        --end
+                    --end)
+                    ---- if there are no matches
+                    --if #matches == 0 then
+                        --return cmd, cur_pos
+                    --end
+                    ---- cycle
+                    --while ncomp > #matches do
+                        --ncomp = ncomp - #matches
+                    --end
+                    ---- return match and position
+                    --return matches[ncomp], #matches[ncomp] + 1
+                --end,
+                --[[awful.util.getdir("cache") .. "/ssh_history")]]
+            end),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox.widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end),
+    awful.key({ modkey },            "x", function ()
+                awful.prompt.run({ prompt = "Run Lua code: " },
+                mypromptbox.widget,
+                awful.util.eval, nil,
+                awful.util.getdir("cache") .. "/history_eval")
+            end),
+
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)
 )

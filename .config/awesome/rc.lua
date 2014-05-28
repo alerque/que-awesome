@@ -232,10 +232,10 @@ left_layout:add(mylauncher)
 
 -- Widgets that are aligned to the right
 local right_layout = wibox.layout.fixed.horizontal()
-right_layout:add(powerline_widget)
-right_layout:add(mykbdcfg.widget)
 right_layout:add(wibox.widget.systray())
-right_layout:add(mytextclock)
+right_layout:add(mykbdcfg.widget)
+right_layout:add(powerline_widget)
+--right_layout:add(mytextclock)
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen

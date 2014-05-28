@@ -14,6 +14,9 @@ local menubar = require("menubar")
 local eminent = require("eminent")
 local revelation =  require("revelation")
 
+package.path = package.path .. ';/usr/lib/python3.4/site-packages/powerline/bindings/awesome/?.lua'
+local powerline = require('powerline')
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -45,8 +48,6 @@ theme_path = ".config/awesome/theme.lua"
 
 beautiful.init(theme_path)
 revelation.init()
-
-theme.border_width = "0"
 
 hostname = awful.util.pread("uname -n")
 
@@ -231,6 +232,7 @@ left_layout:add(mylauncher)
 
 -- Widgets that are aligned to the right
 local right_layout = wibox.layout.fixed.horizontal()
+right_layout:add(powerline_widget)
 right_layout:add(mykbdcfg.widget)
 right_layout:add(wibox.widget.systray())
 right_layout:add(mytextclock)

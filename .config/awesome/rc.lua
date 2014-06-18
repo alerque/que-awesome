@@ -180,8 +180,8 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
-                    awful.button({ }, 4, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end)
+                    awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+                    awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
                     )
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
@@ -278,11 +278,12 @@ root.buttons(awful.util.table.join(globalButtons,
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-	awful.key({ modkey,           }, "d", function () mykbdcfg.switch_dvp() end),
-	awful.key({ modkey,           }, "f", function () mykbdcfg.switch_ptf() end),
-	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_us() end),
-    awful.key({ modkey, "Shift"   }, "f", function () mykbdcfg.switch_trf() end),
-	awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_tr() end),
+	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_dvp() end), -- to EN (same on dvp/ptf)
+	awful.key({ modkey,           }, "u", function () mykbdcfg.switch_ptf() end), -- to TR (dvp)
+	awful.key({ modkey,           }, "a", function () mykbdcfg.switch_ptf() end), -- to TR (ptf)
+	--awful.key({ modkey,           }, "e", function () mykbdcfg.switch_us() end),
+    --awful.key({ modkey, "Shift"   }, "f", function () mykbdcfg.switch_trf() end),
+	--awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_tr() end),
 
     awful.key({ modkey,           }, "Up",     awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Down",   awful.tag.viewnext       ),
@@ -309,7 +310,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey,           }, "o", function () awful.screen.focus_relative(-1) end),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
+    --awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
@@ -384,7 +385,7 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "y",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey,           }, "q",      function (c) c:kill()                         end),
     awful.key({ modkey,           }, "g",      awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),

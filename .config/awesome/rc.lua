@@ -474,7 +474,7 @@ awful.rules.rules = {
                         buttons = clientbuttons }
     },
     { rule_any = {
-            class = { "Keepassx", "MPlayer" },
+            class = { "Keepassx", "MPlayer", "Shutter" },
             instance = { "plugin-container", "exe" },
             role = { "GtkFileChooserDialog" }
         },

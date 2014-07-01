@@ -99,9 +99,10 @@ mykbdcfg.switch_ptf = function ()
 end
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
---terminal = "gnome-terminal"
-browser = "chromium"
+terminal_login = "urxvt"
+terminal_plain = "env TMUX=/dev/null urxvt"
+firefox = "firefox"
+chrome = "chromium"
 editor = "gvim"
 editor_cmd = editor
 
@@ -148,14 +149,14 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
+   { "manual", terminal_plain .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal_plain }
                                   }
                         })
 
@@ -163,7 +164,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
-menubar.utils.terminal = terminal .. "-e " -- Set the terminal for applications that require it
+menubar.utils.terminal = terminal_plain .. "-e " -- Set the terminal for applications that require it
 -- }}}
 
 -- {{{ Wibox
@@ -320,8 +321,10 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey,           }, "/", function () awful.util.spawn(browser) end),
+    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal_login) end),
+    awful.key({ modkey, "Control" }, "Return", function () awful.util.spawn(terminal_plain) end),
+    awful.key({ modkey,           }, "/", function () awful.util.spawn(firefox) end),
+    awful.key({ modkey, "Control" }, "/", function () awful.util.spawn(chrome) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -339,7 +342,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey },            "s", function ()
                 awful.prompt.run({ prompt = "ssh: " },
                 mypromptbox.widget,
-                function(h) awful.util.spawn(terminal .. " -e ssh " .. h) end)
+                function(h) awful.util.spawn(terminal_plain .. " -e ssh " .. h) end)
                --[[ function(cmd, cur_pos, ncomp)]]
                     ---- get hosts and hostnames
                     --local hosts = {}

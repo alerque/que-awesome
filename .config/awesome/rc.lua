@@ -485,6 +485,11 @@ awful.rules.rules = {
         callback = function(c)
                 awful.placement.centered(c,nil)
             end
+    },
+    { rule_any = {
+            class = { "Keepassx" }
+        },
+        properties = { ontop = true }
     }
     --{ rule = { class = "Lyricue_display" },
     -- Set Firefox to always map on tags number 2 of screen 1.

@@ -291,7 +291,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
 	awful.key({ modkey,           }, "b", awful.tag.viewnone),
-	awful.key({ modkey,           }, "a", revelation),
+	awful.key({ modkey,           }, "v", revelation),
 
     awful.key({ modkey,           }, "h", function() awful.client.focus.global_bydirection("left")  end),
     awful.key({ modkey,           }, "l", function() awful.client.focus.global_bydirection("right") end),

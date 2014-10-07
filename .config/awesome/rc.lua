@@ -308,10 +308,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
+    awful.key({ modkey, "Control"   }, "j", function () awful.client.swap.byidx(  1)    end),
+    awful.key({ modkey, "Control"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey,           }, "o", function () awful.screen.focus_relative(-1) end),
-    --awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()

@@ -467,7 +467,7 @@ mytasklist.buttons = awful.util.table.join(
                                           end))
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "top", screen = lastscreen, height = "24" })
+mywibox = awful.wibox({ position = "top", screen = lastscreen, height = "22" })
 
 mypromptbox = awful.widget.prompt()
 
@@ -509,7 +509,6 @@ end
 left_layout:add(spr5px)
 left_layout:add(mypromptbox)
 left_layout:add(spr5px)
-left_layout:add(spr)
 
 -- Widgets that are aligned to the right
 local right_layout = wibox.layout.fixed.horizontal()

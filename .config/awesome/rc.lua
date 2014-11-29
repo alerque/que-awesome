@@ -185,17 +185,21 @@ end
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal_plain .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
-}
+systemmenu = {
+  { "hibernate", "uyut " .. hostname },
+  { "poweroff",  "sudo systemctl poweroff"     },
+  { "reboot",    "sudo systemctl reboot"       },
+  { "logout",      awesome.quit        }}
+awesomemenu = {
+  { "restart",   awesome.restart     },
+  { "edit config", editor_cmd .. " " .. awesome.conffile }}
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal_plain }
-                                  }
-                        })
+mymainmenu = awful.menu({ items = {
+  { "system",   systemmenu     },
+  { "system",   awesomemenu, beautiful.awesome_icon },
+  { "nautilus", filemanager    },
+  { "tmux",     terminal_login },
+  { "terminal", terminal_plain }}})
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })

@@ -38,11 +38,30 @@ theme.menu_width  = 160
 
 -- | Layout | --
 
-theme.layout_floating   = theme.icons .. "/panel/layouts/floating.png"
-theme.layout_tile       = theme.icons .. "/panel/layouts/tile.png"
-theme.layout_tileleft   = theme.icons .. "/panel/layouts/tileleft.png"
+theme.layout_dwindle = theme.icons .. "/panel/layouts/dwindle.png"
+theme.layout_dwindlew = theme.icons .. "/panel/layouts/dwindlew.png"
+theme.layout_fairh = theme.icons .. "/panel/layouts/fairh.png"
+theme.layout_fairhw = theme.icons .. "/panel/layouts/fairhw.png"
+theme.layout_fairv = theme.icons .. "/panel/layouts/fairv.png"
+theme.layout_fairvw = theme.icons .. "/panel/layouts/fairvw.png"
+theme.layout_floating = theme.icons .. "/panel/layouts/floating.png"
+theme.layout_floatingw = theme.icons .. "/panel/layouts/floatingw.png"
+theme.layout_fullscreen = theme.icons .. "/panel/layouts/fullscreen.png"
+theme.layout_fullscreenw = theme.icons .. "/panel/layouts/fullscreenw.png"
+theme.layout_magnifier = theme.icons .. "/panel/layouts/magnifier.png"
+theme.layout_magnifierw = theme.icons .. "/panel/layouts/magnifierw.png"
+theme.layout_max = theme.icons .. "/panel/layouts/max.png"
+theme.layout_maxw = theme.icons .. "/panel/layouts/maxw.png"
+theme.layout_spiral = theme.icons .. "/panel/layouts/spiral.png"
+theme.layout_spiralw = theme.icons .. "/panel/layouts/spiralw.png"
 theme.layout_tilebottom = theme.icons .. "/panel/layouts/tilebottom.png"
-theme.layout_tiletop    = theme.icons .. "/panel/layouts/tiletop.png"
+theme.layout_tilebottomw = theme.icons .. "/panel/layouts/tilebottomw.png"
+theme.layout_tileleft = theme.icons .. "/panel/layouts/tileleft.png"
+theme.layout_tileleftw = theme.icons .. "/panel/layouts/tileleftw.png"
+theme.layout_tile = theme.icons .. "/panel/layouts/tile.png"
+theme.layout_tiletop = theme.icons .. "/panel/layouts/tiletop.png"
+theme.layout_tiletopw = theme.icons .. "/panel/layouts/tiletopw.png"
+theme.layout_tilew = theme.icons .. "/panel/layouts/tilew.png"
 
 -- | Taglist | --
 

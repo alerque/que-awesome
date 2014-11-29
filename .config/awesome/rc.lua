@@ -146,6 +146,14 @@ editor_cmd = editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
+-- Markup
+markup = lain.util.markup
+space3 = markup.font("Terminus 3", " ")
+space2 = markup.font("Terminus 2", " ")
+vspace1 = '<span font="Terminus 3"> </span>'
+vspace2 = '<span font="Terminus 3">  </span>'
+clockgf = beautiful.clockgf
+
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {

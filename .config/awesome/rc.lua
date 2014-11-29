@@ -1,18 +1,29 @@
 -- Standard awesome library
-local gears = require("gears")
-local awful = require("awful")
-awful.rules = require("awful.rules")
-require("awful.autofocus")
+local gears       = require("gears")
+local awful       = require("awful")
+      awful.rules = require("awful.rules")
+                    require("awful.autofocus")
 -- Widget and layout library
-local wibox = require("wibox")
+local wibox       = require("wibox")
 -- Theme handling library
-local beautiful = require("beautiful")
+local beautiful   = require("beautiful")
 -- Notification library
-local naughty = require("naughty")
-local menubar = require("menubar")
+local naughty     = require("naughty")
+local menubar     = require("menubar")
 --local volume = require("volume")
-local eminent = require("eminent")
-local revelation =  require("revelation")
+local eminent     = require("eminent")
+local revelation  = require("revelation")
+-- External libraries as git submodules
+local vicious     = require("vicious")
+local lain        = require("lain")
+local cyclefocus  = require('cyclefocus')
+
+-- Lua 5.2 depricated this fuction which many awesome configs use
+if not table.foreach then
+  table.foreach = function(t, f)
+    for k, v in pairs(t) do if f(k, v)~=nil then break end end
+  end
+end
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -339,12 +350,43 @@ globalkeys = awful.util.table.join(
     -- Prompts
     awful.key({ modkey },            "r", function () mypromptbox:run() end),
     awful.key({ modkey },            "s", function ()
-                  awful.prompt.run({ prompt = "ssh: " },
-                  mypromptbox.widget,
-                  function(h) awful.util.spawn(terminal_plain .. " -e ssh " .. h) end,
-                  nil,
+                awful.prompt.run({ prompt = "ssh: " },
+                mypromptbox.widget,
+                function(h) awful.util.spawn(terminal_plain .. " -e ssh " .. h) end,
+                function(cmd, cur_pos, ncomp)
+                    -- get hosts and hostnames
+                    local hosts = {}
+                    --f = io.popen("eval echo $(sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config) | sort")
+                    f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
+                    for host in f:lines() do
+                        table.insert(hosts, host)
+                    end
+                    f:close()
+                    -- abort completion under certain circumstances
+                    if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
+                        return cmd, cur_pos
+                    end
+                    -- match
+                    local matches = {}
+                    for _, host in pairs(hosts) do
+                        if hosts[host]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
+                            table.insert(matches, hosts[host])
+                        end
+                    end
+                    -- if there are no matches
+                    if #matches == 0 then
+                        return cmd, cur_pos
+                    end
+                    -- cycle
+                    while ncomp > #matches do
+                        ncomp = ncomp - #matches
+                    end
+                    -- return match and position
+                    --return matches[ncomp], #matches[ncomp] + 1
+                    return cmd, cur_pos
+                  end,
                   awful.util.getdir("cache") .. "/ssh_history")
-            end),
+                end),
 
     awful.key({ modkey },            "x", function ()
                 awful.prompt.run({ prompt = "Run Lua code: " },

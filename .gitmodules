@@ -1,0 +1,12 @@
+[submodule ".config/awesome/vicious"]
+	path = .config/awesome/vicious
+	url = http://git.sysphere.org/vicious
+	branch = master
+[submodule ".config/awesome/lain"]
+	path = .config/awesome/lain
+	url = git@github.com:copycat-killer/lain.git
+	branch = master
+[submodule ".config/awesome/cyclefocus"]
+	path = .config/awesome/cyclefocus
+	url = git@github.com:blueyed/awesome-cyclefocus.git
+	branch = master

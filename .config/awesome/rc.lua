@@ -825,6 +825,14 @@ clientbuttons = awful.util.table.join(globalButtons,
     awful.button({ modkey,           }, 3, awful.mouse.client.resize)
 )
 
+awful.menu.menu_keys = {
+    up    = { "k", "Up" },
+    down  = { "j", "Down" },
+    exec  = { "l", "Return", "Space" },
+    enter = { "l", "Right" },
+    back  = { "h", "Left" },
+    close = { "q", "Escape" }
+}
 
 -- Set keys
 root.keys(globalkeys)

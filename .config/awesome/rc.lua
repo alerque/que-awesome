@@ -86,7 +86,7 @@ mykbdcfg = {}
 mykbdcfg.widget = wibox.widget.textbox()
 
 mykbdcfg.switch_dvp = function ()
-	mykbdcfg.widget:set_text(" dvp ")
+	mykbdcfg.widget:set_text("dvp")
 	os.execute( "setxkbmap dvp" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
@@ -95,7 +95,7 @@ mykbdcfg.switch_dvp = function ()
 end
 
 mykbdcfg.switch_us = function ()
-	mykbdcfg.widget:set_text(" us ")
+	mykbdcfg.widget:set_text("us ")
 	os.execute( "setxkbmap us" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
@@ -104,7 +104,7 @@ mykbdcfg.switch_us = function ()
 end
 
 mykbdcfg.switch_tr = function ()
-	mykbdcfg.widget:set_text(" tr ")
+	mykbdcfg.widget:set_text("tr ")
 	os.execute( "setxkbmap tr" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
@@ -113,7 +113,7 @@ mykbdcfg.switch_tr = function ()
 end
 
 mykbdcfg.switch_trf = function ()
-	mykbdcfg.widget:set_text(" tr-f ")
+	mykbdcfg.widget:set_text("trf")
 	os.execute( "setxkbmap tr f" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
@@ -122,7 +122,7 @@ mykbdcfg.switch_trf = function ()
 end
 
 mykbdcfg.switch_ptf = function ()
-	mykbdcfg.widget:set_text(" ptf ")
+	mykbdcfg.widget:set_text("ptf")
 	os.execute( "setxkbmap ptf" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
@@ -452,7 +452,9 @@ mytasklist.buttons = awful.util.table.join(
                                                   instance:hide()
                                                   instance = nil
                                               else
-                                                  instance = awful.menu.clients({ width=250 })
+                                                  instance = awful.menu.clients({
+                                                      theme = { width = 250 }
+                                                  })
                                               end
                                           end),
                      awful.button({ }, 4, function ()
@@ -465,19 +467,21 @@ mytasklist.buttons = awful.util.table.join(
                                           end))
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "top", screen = lastscreen })
+mywibox = awful.wibox({ position = "top", screen = lastscreen, height = "24" })
 
 mypromptbox = awful.widget.prompt()
 
 -- Widgets that are aligned to the left
 local left_layout = wibox.layout.fixed.horizontal()
-left_layout:add(mylauncher)
+left_layout:add(spr5px)
+left_layout:add(mykbdcfg.widget)
+left_layout:add(spr5px)
 
--- Widgets that are aligned to the right
-local right_layout = wibox.layout.fixed.horizontal()
-right_layout:add(wibox.widget.systray())
-right_layout:add(mykbdcfg.widget)
-right_layout:add(mytextclock)
+--left_layout:add(spr)
+
+--left_layout:add(spr5px)
+--left_layout:add(mylauncher)
+--left_layout:add(spr5px)
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
@@ -494,11 +498,100 @@ for s = 1, screen.count() do
 
     -- Create a tasklist widget
 
+    left_layout:add(spr)
+
+    left_layout:add(spr5px)
     left_layout:add(mylayoutbox[s])
     left_layout:add(mytaglist[s])
+    left_layout:add(spr5px)
 end
 
+left_layout:add(spr5px)
 left_layout:add(mypromptbox)
+left_layout:add(spr5px)
+left_layout:add(spr)
+
+-- Widgets that are aligned to the right
+local right_layout = wibox.layout.fixed.horizontal()
+
+right_layout:add(spr)
+
+right_layout:add(spr5px)
+right_layout:add(wibox.widget.systray())
+right_layout:add(spr5px)
+
+right_layout:add(spr)
+
+right_layout:add(prev_icon)
+right_layout:add(spr)
+right_layout:add(stop_icon)
+right_layout:add(spr)
+right_layout:add(play_pause_icon)
+right_layout:add(spr)
+right_layout:add(next_icon)
+right_layout:add(mpd_sepl)
+right_layout:add(musicwidget)
+right_layout:add(mpd_sepr)
+
+right_layout:add(spr)
+
+right_layout:add(widget_mail)
+right_layout:add(widget_display_l)
+right_layout:add(mailwidget)
+right_layout:add(widget_display_r)
+right_layout:add(spr5px)
+
+right_layout:add(spr)
+
+right_layout:add(spr5px)
+right_layout:add(mytextclock)
+
+right_layout:add(spr)
+
+right_layout:add(widget_cpu)
+right_layout:add(widget_display_l)
+right_layout:add(cpuwidget)
+right_layout:add(widget_display_r)
+-- right_layout:add(widget_display_c)
+-- right_layout:add(tmpwidget)
+-- right_layout:add(widget_tmp)
+-- right_layout:add(widget_display_r)
+right_layout:add(spr5px)
+
+right_layout:add(spr)
+
+right_layout:add(widget_mem)
+right_layout:add(widget_display_l)
+right_layout:add(memwidget)
+right_layout:add(widget_display_r)
+right_layout:add(spr5px)
+
+right_layout:add(spr)
+
+right_layout:add(widget_fs)
+right_layout:add(widget_display_l)
+right_layout:add(fswidget)
+right_layout:add(widget_display_r)
+right_layout:add(spr5px)
+
+right_layout:add(spr)
+
+right_layout:add(widget_netdl)
+right_layout:add(widget_display_l)
+right_layout:add(netwidgetdl)
+right_layout:add(widget_display_c)
+right_layout:add(netwidgetul)
+right_layout:add(widget_display_r)
+right_layout:add(widget_netul)
+
+right_layout:add(spr)
+
+right_layout:add(widget_clock)
+right_layout:add(widget_display_l)
+right_layout:add(clockwidget)
+right_layout:add(widget_display_r)
+right_layout:add(spr5px)
+
 mytasklist = awful.widget.tasklist(lastscreen, awful.widget.tasklist.filter.allscreen, mytasklist.buttons)
 
 -- Now bring it all together (with the tasklist in the middle)
@@ -507,6 +600,7 @@ layout:set_left(left_layout)
 layout:set_middle(mytasklist)
 layout:set_right(right_layout)
 
+mywibox:set_bg(beautiful.panel)
 mywibox:set_widget(layout)
 -- }}}
 

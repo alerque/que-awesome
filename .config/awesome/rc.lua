@@ -74,6 +74,9 @@ revelation.init()
 
 -- {{{ Variable definitions
 
+local home   = os.getenv("HOME")
+local exec   = function (s) oldspawn(s, false) end
+local shexec = awful.util.spawn_with_shell
 
 hostname = awful.util.pread("uname -n")
 
@@ -131,6 +134,7 @@ end
 terminal_login = "urxvt"
 terminal_plain = "env TMUX=/dev/null urxvt"
 firefox = "firefox"
+filemanager = "nautilus"
 chrome = "chromium"
 editor = "gvim"
 editor_cmd = editor

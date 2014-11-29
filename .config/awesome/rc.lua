@@ -18,6 +18,15 @@ local vicious     = require("vicious")
 local lain        = require("lain")
 local cyclefocus  = require('cyclefocus')
 
+-- {{{ Theme setup
+
+local theme = "pro-dark"
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme .. "/theme.lua")
+
+-- }}}
+
+-- {{{ Misc fixes
+
 -- Lua 5.2 depricated this fuction which many awesome configs use
 if not table.foreach then
   table.foreach = function(t, f)
@@ -50,12 +59,10 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
-theme_path = ".config/awesome/theme.lua"
-
-beautiful.init(theme_path)
 revelation.init()
+
+-- {{{ Variable definitions
+
 
 hostname = awful.util.pread("uname -n")
 
@@ -142,6 +149,7 @@ local layouts =
 -- {{{ Wallpaper
 if beautiful.wallpaper then
     for s = 1, screen.count() do
+        --gears.wallpaper.tiled(beautiful.wallpaper, s)
         gears.wallpaper.maximized(beautiful.wallpaper, s, true)
     end
 end

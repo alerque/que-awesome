@@ -650,6 +650,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Control"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey,           }, "o", function () awful.screen.focus_relative(-1) end),
+    --cyclefocus.key({ modkey, }, "Tab", 1, {
+        --cycle_filters = { cyclefocus.filters.same_screen, cyclefocus.filters.common_tag },
+        --keys = {'Tab', 'ISO_Left_Tab'}
+    --}),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
@@ -678,6 +682,7 @@ globalkeys = awful.util.table.join(
     -- Prompts
     awful.key({ modkey },            "r", function () mypromptbox:run() end),
     awful.key({ modkey },            "s", function ()
+
                 awful.prompt.run({ prompt = "ssh: " },
                 mypromptbox.widget,
                 function(h) awful.util.spawn(terminal_plain .. " -e ssh " .. h) end,

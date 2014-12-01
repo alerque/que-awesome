@@ -624,121 +624,190 @@ root.buttons(awful.util.table.join(globalButtons,
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-	awful.key({ modkey,           }, "e", function () mykbdcfg.switch_dvp() end), -- to EN (same on dvp/ptf)
-	awful.key({ modkey,           }, "u", function () mykbdcfg.switch_ptf() end), -- to TR (dvp)
-	awful.key({ modkey,           }, "a", function () mykbdcfg.switch_ptf() end), -- to TR (ptf)
+    keydoc.group("Keyboard Layout"),
+	awful.key({ modkey, }, "e",
+        function () mykbdcfg.switch_dvp() end,
+        "Programmers Dvorak"),
+	awful.key( { modkey, }, "u",
+        function () mykbdcfg.switch_ptf() end,
+        "Programmers Turkish F"),
+    awful.key({ modkey, }, "a",
+        function () mykbdcfg.switch_ptf() end,
+        "Programmers Turkish F"),
 	--awful.key({ modkey,           }, "e", function () mykbdcfg.switch_us() end),
     --awful.key({ modkey, "Shift"   }, "f", function () mykbdcfg.switch_trf() end),
 	--awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_tr() end),
 
-    awful.key({ modkey,           }, "Up",     awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Down",   awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    keydoc.group("Tag Navigation"),
+    awful.key({ modkey, }, "Up",
+        awful.tag.viewprev,
+        "View previous tag"),
+    awful.key({ modkey, }, "Down",
+        awful.tag.viewnext,
+        "View next tag"),
+    awful.key({ modkey, }, "Escape",
+        awful.tag.history.restore,
+        "Restore tag history"),
+	awful.key({ modkey, }, "b",
+        awful.tag.viewnone,
+        "Hide all"),
+	awful.key({ modkey, }, "v",
+        revelation,
+        "Revelation"),
 
-	awful.key({ modkey,           }, "b", awful.tag.viewnone),
-	awful.key({ modkey,           }, "v", revelation),
-
-    awful.key({ modkey,           }, "h", function() awful.client.focus.global_bydirection("left")  end),
-    awful.key({ modkey,           }, "l", function() awful.client.focus.global_bydirection("right") end),
-    awful.key({ modkey,           }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-            if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-            if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
-
-    -- Layout manipulation
-    awful.key({ modkey, "Control"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Control"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey,           }, "o", function () awful.screen.focus_relative(-1) end),
+    keydoc.group("Window Navigation"),
     --cyclefocus.key({ modkey, }, "Tab", 1, {
         --cycle_filters = { cyclefocus.filters.same_screen, cyclefocus.filters.common_tag },
         --keys = {'Tab', 'ISO_Left_Tab'}
     --}),
-    awful.key({ modkey,           }, "Tab",
+    awful.key({ modkey, }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
                 client.focus:raise()
             end
-        end),
+        end,
+        "Switch focus"),
+    awful.key({ modkey, }, "h",
+        function() awful.client.focus.global_bydirection("left")  end,
+        "Focus window to the left"),
+    awful.key({ modkey, }, "l",
+        function() awful.client.focus.global_bydirection("right") end,
+        "Focus window to the right"),
+    awful.key({ modkey, }, "j",
+        function ()
+            awful.client.focus.byidx(1)
+            if client.focus then client.focus:raise() end
+        end,
+        "Focus previous window"),
+    awful.key({ modkey, }, "k",
+        function ()
+            awful.client.focus.byidx(-1)
+            if client.focus then client.focus:raise() end
+        end,
+        "Focus next window"),
+    awful.key({ modkey, }, "o",
+        function () awful.screen.focus_relative(-1) end,
+        "Focus previous screen"),
+    awful.key({ modkey, }, "w",
+        function () mymainmenu:show() end,
+        "Close window"),
 
-    -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal_login) end),
-    awful.key({ modkey, "Control" }, "Return", function () awful.util.spawn(terminal_plain) end),
-    awful.key({ modkey,           }, "/", function () awful.util.spawn(firefox) end),
-    awful.key({ modkey, "Control" }, "/", function () awful.util.spawn(chrome) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    keydoc.group("Layout Manipulation"),
+    awful.key({ modkey, "Control" }, "j",
+        function () awful.client.swap.byidx(1) end,
+        "Swap window with previous"),
+    awful.key({ modkey, "Control" }, "k",
+        function () awful.client.swap.byidx(-1) end,
+        "Swap window with next"),
+    awful.key({ modkey, "Shift" }, "i",
+        function () awful.tag.incmwfact(0.05) end,
+        "Increase window size"),
+    awful.key({ modkey, "Shift" }, "d",
+        function () awful.tag.incmwfact(-0.05) end,
+        "Decrease window size"),
+    awful.key({ modkey, "Shift" }, "h",
+        function () awful.tag.incnmaster(1) end,
+        "Increase number of master windows"),
+    awful.key({ modkey, "Shift" }, "l",
+        function () awful.tag.incnmaster(-1) end,
+        "Decrease number of master windows"),
+    awful.key({ modkey, "Control" }, "h",
+        function () awful.tag.incncol( 1) end,
+        "Increase sumber of column windows"),
+    awful.key({ modkey, "Control" }, "l",
+        function () awful.tag.incncol(-1) end,
+        "Decrease sumber of column windows"),
+    awful.key({ modkey, }, "space",
+        function () awful.layout.inc(layouts, 1) end,
+        "Use next layout"),
+    awful.key({ modkey, "Shift" }, "space",
+        function () awful.layout.inc(layouts, -1) end,
+        "Use previous layout"),
 
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-
-    awful.key({ modkey, "Control" }, "n", awful.client.restore),
-
-    -- Prompts
-    awful.key({ modkey },            "r", function () mypromptbox:run() end),
-    awful.key({ modkey },            "s", function ()
-
-                awful.prompt.run({ prompt = "ssh: " },
-                mypromptbox.widget,
-                function(h) awful.util.spawn(terminal_plain .. " -e ssh " .. h) end,
-                function(cmd, cur_pos, ncomp)
-                    -- get hosts and hostnames
-                    local hosts = {}
-                    --f = io.popen("eval echo $(sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config) | sort")
-                    f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
-                    for host in f:lines() do
-                        table.insert(hosts, host)
-                    end
-                    f:close()
-                    -- abort completion under certain circumstances
-                    if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
-                        return cmd, cur_pos
-                    end
-                    -- match
-                    local matches = {}
-                    for _, host in pairs(hosts) do
-                        if hosts[host]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
-                            table.insert(matches, hosts[host])
-                        end
-                    end
-                    -- if there are no matches
-                    if #matches == 0 then
-                        return cmd, cur_pos
-                    end
-                    -- cycle
-                    while ncomp > #matches do
-                        ncomp = ncomp - #matches
-                    end
-                    -- return match and position
-                    --return matches[ncomp], #matches[ncomp] + 1
+    keydoc.group("Launchers"),
+    awful.key({ modkey }, "p",
+        function() menubar.show() end,
+        "Applications menubar"),
+    awful.key({ modkey, }, "Return",
+        function () awful.util.spawn(terminal_login) end,
+        "Terminal + TMUX"),
+    awful.key({ modkey, "Control" }, "Return",
+        function () awful.util.spawn(terminal_plain) end,
+        "Terminal"),
+    awful.key({ modkey, }, "/",
+        function () awful.util.spawn(firefox) end,
+        "Firefox"),
+    awful.key({ modkey, "Control" }, "/",
+        function () awful.util.spawn(chrome) end,
+        "Chromioum"),
+    awful.key({ modkey }, "r",
+        function () mypromptbox:run() end,
+        "Run prompt"),
+    awful.key({ modkey }, "s",
+        function ()
+            awful.prompt.run({ prompt = "ssh: " },
+            mypromptbox.widget,
+            function(h) awful.util.spawn(terminal_plain .. " -e ssh " .. h) end,
+            function(cmd, cur_pos, ncomp)
+                -- get hosts and hostnames
+                local hosts = {}
+                --f = io.popen("eval echo $(sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config) | sort")
+                f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
+                for host in f:lines() do
+                    table.insert(hosts, host)
+                end
+                f:close()
+                -- abort completion under certain circumstances
+                if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
                     return cmd, cur_pos
-                  end,
-                  awful.util.getdir("cache") .. "/ssh_history")
-                end),
+                end
+                -- match
+                local matches = {}
+                for _, host in pairs(hosts) do
+                    if hosts[host]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
+                        table.insert(matches, hosts[host])
+                    end
+                end
+                -- if there are no matches
+                if #matches == 0 then
+                    return cmd, cur_pos
+                end
+                -- cycle
+                while ncomp > #matches do
+                    ncomp = ncomp - #matches
+                end
+                -- return match and position
+                --return matches[ncomp], #matches[ncomp] + 1
+                return cmd, cur_pos
+            end,
+            awful.util.getdir("cache") .. "/ssh_history")
+        end,
+        "SSH promt"),
+    awful.key({ modkey }, "x",
+        function ()
+            awful.prompt.run({ prompt = "Run Lua code: " },
+            mypromptbox.widget,
+            awful.util.eval, nil,
+            awful.util.getdir("cache") .. "/history_eval")
+        end,
+        "Lua promt"),
 
-    awful.key({ modkey },            "x", function ()
-                awful.prompt.run({ prompt = "Run Lua code: " },
-                mypromptbox.widget,
-                awful.util.eval, nil,
-                awful.util.getdir("cache") .. "/history_eval")
-            end),
+    keydoc.group("Session"),
+    awful.key({ modkey, "Control" }, "r",
+        awesome.restart,
+        "Restart Awesome"),
+    awful.key({ modkey, "Shift" }, "q",
+        awesome.quit,
+        "Quit Awesome"),
+    awful.key({ modkey }, "F1",
+        keydoc.display,
+        "Keybinding hinter"),
 
-    -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end),
-
-    -- Keybinding hinter
-    awful.key({ modkey }, "F1", keydoc.display)
+    keydoc.group("Window Management"),
+    awful.key({ modkey, "Control" }, "n",
+        awful.client.restore,
+        "Restore minimized windows")
 )
 
 local wa = screen[mouse.screen].workarea
@@ -747,39 +816,77 @@ wh = wa.height
 ph = 22 -- (panel height)
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey            }, "Next",     function () awful.client.moveresize( 20,  20, -40, -40) end),
-    awful.key({ modkey            }, "Prior",    function () awful.client.moveresize(-20, -20,  40,  40) end),
-    awful.key({ modkey            }, "Down",     function () awful.client.moveresize(  0,  20,   0,   0) end),
-    awful.key({ modkey            }, "Up",       function () awful.client.moveresize(  0, -20,   0,   0) end),
-    awful.key({ modkey            }, "Left",     function () awful.client.moveresize(-20,   0,   0,   0) end),
-    awful.key({ modkey            }, "Right",    function () awful.client.moveresize( 20,   0,   0,   0) end),
-    awful.key({ modkey, "Control" }, "KP_Left",  function (c) c:geometry( { width = ww / 2, height = wh, x = 0, y = ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Right", function (c) c:geometry( { width = ww / 2, height = wh, x = ww / 2, y = ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Up",    function (c) c:geometry( { width = ww, height = wh / 2, x = 0, y = ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Down",  function (c) c:geometry( { width = ww, height = wh / 2, x = 0, y = wh / 2 + ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Prior", function (c) c:geometry( { width = ww / 2, height = wh / 2, x = ww / 2, y = ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Next",  function (c) c:geometry( { width = ww / 2, height = wh / 2, x = ww / 2, y = wh / 2 + ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Home",  function (c) c:geometry( { width = ww / 2, height = wh / 2, x = 0, y = ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_End",   function (c) c:geometry( { width = ww / 2, height = wh / 2, x = 0, y = wh / 2 + ph } ) end),
-    awful.key({ modkey, "Control" }, "KP_Begin", function (c) c:geometry( { width = ww, height = wh, x = 0, y = ph } ) end),
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey,           }, "q",      function (c) c:kill()                         end),
-    awful.key({ modkey,           }, "g",      awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey, "Control" }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey, "Control" }, "t",      function (c) c.sticky = not c.sticky  end),
-    awful.key({ modkey,           }, "n",
+    keydoc.group("Window Management"),
+    awful.key({ modkey }, "Next",
+        function () awful.client.moveresize( 20,  20, -40, -40) end,
+        "Scale down"),
+    awful.key({ modkey }, "Prior",
+        function () awful.client.moveresize(-20, -20,  40,  40) end,
+        "Scale up"),
+    awful.key({ modkey }, "Down",
+        function () awful.client.moveresize(  0,  20,   0,   0) end,
+        "Move down"),
+    awful.key({ modkey }, "Up",
+        function () awful.client.moveresize(  0, -20,   0,   0) end,
+        "Move up"),
+    awful.key({ modkey }, "Left",
+        function () awful.client.moveresize(-20,   0,   0,   0) end,
+        "Move Left"),
+    awful.key({ modkey }, "Right",
+        function () awful.client.moveresize( 20,   0,   0,   0) end,
+        "Move Right"),
+    awful.key({ modkey, "Control" }, "KP_Left",
+        function (c) c:geometry( { width = ww / 2, height = wh, x = 0, y = ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_Right",
+        function (c) c:geometry( { width = ww / 2, height = wh, x = ww / 2, y = ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_Up",
+        function (c) c:geometry( { width = ww, height = wh / 2, x = 0, y = ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_Down",
+        function (c) c:geometry( { width = ww, height = wh / 2, x = 0, y = wh / 2 + ph } ) end),
+    awful.key({ modkey, "control" }, "kp_prior",
+        function (c) c:geometry( { width = ww / 2, height = wh / 2, x = ww / 2, y = ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_Next",
+        function (c) c:geometry( { width = ww / 2, height = wh / 2, x = ww / 2, y = wh / 2 + ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_Home",
+        function (c) c:geometry( { width = ww / 2, height = wh / 2, x = 0, y = ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_End",
+        function (c) c:geometry( { width = ww / 2, height = wh / 2, x = 0, y = wh / 2 + ph } ) end),
+    awful.key({ modkey, "Control" }, "KP_Begin",
+        function (c) c:geometry( { width = ww, height = wh, x = 0, y = ph } ) end),
+    awful.key({ modkey, }, "f",
+        function (c) c.fullscreen = not c.fullscreen end,
+        "Toggle fullscreen"),
+    awful.key({ modkey, }, "q",
+        function (c) c:kill() end,
+        "Kill"),
+    awful.key({ modkey, }, "g",
+        awful.client.floating.toggle,
+        "Toggle floating"),
+    awful.key({ modkey, "Shift" }, "Return",
+        function (c) c:swap(awful.client.getmaster()) end,
+        "Swap with master"),
+    awful.key({ modkey, "Control" }, "o",
+        awful.client.movetoscreen,
+        "Move to other screen"),
+    awful.key({ modkey, }, "t",
+        function (c) c.ontop = not c.ontop end,
+        "Toggle on-top"),
+    awful.key({ modkey, "Control" }, "t",
+        function (c) c.sticky = not c.sticky end,
+        "Toggle tag sticky"),
+    awful.key({ modkey, }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
-        end),
-    awful.key({ modkey,           }, "m",
+        end,
+        "Minimize"),
+    awful.key({ modkey, }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end)
+        end,
+        "Maximize")
 )
 
 -- Bind all key numbers to tags.
@@ -830,9 +937,9 @@ for i = 1, 9 do
 end
 
 clientbuttons = awful.util.table.join(globalButtons,
-    awful.button({                   }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button({ modkey,           }, 1, awful.mouse.client.move),
-    awful.button({ modkey,           }, 3, awful.mouse.client.resize)
+    awful.button({         }, 1, function (c) client.focus = c; c:raise() end),
+    awful.button({ modkey, }, 1, awful.mouse.client.move),
+    awful.button({ modkey, }, 3, awful.mouse.client.resize)
 )
 
 awful.menu.menu_keys = {

@@ -718,12 +718,29 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",
         function () awful.tag.incncol(-1) end,
         "Decrease sumber of column windows"),
+
+    keydoc.group("Layout Navigation"),
     awful.key({ modkey, }, "space",
         function () awful.layout.inc(layouts, 1) end,
         "Use next layout"),
     awful.key({ modkey, "Shift" }, "space",
         function () awful.layout.inc(layouts, -1) end,
         "Use previous layout"),
+    awful.key({ modkey, }, "#14",
+        function() return end,
+        "Display just tag #"),
+    awful.key({ modkey, "Control" }, "#14",
+        function() return end,
+        "Add tag # to display"),
+    awful.key({ modkey, "Shift" }, "#14",
+        function() return end,
+        "Move window to tag #"),
+    awful.key({ modkey, "Control", "Shift" }, "#14",
+        function() return end,
+        "Add window to tag #"),
+    awful.key({ modkey, }, "z",
+        function() return end,
+        "Send window to background tag"),
 
     keydoc.group("Launchers"),
     awful.key({ modkey }, "p",
@@ -928,7 +945,7 @@ for i = 1, 9 do
                           end
                       end
                   end)),
-        awful.key({ modkey,           }, "z",
+        awful.key({ modkey, }, "z",
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.movetotag(tags[client.focus.screen][10])

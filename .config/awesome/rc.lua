@@ -187,6 +187,18 @@ if beautiful.wallpaper then
 end
 -- }}}
 
+-- {{{ Dropdown terminal
+local quake       = require('quake')
+local quakeconsole = {}
+for s = 1, screen.count() do
+    quakeconsole[s] = quake({
+        terminal = terminal_login,
+        height = 0.6,
+        screen = s
+    })
+end
+-- }}}
+
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
@@ -749,6 +761,9 @@ globalkeys = awful.util.table.join(
         "Send window to background tag"),
 
     keydoc.group("Launchers"),
+    awful.key({ }, "&",
+        function() quakeconsole[mouse.screen]:toggle() end,
+        "Dropdown terminal"),
     awful.key({ modkey }, "p",
         function() menubar.show() end,
         "Applications menubar"),

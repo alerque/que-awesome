@@ -17,11 +17,18 @@ local revelation  = require("revelation")
 local vicious     = require("vicious")
 local lain        = require("lain")
 local cyclefocus  = require('cyclefocus')
+-- Keybinding docstring hinter
+local keydoc      = require('keydoc')
 
 -- {{{ Theme setup
 
 local theme = "pro-dark"
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme .. "/theme.lua")
+
+-- Keydoc requires some things not set in my theme
+beautiful.fg_widget_value = beautiful.fg_normal
+beautiful.fg_widget_clock = beautiful.fg_focus
+beautiful.fg_widget_value_important = beautiful.fg_urgent
 
 -- }}}
 
@@ -728,7 +735,10 @@ globalkeys = awful.util.table.join(
             end),
 
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end),
+
+    -- Keybinding hinter
+    awful.key({ modkey }, "F1", keydoc.display)
 )
 
 local wa = screen[mouse.screen].workarea

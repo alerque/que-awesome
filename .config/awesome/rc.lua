@@ -477,7 +477,7 @@ fswidget:set_bgimage(beautiful.widget_display)
 
 net_widgetdl = wibox.widget.textbox()
 net_widgetul = lain.widgets.net({
-    iface = "enp2s0",
+    iface = "wlp2s0",
     settings = function()
         widget:set_markup(markup.font("Tamsyn 1", "  ") .. net_now.sent)
         net_widgetdl:set_markup(

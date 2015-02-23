@@ -55,6 +55,9 @@ local function key2str(key)
       ["Page_Down"] = "↧",
       ["Page_Up"] = "↥",
       ["Tab"] = "⇆",
+      ["&"] = "＆", -- ampersands break the html formatting in naughty
+                    -- encoding as &amp; works but throws off string length
+                    -- use unicode fullwidth ampersand (U+FF06) as substitute
    }
    sym = translate[sym] or sym
    if not key.modifiers or #key.modifiers == 0 then return sym end

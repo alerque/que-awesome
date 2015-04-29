@@ -138,8 +138,9 @@ mykbdcfg.switch_ptf = function ()
 end
 
 -- This is used later as the default terminal and editor to run.
-terminal_login = "urxvt"
-terminal_plain = "env TMUX=/dev/null urxvt"
+terminal_login = "termite"
+terminal_plain = "env TMUX=/dev/null termite"
+terminal_fancy = "gnome-terminal"
 firefox = "firefox"
 filemanager = "nautilus"
 chrome = "chromium"
@@ -193,6 +194,7 @@ local quakeconsole = {}
 for s = 1, screen.count() do
     quakeconsole[s] = quake({
         terminal = terminal_login,
+        argname = "--name %s",
         height = 0.6,
         screen = s
     })
@@ -226,7 +228,8 @@ mymainmenu = awful.menu({ items = {
   { "system",   awesomemenu, beautiful.awesome_icon },
   { "nautilus", filemanager    },
   { "tmux",     terminal_login },
-  { "terminal", terminal_plain }}})
+  { "fancy terminal", terminal_fancy },
+  { "plain terminal", terminal_plain }}})
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -768,7 +771,7 @@ globalkeys = awful.util.table.join(
         function() menubar.show() end,
         "Applications menubar"),
     awful.key({ modkey, }, "Return",
-        function () awful.util.spawn(terminal_login) end,
+        function () awful.util.spawn(terminal_fancy) end,
         "Terminal + TMUX"),
     awful.key({ modkey, "Control" }, "Return",
         function () awful.util.spawn(terminal_plain) end,

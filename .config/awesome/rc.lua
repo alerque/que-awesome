@@ -1000,19 +1000,33 @@ root.keys(globalkeys)
 awful.rules.rules = {
     { rule = {
         },
-        properties = { border_width = beautiful.border_width,
-                        border_color = beautiful.border_normal,
-                        focus = awful.client.focus.filter,
-                        keys = clientkeys,
-                        size_hints_honor = false,
-                        buttons = clientbuttons }
+        properties = {
+            border_width = beautiful.border_width,
+            border_color = beautiful.border_normal,
+            focus = awful.client.focus.filter,
+            keys = clientkeys,
+            size_hints_honor = false,
+            buttons = clientbuttons
+        }
     },
     { rule_any = {
-            class = { "Keepassx", "MPlayer", "Shutter" },
+            name = { "Google Play Music Mini Player" },
+        },
+        properties = {
+            floating = true,
+            size_hints_honor = true
+        }
+    },
+    { rule_any = {
+            class = { "Keepassx", "MPlayer", "Shutter", },
+            name = { "Google Play Music Mini Player" },
             instance = { "plugin-container", "exe" },
             role = { "GtkFileChooserDialog" }
         },
-        properties = { floating = true },
+        properties = {
+            floating = true,
+            size_hints_honor = true
+        },
         callback = function(c)
                 awful.placement.centered(c,nil)
             end

@@ -781,7 +781,7 @@ globalkeys = awful.util.table.join(
         "Firefox"),
     awful.key({ modkey, "Control" }, "/",
         function () awful.util.spawn(chrome) end,
-        "Chromioum"),
+        "Chromium"),
     awful.key({ modkey }, "r",
         function () mypromptbox:run() end,
         "Run prompt"),

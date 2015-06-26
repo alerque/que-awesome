@@ -764,7 +764,7 @@ globalkeys = awful.util.table.join(
         "Send window to background tag"),
 
     keydoc.group("Launchers"),
-    awful.key({ }, "&",
+    awful.key({ }, "Insert",
         function() quakeconsole[mouse.screen]:toggle() end,
         "Dropdown terminal"),
     awful.key({ modkey }, "p",

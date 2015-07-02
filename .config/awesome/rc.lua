@@ -771,7 +771,7 @@ globalkeys = awful.util.table.join(
         function() menubar.show() end,
         "Applications menubar"),
     awful.key({ modkey, }, "Return",
-        function () awful.util.spawn(terminal_fancy) end,
+        function () awful.util.spawn(terminal_login) end,
         "Terminal + TMUX"),
     awful.key({ modkey, "Control" }, "Return",
         function () awful.util.spawn(terminal_plain) end,

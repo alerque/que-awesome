@@ -1018,7 +1018,7 @@ awful.rules.rules = {
         }
     },
     { rule_any = {
-            class = { "Keepassx", "MPlayer", "Shutter", },
+            class = { "Keepassx", "MPlayer", "Shutter", "SimpleScreenRecorder" },
             name = { "Google Play Music Mini Player" },
             instance = { "plugin-container", "exe" },
             role = { "GtkFileChooserDialog" }

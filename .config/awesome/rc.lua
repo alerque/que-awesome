@@ -1018,7 +1018,7 @@ awful.rules.rules = {
         }
     },
     { rule_any = {
-            class = { "Keepassx", "MPlayer", "Shutter", "SimpleScreenRecorder" },
+            class = { "MPlayer", "Shutter", "SimpleScreenRecorder" },
             name = { "Google Play Music Mini Player" },
             instance = { "plugin-container", "exe" },
             role = { "GtkFileChooserDialog" }
@@ -1041,7 +1041,17 @@ awful.rules.rules = {
     { rule_any = {
             class = { "Keepassx" }
         },
-        properties = { ontop = true }
+        properties = {
+            size_hints_honor = false,
+            floating = true,
+            fullscreen = true,
+            sticky = true,
+            ontop = true,
+            opacity = 0.75
+        },
+        callback = function(c)
+                awful.placement.centered(c,nil)
+            end
     }
     --{ rule = { class = "Lyricue_display" },
     -- Set Firefox to always map on tags number 2 of screen 1.

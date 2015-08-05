@@ -671,6 +671,11 @@ globalkeys = awful.util.table.join(
         "Revelation"),
 
     keydoc.group("Window Navigation"),
+    awful.key( { modkey }, ";",
+        function()
+            awful.menu.clients( { width = 250 }, { keygrabber = true } )
+        end,
+        "Show list of all windows"),
     --cyclefocus.key({ modkey, }, "Tab", 1, {
         --cycle_filters = { cyclefocus.filters.same_screen, cyclefocus.filters.common_tag },
         --keys = {'Tab', 'ISO_Left_Tab'}

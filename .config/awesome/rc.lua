@@ -188,14 +188,49 @@ if beautiful.wallpaper then
 end
 -- }}}
 
--- {{{ Dropdown terminal
-local quake       = require('quake')
-local quakeconsole = {}
+-- {{{ Dropdown terminal (and other directions)
+local quake = require('quake')
+local quakeconsole = {
+    top = {},
+    right = {},
+    bottom = {},
+    left = {}
+}
 for s = 1, screen.count() do
-    quakeconsole[s] = quake({
+    quakeconsole["top"][s] = quake({
         terminal = terminal_login,
         argname = "--name %s",
+        width = 0.95,
         height = 0.6,
+        horiz = "center",
+        vert = "top",
+        screen = s
+    })
+    quakeconsole["right"][s] = quake({
+        terminal = terminal_login,
+        argname = "--name %s",
+        height = 0.95,
+        width = 0.6,
+        horiz = "right",
+        vert = "center",
+        screen = s
+    })
+    quakeconsole["bottom"][s] = quake({
+        terminal = terminal_login,
+        argname = "--name %s",
+        width = 0.95,
+        height = 0.6,
+        horiz = "center",
+        vert = "bottom",
+        screen = s
+    })
+    quakeconsole["left"][s] = quake({
+        terminal = terminal_login,
+        argname = "--name %s",
+        height = 0.95,
+        width = 0.6,
+        horiz = "left",
+        vert = "center",
         screen = s
     })
 end
@@ -770,8 +805,17 @@ globalkeys = awful.util.table.join(
 
     keydoc.group("Launchers"),
     awful.key({ }, "Insert",
-        function() quakeconsole[mouse.screen]:toggle() end,
+        function() quakeconsole["top"][mouse.screen]:toggle() end,
         "Dropdown terminal"),
+    awful.key({ "Control" }, "Insert",
+        function() quakeconsole["right"][mouse.screen]:toggle() end,
+        "Left sidebar terminal"),
+    awful.key({ "Shift" }, "Insert",
+        function() quakeconsole["left"][mouse.screen]:toggle() end,
+        "Right sidebar terminal"),
+    awful.key({ "Control", "Shift" }, "Insert",
+        function() quakeconsole["bottom"][mouse.screen]:toggle() end,
+        "Pullup terminal"),
     awful.key({ modkey }, "p",
         function() menubar.show() end,
         "Applications menubar"),

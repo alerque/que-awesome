@@ -198,7 +198,8 @@ local quakeconsole = {
 }
 for s = 1, screen.count() do
     quakeconsole["top"][s] = quake({
-        terminal = terminal_login,
+        terminal = "env tmux_session=quake " .. terminal_login,
+        name = "QuakeTop",
         argname = "--name %s",
         width = 0.95,
         height = 0.6,
@@ -207,7 +208,8 @@ for s = 1, screen.count() do
         screen = s
     })
     quakeconsole["right"][s] = quake({
-        terminal = terminal_login,
+        terminal = "env tmux_session=scratch " .. terminal_login,
+        name = "QuakeRight",
         argname = "--name %s",
         height = 0.95,
         width = 0.6,
@@ -216,7 +218,8 @@ for s = 1, screen.count() do
         screen = s
     })
     quakeconsole["bottom"][s] = quake({
-        terminal = terminal_login,
+        terminal = "env tmux_session=system " .. terminal_login,
+        name = "QuakeBottom",
         argname = "--name %s",
         width = 0.95,
         height = 0.6,
@@ -225,7 +228,8 @@ for s = 1, screen.count() do
         screen = s
     })
     quakeconsole["left"][s] = quake({
-        terminal = terminal_login,
+        terminal = "env tmux_session=comms " .. terminal_login,
+        name = "QuakeLeft",
         argname = "--name %s",
         height = 0.95,
         width = 0.6,
@@ -807,15 +811,15 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "Insert",
         function() quakeconsole["top"][mouse.screen]:toggle() end,
         "Dropdown terminal"),
-    awful.key({ "Control" }, "Insert",
+    awful.key({ modkey }, "Insert",
         function() quakeconsole["right"][mouse.screen]:toggle() end,
-        "Left sidebar terminal"),
-    awful.key({ "Shift" }, "Insert",
-        function() quakeconsole["left"][mouse.screen]:toggle() end,
         "Right sidebar terminal"),
-    awful.key({ "Control", "Shift" }, "Insert",
+    awful.key({ modkey, "Control" }, "Insert",
         function() quakeconsole["bottom"][mouse.screen]:toggle() end,
         "Pullup terminal"),
+    awful.key({ "Control" }, "Insert",
+        function() quakeconsole["left"][mouse.screen]:toggle() end,
+        "Left sidebar terminal"),
     awful.key({ modkey }, "p",
         function() menubar.show() end,
         "Applications menubar"),
@@ -1081,7 +1085,7 @@ awful.rules.rules = {
             end
     },
     { rule_any = {
-            instance = { "QuakeConsoleNeedsUniqueName" }
+            instance = { "QuakeTop", "QuakeRight", "QuakeBottom", "QuakeLeft" }
         },
         properties = {
             opacity = 0.85

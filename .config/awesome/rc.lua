@@ -1081,6 +1081,13 @@ awful.rules.rules = {
             end
     },
     { rule_any = {
+            instance = { "QuakeConsoleNeedsUniqueName" }
+        },
+        properties = {
+            opacity = 0.85
+        }
+    },
+    { rule_any = {
             class = { "Gvim" }
         },
         callback = function(c)

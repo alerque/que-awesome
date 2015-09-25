@@ -842,7 +842,7 @@ globalkeys = awful.util.table.join(
         function ()
             awful.prompt.run({ prompt = "ssh: " },
             mypromptbox.widget,
-            function(h) awful.util.spawn(terminal_plain .. " -e 'ssh " .. h .. "'") end,
+            function(h) awful.util.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
             function(cmd, cur_pos, ncomp)
                 -- get hosts and hostnames
                 local hosts = {}

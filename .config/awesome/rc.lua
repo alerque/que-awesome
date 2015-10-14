@@ -19,6 +19,7 @@ local lain        = require("lain")
 local cyclefocus  = require('cyclefocus')
 -- Keybinding docstring hinter
 local keydoc      = require('keydoc')
+local remote      = require('awful.remote')
 
 -- {{{ Theme setup
 

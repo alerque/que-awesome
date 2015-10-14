@@ -1064,14 +1064,6 @@ awful.rules.rules = {
         }
     },
     { rule_any = {
-            name = { "Google Play Music Mini Player" },
-        },
-        properties = {
-            floating = true,
-            size_hints_honor = true
-        }
-    },
-    { rule_any = {
             class = { "MPlayer", "Shutter", "SimpleScreenRecorder" },
             name = { "Google Play Music Mini Player" },
             instance = { "plugin-container", "exe" },

@@ -1099,6 +1099,18 @@ awful.rules.rules = {
             awful.tag.setmwfact(0.666) end
     },
     { rule_any = {
+            class = { "rdesktop" }
+        },
+        properties = {
+            focus = false,
+            focusable = false,
+            floating = true,
+            sticky = true,
+            ontop = true,
+            opacity = 0.5
+        }
+    },
+    { rule_any = {
             class = { "Keepassx" }
         },
         properties = {

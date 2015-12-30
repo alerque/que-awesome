@@ -146,6 +146,7 @@ firefox = "firefox"
 filemanager = "nautilus"
 chrome = "chromium"
 editor = "gvim"
+zathura = "zathura"
 editor_cmd = editor
 
 -- Default modkey.
@@ -833,6 +834,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, }, "/",
         function () awful.util.spawn(firefox) end,
         "Firefox"),
+    awful.key({ modkey, "Shift" }, "z",
+        function () awful.util.spawn(zathura) end,
+        "Zathura"),
     awful.key({ modkey, "Control" }, "/",
         function () awful.util.spawn(chrome) end,
         "Chromium"),

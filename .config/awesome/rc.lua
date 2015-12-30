@@ -1,22 +1,30 @@
+-- {{{ Includes
+
 -- Standard awesome library
 local gears       = require("gears")
 local awful       = require("awful")
       awful.rules = require("awful.rules")
                     require("awful.autofocus")
+
 -- Widget and layout library
 local wibox       = require("wibox")
+
 -- Theme handling library
 local beautiful   = require("beautiful")
+
 -- Notification library
 local naughty     = require("naughty")
 local menubar     = require("menubar")
 --local volume = require("volume")
+
 local eminent     = require("eminent")
 local revelation  = require("revelation")
+
 -- External libraries as git submodules
 local vicious     = require("vicious")
 local lain        = require("lain")
 local cyclefocus  = require('cyclefocus')
+
 -- Keybinding docstring hinter
 local keydoc      = require('keydoc')
 local remote      = require('awful.remote')
@@ -711,9 +719,6 @@ globalkeys = awful.util.table.join(
   awful.key({ modkey }, "e", function () mykbdcfg.switch_dvp() end, "Programmers Dvorak"),
   awful.key({ modkey }, "u", function () mykbdcfg.switch_ptf() end, "Programmers Turkish F"),
   awful.key({ modkey }, "a", function () mykbdcfg.switch_ptf() end, "Programmers Turkish F"),
-  --awful.key({ modkey,           }, "e", function () mykbdcfg.switch_us() end),
-  --awful.key({ modkey, "Shift"   }, "f", function () mykbdcfg.switch_trf() end),
-  --awful.key({ modkey, "Shift"   }, "t", function () mykbdcfg.switch_tr() end),
 
   keydoc.group("Tag Navigation"),
   awful.key({ modkey }, "Up", awful.tag.viewprev, "View previous tag"),
@@ -724,10 +729,6 @@ globalkeys = awful.util.table.join(
 
   keydoc.group("Window Navigation"),
   awful.key( { modkey }, ";", function() awful.menu.clients( { width = 250 }, { keygrabber = true } ) end, "Show list of all windows"),
-  --cyclefocus.key({ modkey, }, "Tab", 1, {
-    --cycle_filters = { cyclefocus.filters.same_screen, cyclefocus.filters.common_tag },
-    --keys = {'Tab', 'ISO_Left_Tab'}
-  --}),
   awful.key({ modkey }, "Tab", function ()
     awful.client.focus.history.previous()
     if client.focus then
@@ -1011,15 +1012,6 @@ awful.rules.rules = {
       awful.placement.centered(c,nil)
     end
   }
-  --{ rule = { class = "Lyricue_display" },
-  -- Set Firefox to always map on tags number 2 of screen 1.
-  --{ rule = {
-      --class = "Firefox"
-    --},
-    --properties = {
-      --tag = tags[1][2]
-    --}
-  --},
 }
 -- }}}
 

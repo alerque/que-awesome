@@ -94,7 +94,7 @@ mykbdcfg = {}
 mykbdcfg.widget = wibox.widget.textbox()
 
 mykbdcfg.switch_dvp = function ()
-	mykbdcfg.widget:set_text("dvp")
+	mykbdcfg.widget:set_text("🇺🇸")
 	os.execute( "setxkbmap dvp" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
@@ -130,7 +130,7 @@ mykbdcfg.switch_trf = function ()
 end
 
 mykbdcfg.switch_ptf = function ()
-	mykbdcfg.widget:set_text("ptf")
+	mykbdcfg.widget:set_text("🇹🇷")
 	os.execute( "setxkbmap ptf" )
 	os.execute( "setxkbmap -option" )
 	os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )

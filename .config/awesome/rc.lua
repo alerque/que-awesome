@@ -138,13 +138,21 @@ mykbdcfg.switch_ptf = function ()
 	os.execute( "setxkbmap -option lv3:caps_switch" )
 end
 
+-- Run or switche to...
+runOnce = function(n)
+    local matcher = function(c)
+      return awful.rules.match(c, { class = n[2] })
+    end
+    return awful.client.run_or_raise(n[1], matcher)
+end
+
 -- This is used later as the default terminal and editor to run.
 terminal_login = "termite"
 terminal_plain = "env TMUX=/dev/null termite"
 terminal_fancy = "gnome-terminal"
-firefox = "firefox"
+browser = { "firefox", "Firefox" }
 filemanager = "nautilus"
-chrome = "chromium"
+altbrowser = { "chromium", "chromium" }
 editor = "gvim"
 zathura = "zathura"
 editor_cmd = editor
@@ -267,7 +275,7 @@ awesomemenu = {
 mymainmenu = awful.menu({ items = {
   { "system",   systemmenu     },
   { "system",   awesomemenu, beautiful.awesome_icon },
-  { "nautilus", filemanager    },
+  { filemanager, filemanager    },
   { "tmux",     terminal_login },
   { "fancy terminal", terminal_fancy },
   { "plain terminal", terminal_plain }}})
@@ -832,13 +840,13 @@ globalkeys = awful.util.table.join(
         function () awful.util.spawn(terminal_plain) end,
         "Terminal"),
     awful.key({ modkey, }, "/",
-        function () awful.util.spawn(firefox) end,
+        function() runOnce(browser) end,
         "Firefox"),
     awful.key({ modkey, "Shift" }, "z",
         function () awful.util.spawn(zathura) end,
         "Zathura"),
     awful.key({ modkey, "Control" }, "/",
-        function () awful.util.spawn(chrome) end,
+        function () runOnce(altbrowser) end,
         "Chromium"),
     awful.key({ modkey }, "r",
         function () mypromptbox:run() end,

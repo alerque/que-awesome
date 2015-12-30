@@ -363,29 +363,31 @@ mpdwidget = lain.widgets.mpd({
 musicwidget = wibox.widget.background()
 musicwidget:set_widget(mpdwidget)
 musicwidget:set_bgimage(beautiful.widget_display)
-musicwidget:buttons(awful.util.table.join(awful.button({ }, 1,
-function () awful.util.spawn_with_shell(ncmpcpp) end)))
-prev_icon:buttons(awful.util.table.join(awful.button({}, 1,
-function ()
-  awful.util.spawn_with_shell("mpc prev || ncmpcpp prev")
-  mpdwidget.update()
-end)))
-next_icon:buttons(awful.util.table.join(awful.button({}, 1,
-function ()
-  awful.util.spawn_with_shell("mpc next || ncmpcpp next")
-  mpdwidget.update()
-end)))
-stop_icon:buttons(awful.util.table.join(awful.button({}, 1,
-function ()
-  play_pause_icon:set_image(beautiful.play)
-  awful.util.spawn_with_shell("mpc stop || ncmpcpp stop")
-  mpdwidget.update()
-end)))
-play_pause_icon:buttons(awful.util.table.join(awful.button({}, 1,
-function ()
-  awful.util.spawn_with_shell("mpc toggle || ncmpcpp toggle")
-  mpdwidget.update()
-end)))
+musicwidget:buttons(awful.util.table.join(awful.button({ }, 1, function ()
+    awful.util.spawn_with_shell(ncmpcpp)
+  end
+)))
+prev_icon:buttons(awful.util.table.join(awful.button({}, 1, function ()
+    awful.util.spawn_with_shell("mpc prev || ncmpcpp prev")
+    mpdwidget.update()
+  end
+)))
+next_icon:buttons(awful.util.table.join(awful.button({}, 1, function ()
+    awful.util.spawn_with_shell("mpc next || ncmpcpp next")
+    mpdwidget.update()
+  end
+)))
+stop_icon:buttons(awful.util.table.join(awful.button({}, 1, function ()
+    play_pause_icon:set_image(beautiful.play)
+    awful.util.spawn_with_shell("mpc stop || ncmpcpp stop")
+    mpdwidget.update()
+  end
+)))
+play_pause_icon:buttons(awful.util.table.join(awful.button({}, 1, function ()
+    awful.util.spawn_with_shell("mpc toggle || ncmpcpp toggle")
+    mpdwidget.update()
+  end
+)))
 
 -- | Mail | --
 
@@ -490,12 +492,12 @@ local index = 1
 local loop_widgets = { mytextclock, mytextcalendar }
 local loop_widgets_icons = { beautiful.widget_clock, beautiful.widget_cal }
 
-clockwidget:buttons(awful.util.table.join(awful.button({}, 1,
-    function ()
-        index = index % #loop_widgets + 1
-        clockwidget:set_widget(loop_widgets[index])
-        widget_clock:set_image(loop_widgets_icons[index])
-    end)))
+clockwidget:buttons(awful.util.table.join(awful.button({}, 1, function ()
+    index = index % #loop_widgets + 1
+    clockwidget:set_widget(loop_widgets[index])
+    widget_clock:set_image(loop_widgets_icons[index])
+  end
+)))
 -- }}}
 
 -- {{{ Wibox
@@ -930,10 +932,10 @@ clientbuttons = awful.util.table.join(
 awful.menu.menu_keys = {
   up    = { "k", "Up" },
   down  = { "j", "Down" },
-  exec  = { "l", "Return", "Space" },
-  enter = { "l", "Right" },
-  back  = { "h", "Left" },
-  close = { "q", "Escape" }
+  exec  = { "r", "Return", "Space" },
+  enter = { "l", "Right", "+" },
+  back  = { "h", "Left", "-" },
+  close = { "q", "Escape", "Backspace" }
 }
 
 -- Set keys

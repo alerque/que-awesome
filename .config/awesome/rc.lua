@@ -970,7 +970,7 @@ awful.rules.rules = {
   },
   { rule_any = {
       class = { "MPlayer", "Shutter", "SimpleScreenRecorder" },
-      name = { "Google Play Music Mini Player" },
+      name = { "Google Play Music" },
       instance = { "plugin-container", "exe" },
       role = { "GtkFileChooserDialog" }
     },

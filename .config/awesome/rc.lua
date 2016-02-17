@@ -1010,15 +1010,13 @@ awful.rules.rules = {
     }
   },
   { rule_any = {
-      class = { "Keepassx" }
+      name = { "Auto-Type - KeePassX" }
     },
     properties = {
       size_hints_honor = false,
       floating = true,
-      fullscreen = true,
-      sticky = true,
       ontop = true,
-      opacity = 0.75
+      opacity = 0.80
     },
     callback = function(c)
       awful.placement.centered(c,nil)

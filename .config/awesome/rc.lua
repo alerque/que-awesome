@@ -225,7 +225,7 @@ end
 
 -- {{{ Dropdown terminal (and other directions)
 local quake = require('quake')
-local quakeconsole = {
+quakeconsole = {
   top = {},
   right = {},
   bottom = {},

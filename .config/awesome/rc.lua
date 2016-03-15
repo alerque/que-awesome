@@ -970,7 +970,6 @@ awful.rules.rules = {
   },
   { rule_any = {
       class = { "MPlayer", "Shutter", "SimpleScreenRecorder" },
-      name = { "Google Play Music" },
       instance = { "plugin-container", "exe" },
       role = { "GtkFileChooserDialog" }
     },
@@ -981,6 +980,25 @@ awful.rules.rules = {
     callback = function(c)
       awful.placement.centered(c,nil)
     end
+  },
+  { rule_any = {
+      name = { "^Google Play Music$" }
+    },
+    --callback = function(c)
+      --awful.client.moveresize(3595, 945, 250, 140, c)
+    --end,
+    properties = {
+      focusable = false,
+      floating = true,
+      sticky = true,
+      ontop = true,
+      opacity = 0.5,
+      width = 250,
+      height = 140,
+      x = 3595,
+      y = 945,
+      size_hints_honor = false
+    }
   },
   { rule_any = {
       instance = { "QuakeTop", "QuakeRight", "QuakeBottom", "QuakeLeft" }

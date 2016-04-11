@@ -17,7 +17,6 @@ local naughty     = require("naughty")
 local menubar     = require("menubar")
 --local volume = require("volume")
 
-local eminent     = require("eminent")
 local revelation  = require("revelation")
 
 -- External libraries as git submodules
@@ -276,11 +275,9 @@ end
 -- }}}
 
 -- {{{ Tags
--- Define a tag table which hold all screen tags.
+-- Define a tag tables which hold each screens tags.
 tags = {}
 for s = 1, screen.count() do
-  -- Each screen has its own tag table.
-  --tags[s] = awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " bg " }, s, awful.layout.suit.tile)
   tags[s] = awful.tag({ "  ", "  ", "  ", "  ", "  " }, s, layouts[1])
   tags[s][1].selected = true
 end
@@ -893,47 +890,53 @@ clientkeys = awful.util.table.join(
 )
 
 -- Bind all key numbers to tags.
--- Be careful: we use keycodes to make it works on any keyboard layout.
--- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
-  globalkeys = awful.util.table.join(
-    globalkeys,
-    awful.key(mods.W___, "#" .. i + 9, function ()
-      local screen = mouse.screen
-      local tag = awful.tag.gettags(screen)[i]
-      if tag then
+-- I'm using programmer's dvorak, so the keys to get to these will be:
+--     1, 3, 5, 7, and %
+-- for left (or single) layouts and:
+--     2, 4, 6, 8, and `
+-- for right (or second screen) layouts. keys 9 and 0 will map to "all tags"
+-- for their respective tags. However these are hard coded to keycodes so they
+-- will work in any layout (so PTF won't trp up on the symbal ones)
+DVPTagKeys = {}
+DVPTagKeys[1] = { "#10", "#11", "#12", "#13", "#14" }
+DVPTagKeys[2] = { "#17", "#18", "#19", "#20", "#21" }
+for screen = 1, screen.count() do
+  for i = 1, 5 do
+    local key = DVPTagKeys[screen][i]
+    local tag = awful.tag.gettags(screen)[i]
+    globalkeys = awful.util.table.join(
+      globalkeys,
+      awful.key(mods.W___, key, function()
+        awful.screen.focus(screen)
         awful.tag.viewonly(tag)
-      end
-    end),
-    awful.key(mods.WC__, "#" .. i + 9, function ()
-      local screen = mouse.screen
-      local tag = awful.tag.gettags(screen)[i]
-      if tag then
+      end),
+      awful.key(mods.WC__, key, function()
+        awful.screen.focus(screen)
         awful.tag.viewtoggle(tag)
-      end
-    end),
-    awful.key(mods.W_S_, "#" .. i + 9, function ()
-      if client.focus then
-        local tag = awful.tag.gettags(client.focus.screen)[i]
-        if tag then
+      end),
+      awful.key(mods.W_S_, key, function()
+        if client.focus then
           awful.client.movetotag(tag)
         end
-      end
-    end),
-    awful.key(mods.WCS_, "#" .. i + 9, function ()
-      if client.focus then
-        local tag = awful.tag.gettags(client.focus.screen)[i]
-        if tag then
+      end),
+      awful.key(mods.WCS_, key, function()
+        if client.focus then
           awful.client.toggletag(tag)
         end
-      end
-    end)),
-    awful.key(mods.W___, "z", function ()
-      if client.focus and tags[client.focus.screen][i] then
-        awful.client.movetotag(tags[client.focus.screen][10])
-      end
-    end)
+      end)
+    )
+  end
 end
+globalkeys = awful.util.table.join(
+  globalkeys,
+  awful.key(mods.W___, "z", function()
+    if client.focus then
+      if client.focus.screen == 2 then i = 5 else i = 1 end
+      bgtag = awful.tag.gettags(mouse.screen)[i]
+      awful.client.movetotag(bgtag)
+    end
+  end)
+)
 
 clientbuttons = awful.util.table.join(
   globalButtons,

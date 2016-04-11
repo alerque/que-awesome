@@ -738,6 +738,12 @@ globalkeys = awful.util.table.join(
   awful.key(mods.W___, "Escape", awful.tag.history.restore, "Restore tag history"),
   awful.key(mods.W___, "b", awful.tag.viewnone, "Hide all"),
   awful.key(mods.W___, "v", revelation, "Revelation"),
+  awful.key(mods.W___, "#15", function()
+      awful.tag.viewmore(awful.tag.gettags(1),  1)
+  end, "Show all tags on screen 1"),
+  awful.key(mods.W___, "#16", function()
+      awful.tag.viewmore(awful.tag.gettags(2),  2)
+  end, "Show all tags on screen 2"),
 
   keydoc.group("Window Navigation"),
   awful.key(mods.W___, ";", function() awful.menu.clients( { width = 250 }, { keygrabber = true } ) end, "Show list of all windows"),
@@ -779,7 +785,13 @@ globalkeys = awful.util.table.join(
   awful.key(mods.WC__, "#14",    function() return end, "Add tag # to display"),
   awful.key(mods.W_S_, "#14",    function() return end, "Move window to tag #"),
   awful.key(mods.WCS_, "#14",    function() return end, "Add window to tag #"),
-  awful.key(mods.W___, "z",      function() return end, "Send window to background tag"),
+  awful.key(mods.W___, "z", function()
+    if client.focus then
+      if client.focus.screen == 2 then i = 5 else i = 1 end
+      bgtag = awful.tag.gettags(mouse.screen)[i]
+      awful.client.movetotag(bgtag)
+    end
+  end, "Send to background"),
 
   keydoc.group("Launchers"),
   awful.key(mods.____, "Insert", function() quakeconsole["top"][mouse.screen]:toggle() end, "Dropdown terminal"),
@@ -927,16 +939,6 @@ for screen = 1, screen.count() do
     )
   end
 end
-globalkeys = awful.util.table.join(
-  globalkeys,
-  awful.key(mods.W___, "z", function()
-    if client.focus then
-      if client.focus.screen == 2 then i = 5 else i = 1 end
-      bgtag = awful.tag.gettags(mouse.screen)[i]
-      awful.client.movetotag(bgtag)
-    end
-  end)
-)
 
 clientbuttons = awful.util.table.join(
   globalButtons,

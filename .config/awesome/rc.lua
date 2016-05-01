@@ -92,6 +92,12 @@ revelation.init()
 
 -- {{{ Variable definitions
 
+local hidpi = {}
+for s = 1, screen.count() do
+    local wa = screen[s].workarea
+    hidpi[s] = wa.width == 3200
+end
+
 local home   = os.getenv("HOME")
 local exec   = function (s) oldspawn(s, false) end
 local shexec = awful.util.spawn_with_shell
@@ -103,49 +109,34 @@ lastscreen = screen.count()
 mykbdcfg = {}
 mykbdcfg.widget = wibox.widget.textbox()
 
+mykbdcfg.setopts = function ()
+  os.execute( "setxkbmap -option" )
+  os.execute( "setxkbmap -option nbsp:zwnj2nb3zwj4" )
+  if hostname == "emircik\n" then
+    os.execute( "setxkbmap -option compose:rctrl" )
+    os.execute( "setxkbmap -option lv3:ralt_switch" )
+    os.execute( "setxkbmap -option ctrl:swapcaps" )
+    os.execute( "setxkbmap -option caps:shiftlock" )
+  else
+    os.execute( "setxkbmap -option compose:menu" )
+    os.execute( "setxkbmap -option lv3:caps_switch" )
+    os.execute( "setxkbmap -option caps:swapescape" )
+  end
+  os.execute( "setxkbmap -option misc:typo" )
+  os.execute( "setxkbmap -option grp_led:caps" )
+  os.execute( "setxkbmap -option grp:rshift_toggle" )
+end
+
 mykbdcfg.switch_dvp = function ()
   mykbdcfg.widget:set_text("🇺🇸")
-  os.execute( "setxkbmap dvp" )
-  os.execute( "setxkbmap -option" )
-  os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
-  os.execute( "setxkbmap -option compose:menu" )
-  os.execute( "setxkbmap -option lv3:caps_switch" )
-end
-
-mykbdcfg.switch_us = function ()
-  mykbdcfg.widget:set_text("us ")
-  os.execute( "setxkbmap us" )
-  os.execute( "setxkbmap -option" )
-  os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
-  os.execute( "setxkbmap -option compose:menu" )
-  os.execute( "setxkbmap -option lv3:caps_switch" )
-end
-
-mykbdcfg.switch_tr = function ()
-  mykbdcfg.widget:set_text("tr ")
-  os.execute( "setxkbmap tr" )
-  os.execute( "setxkbmap -option" )
-  os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
-  os.execute( "setxkbmap -option compose:menu" )
-  os.execute( "setxkbmap -option lv3:caps_switch" )
-end
-
-mykbdcfg.switch_trf = function ()
-  mykbdcfg.widget:set_text("trf")
-  os.execute( "setxkbmap tr f" )
-  os.execute( "setxkbmap -option" )
-  os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
-  os.execute( "setxkbmap -option compose:menu" )
-  os.execute( "setxkbmap -option lv3:caps_switch" )
+  os.execute( "setxkbmap dvp,ptf" )
+  mykbdcfg.setopts()
 end
 
 mykbdcfg.switch_ptf = function ()
   mykbdcfg.widget:set_text("🇹🇷")
-  os.execute( "setxkbmap ptf" )
-  os.execute( "setxkbmap -option" )
-  os.execute( "setxkbmap -option nbsp:zwnj2nb3nnb4" )
-  os.execute( "setxkbmap -option compose:menu" )
-  os.execute( "setxkbmap -option lv3:caps_switch" )
+  os.execute( "setxkbmap ptf,dvp" )
+  mykbdcfg.setopts()
 end
 
 -- Run or switche to...
@@ -576,7 +567,7 @@ mytasklist.buttons = awful.util.table.join(
 )
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "top", screen = lastscreen, height = "22" })
+mywibox = awful.wibox({ position = "top", screen = lastscreen, height = hidpi[lastscreen] and 32 or 22 })
 
 mypromptbox = awful.widget.prompt()
 
@@ -861,10 +852,18 @@ globalkeys = awful.util.table.join(
   awful.key(mods.WC__, "n", awful.client.restore, "Restore minimized windows")
 )
 
-local wa = screen[mouse.screen].workarea
-ww = wa.width
-wh = wa.height
-ph = 22 -- (panel height)
+ww = function()
+    local wa = screen[mouse.screen].workarea
+    return wa.width
+end
+wh = function()
+    local wa = screen[mouse.screen].workarea
+    return wa.height
+end
+ph = function() -- get panel height for screen
+    local s = screen[mouse.screen]
+    return hidpi[s] and 32 or 22
+end
 
 clientkeys = awful.util.table.join(
     keydoc.group("Window Management"),
@@ -874,15 +873,15 @@ clientkeys = awful.util.table.join(
     awful.key(mods.W___, "Up", function () awful.client.moveresize(  0, -20,   0,   0) end, "Move up"),
     awful.key(mods.W___, "Left", function () awful.client.moveresize(-20,   0,   0,   0) end, "Move Left"),
     awful.key(mods.W___, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end, "Move Right"),
-    awful.key(mods.WC__, "KP_Left", function (c) c:geometry( { width = ww / 2, height = wh, x = 0, y = ph } ) end),
-    awful.key(mods.WC__, "KP_Right", function (c) c:geometry( { width = ww / 2, height = wh, x = ww / 2, y = ph } ) end),
-    awful.key(mods.WC__, "KP_Up", function (c) c:geometry( { width = ww, height = wh / 2, x = 0, y = ph } ) end),
-    awful.key(mods.WC__, "KP_Down", function (c) c:geometry( { width = ww, height = wh / 2, x = 0, y = wh / 2 + ph } ) end),
-    awful.key(mods.WC__, "kp_prior", function (c) c:geometry( { width = ww / 2, height = wh / 2, x = ww / 2, y = ph } ) end),
-    awful.key(mods.WC__, "KP_Next", function (c) c:geometry( { width = ww / 2, height = wh / 2, x = ww / 2, y = wh / 2 + ph } ) end),
-    awful.key(mods.WC__, "KP_Home", function (c) c:geometry( { width = ww / 2, height = wh / 2, x = 0, y = ph } ) end),
-    awful.key(mods.WC__, "KP_End", function (c) c:geometry( { width = ww / 2, height = wh / 2, x = 0, y = wh / 2 + ph } ) end),
-    awful.key(mods.WC__, "KP_Begin", function (c) c:geometry( { width = ww, height = wh, x = 0, y = ph } ) end),
+    awful.key(mods.WC__, "KP_Left", function (c) c:geometry( { width = ww() / 2, height = wh(), x = 0, y = ph() } ) end),
+    awful.key(mods.WC__, "KP_Right", function (c) c:geometry( { width = ww() / 2, height = wh(), x = ww() / 2, y = ph() } ) end),
+    awful.key(mods.WC__, "KP_Up", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = ph() } ) end),
+    awful.key(mods.WC__, "KP_Down", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end),
+    awful.key(mods.WC__, "kp_prior", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = ph() } ) end),
+    awful.key(mods.WC__, "KP_Next", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = wh() / 2 + ph() } ) end),
+    awful.key(mods.WC__, "KP_Home", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = ph() } ) end),
+    awful.key(mods.WC__, "KP_End", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end),
+    awful.key(mods.WC__, "KP_Begin", function (c) c:geometry( { width = ww(), height = wh(), x = 0, y = ph() } ) end),
     awful.key(mods.W___, "f", function (c) c.fullscreen = not c.fullscreen end, "Toggle fullscreen"),
     awful.key(mods.W___, "q", function (c) c:kill() end, "Kill"),
     awful.key(mods.W___, "g", awful.client.floating.toggle, "Toggle floating"),
@@ -912,18 +911,18 @@ clientkeys = awful.util.table.join(
 DVPTagKeys = {}
 DVPTagKeys[1] = { "#10", "#11", "#12", "#13", "#14" }
 DVPTagKeys[2] = { "#17", "#18", "#19", "#20", "#21" }
-for screen = 1, screen.count() do
+for s = 1, screen.count() do
   for i = 1, 5 do
-    local key = DVPTagKeys[screen][i]
-    local tag = awful.tag.gettags(screen)[i]
+    local key = DVPTagKeys[s][i]
+    local tag = awful.tag.gettags(s)[i]
     globalkeys = awful.util.table.join(
       globalkeys,
       awful.key(mods.W___, key, function()
-        awful.screen.focus(screen)
+        awful.screen.focus(s)
         awful.tag.viewonly(tag)
       end),
       awful.key(mods.WC__, key, function()
-        awful.screen.focus(screen)
+        awful.screen.focus(s)
         awful.tag.viewtoggle(tag)
       end),
       awful.key(mods.W_S_, key, function()

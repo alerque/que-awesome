@@ -33,7 +33,7 @@ theme.border_marked = "#000000"
 
 -- | Menu | --
 
-theme.menu_height = 16
+theme.menu_height = 32
 theme.menu_width  = 160
 
 -- | Layout | --

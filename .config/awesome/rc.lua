@@ -101,7 +101,7 @@ for s = 1, screen.count() do
     hidpi[s] = wa.width == 3200
 end
 
-theme.font = hidpi[1] and "Hack 16" or "Hack 9"
+theme.font = hidpi[1] and "Hack 16" or "Hack 8"
 theme.border_width = 0
 
 local home   = os.getenv("HOME")
@@ -575,7 +575,7 @@ mytasklist.buttons = awful.util.table.join(
 )
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "top", screen = lastscreen, height = hidpi[lastscreen] and 36 or 22 })
+mywibox = awful.wibox({ position = "top", screen = lastscreen, height = hidpi[lastscreen] and 36 or 18 })
 
 mypromptbox = awful.widget.prompt()
 

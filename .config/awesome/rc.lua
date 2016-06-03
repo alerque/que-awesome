@@ -137,13 +137,13 @@ end
 
 mykbdcfg.switch_dvp = function ()
   mykbdcfg.widget:set_text("🇺🇸")
-  os.execute( "setxkbmap dvp,ptf" )
+  os.execute( "setxkbmap dvp" )
   mykbdcfg.setopts()
 end
 
 mykbdcfg.switch_ptf = function ()
   mykbdcfg.widget:set_text("🇹🇷")
-  os.execute( "setxkbmap ptf,dvp" )
+  os.execute( "setxkbmap ptf" )
   mykbdcfg.setopts()
 end
 

@@ -102,6 +102,9 @@ end
 
 local theme = beautiful.get()
 
+theme.font = hidpi[1] and "Hack 16" or "Hack 9"
+theme.border_width = 0
+
 local home   = os.getenv("HOME")
 local exec   = function (s) oldspawn(s, false) end
 local shexec = awful.util.spawn_with_shell
@@ -186,10 +189,10 @@ mods = {
 
 -- Markup
 markup = lain.util.markup
-space3 = markup.font("Terminus 3", " ")
-space2 = markup.font("Terminus 2", " ")
-vspace1 = '<span font="Terminus 3"> </span>'
-vspace2 = '<span font="Terminus 3">  </span>'
+space3 = markup.font("Terminus 6", " ")
+space2 = markup.font("Terminus 4", " ")
+vspace1 = '<span font="Terminus 6"> </span>'
+vspace2 = '<span font="Terminus 6">  </span>'
 clockgf = beautiful.clockgf
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -493,8 +496,8 @@ netwidgetul:set_bgimage(beautiful.widget_display)
 
 -- | Clock / Calendar | --
 
-mytextclock    = awful.widget.textclock(markup(clockgf, space3 .. "%H:%M" .. markup.font("Tamsyn 3", " ")))
-mytextcalendar = awful.widget.textclock(markup(clockgf, space3 .. "%a %d %b"))
+mytextclock    = awful.widget.textclock(markup(clockgf, space3 .. markup.font(theme.font, "%H:%M") .. space2 ))
+mytextcalendar = awful.widget.textclock(markup(clockgf, space3 .. markup.font(theme.font, "%a %d %b")))
 
 widget_clock = wibox.widget.imagebox()
 widget_clock:set_image(beautiful.widget_clock)
@@ -571,7 +574,7 @@ mytasklist.buttons = awful.util.table.join(
 )
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "top", screen = lastscreen, height = hidpi[lastscreen] and 32 or 22 })
+mywibox = awful.wibox({ position = "top", screen = lastscreen, height = hidpi[lastscreen] and 36 or 22 })
 
 mypromptbox = awful.widget.prompt()
 

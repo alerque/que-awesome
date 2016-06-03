@@ -119,20 +119,21 @@ mykbdcfg.widget = wibox.widget.textbox()
 mykbdcfg.setopts = function ()
   os.execute( "setxkbmap -option" )
   os.execute( "setxkbmap -option nbsp:zwnj2nb3zwj4" )
+  os.execute( "setxkbmap -option misc:typo" )
+  os.execute( "setxkbmap -option grp_led:caps" )
+  os.execute( "setxkbmap -option grp:rshift_toggle" )
   if hostname == "emircik\n" then
     os.execute( "setxkbmap -option compose:rctrl" )
     os.execute( "setxkbmap -option lv3:ralt_switch" )
     -- os.execute( "setxkbmap -option ctrl:swapcaps" )
     -- os.execute( "setxkbmap -option caps:shiftlock" )
     os.execute( "setxkbmap -option caps:ctrl_modifier" )
-  else
+  elseif hostname == "jaguar\n" or hostname == "lemur\n" then
     os.execute( "setxkbmap -option compose:menu" )
     os.execute( "setxkbmap -option lv3:caps_switch" )
+  else
     os.execute( "setxkbmap -option caps:swapescape" )
   end
-  os.execute( "setxkbmap -option misc:typo" )
-  os.execute( "setxkbmap -option grp_led:caps" )
-  os.execute( "setxkbmap -option grp:rshift_toggle" )
 end
 
 mykbdcfg.switch_dvp = function ()

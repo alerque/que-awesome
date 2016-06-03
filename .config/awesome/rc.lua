@@ -869,7 +869,7 @@ wh = function()
 end
 ph = function() -- get panel height for screen
     local s = screen[mouse.screen]
-    return hidpi[s] and 32 or 22
+    return hidpi[s] and 36 or 22
 end
 
 clientkeys = awful.util.table.join(

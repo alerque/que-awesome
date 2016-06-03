@@ -30,13 +30,15 @@ local remote      = require('awful.remote')
 
 -- {{{ Theme setup
 
-local theme = "pro-dark"
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme .. "/theme.lua")
+-- local theme = "pro-dark"
+-- beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme .. "/theme.lua")
+local theme = "grey-new"
+beautiful.init("/usr/share/awesome/themes/" .. theme .. "/theme.lua")
 
 -- Keydoc requires some things not set in my theme
-beautiful.fg_widget_value = beautiful.fg_normal
-beautiful.fg_widget_clock = beautiful.fg_focus
-beautiful.fg_widget_value_important = beautiful.fg_urgent
+beautiful.fg_widget_value = beautiful.get().fg_normal
+beautiful.fg_widget_clock = beautiful.get().fg_focus
+beautiful.fg_widget_value_important = beautiful.get().fg_urgent
 
 -- }}}
 
@@ -97,6 +99,8 @@ for s = 1, screen.count() do
     local wa = screen[s].workarea
     hidpi[s] = wa.width == 3200
 end
+
+local theme = beautiful.get()
 
 local home   = os.getenv("HOME")
 local exec   = function (s) oldspawn(s, false) end

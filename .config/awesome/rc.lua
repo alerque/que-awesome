@@ -122,8 +122,9 @@ mykbdcfg.setopts = function ()
   if hostname == "emircik\n" then
     os.execute( "setxkbmap -option compose:rctrl" )
     os.execute( "setxkbmap -option lv3:ralt_switch" )
-    os.execute( "setxkbmap -option ctrl:swapcaps" )
-    os.execute( "setxkbmap -option caps:shiftlock" )
+    -- os.execute( "setxkbmap -option ctrl:swapcaps" )
+    -- os.execute( "setxkbmap -option caps:shiftlock" )
+    os.execute( "setxkbmap -option caps:ctrl_modifier" )
   else
     os.execute( "setxkbmap -option compose:menu" )
     os.execute( "setxkbmap -option lv3:caps_switch" )

@@ -102,6 +102,8 @@ for s = 1, screen.count() do
 end
 
 theme.font = hidpi[1] and "Hack 16" or "Hack 8"
+-- awesome.font = theme.font
+theme.emojifont = hidpi[1] and "Emoji One Color 22" or "Emoji One Color 11"
 theme.border_width = 0
 
 local home   = os.getenv("HOME")
@@ -114,6 +116,7 @@ lastscreen = screen.count()
 
 mykbdcfg = {}
 mykbdcfg.widget = wibox.widget.textbox()
+mykbdcfg.widget:set_font(theme.emojifont)
 
 mykbdcfg.setopts = function ()
   os.execute( "setxkbmap -option" )

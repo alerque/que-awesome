@@ -193,10 +193,6 @@ mods = {
 
 -- Markup
 markup = lain.util.markup
-space3 = markup.font("Terminus 6", " ")
-space2 = markup.font("Terminus 4", " ")
-vspace1 = '<span font="Terminus 6"> </span>'
-vspace2 = '<span font="Terminus 6">  </span>'
 clockgf = beautiful.clockgf
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -333,88 +329,10 @@ widget_display_l:set_image(beautiful.widget_display_l)
 widget_display_c = wibox.widget.imagebox()
 widget_display_c:set_image(beautiful.widget_display_c)
 
--- | MPD | --
-prev_icon = wibox.widget.imagebox()
-prev_icon:set_image(beautiful.mpd_prev)
-next_icon = wibox.widget.imagebox()
-next_icon:set_image(beautiful.mpd_nex)
-stop_icon = wibox.widget.imagebox()
-stop_icon:set_image(beautiful.mpd_stop)
-pause_icon = wibox.widget.imagebox()
-pause_icon:set_image(beautiful.mpd_pause)
-play_pause_icon = wibox.widget.imagebox()
-play_pause_icon:set_image(beautiful.mpd_play)
-mpd_sepl = wibox.widget.imagebox()
-mpd_sepl:set_image(beautiful.mpd_sepl)
-mpd_sepr = wibox.widget.imagebox()
-mpd_sepr:set_image(beautiful.mpd_sepr)
-
-mpdwidget = lain.widgets.mpd({
-  settings = function ()
-    if mpd_now.state == "play" then
-      mpd_now.artist = mpd_now.artist:upper():gsub("&.-;", string.lower)
-      mpd_now.title = mpd_now.title:upper():gsub("&.-;", string.lower)
-      widget:set_markup(
-        markup.font("Tamsyn 3", " ") ..
-        markup.font(
-          "Tamsyn 7", mpd_now.artist .. " - " ..  mpd_now.title ..
-          markup.font("Tamsyn 2", " ")
-        )
-      )
-      play_pause_icon:set_image(beautiful.mpd_pause)
-      mpd_sepl:set_image(beautiful.mpd_sepl)
-      mpd_sepr:set_image(beautiful.mpd_sepr)
-    elseif mpd_now.state == "pause" then
-      widget:set_markup(
-        markup.font("Tamsyn 4", "") ..
-        markup.font("Tamsyn 7", "MPD PAUSED") ..
-        markup.font("Tamsyn 10", "")
-      )
-      play_pause_icon:set_image(beautiful.mpd_play)
-      mpd_sepl:set_image(beautiful.mpd_sepl)
-      mpd_sepr:set_image(beautiful.mpd_sepr)
-    else
-      widget:set_markup("")
-      play_pause_icon:set_image(beautiful.mpd_play)
-      mpd_sepl:set_image(nil)
-      mpd_sepr:set_image(nil)
-    end
-  end
-})
-
-musicwidget = wibox.widget.background()
-musicwidget:set_widget(mpdwidget)
-musicwidget:set_bgimage(beautiful.widget_display)
-musicwidget:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
-    awful.util.spawn_with_shell(ncmpcpp)
-  end
-)))
-prev_icon:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
-    awful.util.spawn_with_shell("mpc prev || ncmpcpp prev")
-    mpdwidget.update()
-  end
-)))
-next_icon:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
-    awful.util.spawn_with_shell("mpc next || ncmpcpp next")
-    mpdwidget.update()
-  end
-)))
-stop_icon:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
-    play_pause_icon:set_image(beautiful.play)
-    awful.util.spawn_with_shell("mpc stop || ncmpcpp stop")
-    mpdwidget.update()
-  end
-)))
-play_pause_icon:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
-    awful.util.spawn_with_shell("mpc toggle || ncmpcpp toggle")
-    mpdwidget.update()
-  end
-)))
-
 -- | Mail | --
 
 --mail_widget = wibox.widget.textbox()
---vicious.register(mail_widget, vicious.widgets.gmail, vspace1 .. "${count}" .. vspace1, 1200)
+--vicious.register(mail_widget, vicious.widgets.gmail, "${count}", 1200)
 
 widget_mail = wibox.widget.imagebox()
 widget_mail:set_image(beautiful.widget_mail)
@@ -426,7 +344,7 @@ mailwidget:set_bgimage(beautiful.widget_display)
 
 cpu_widget = lain.widgets.cpu({
   settings = function()
-    widget:set_markup(space3 .. cpu_now.usage .. "%" .. markup.font("Tamsyn 4", " "))
+    widget:set_markup(cpu_now.usage .. "%")
   end
 })
 
@@ -437,7 +355,7 @@ cpuwidget:set_widget(cpu_widget)
 cpuwidget:set_bgimage(beautiful.widget_display)
 
 -- tmp_widget = wibox.widget.textbox()
--- vicious.register(tmp_widget, vicious.widgets.thermal, vspace1 .. "$1°C" .. vspace1, 9, "thermal_zone0")
+-- vicious.register(tmp_widget, vicious.widgets.thermal, "$1°C", 9, "thermal_zone0")
 
 -- widget_tmp = wibox.widget.imagebox()
 -- widget_tmp:set_image(beautiful.widget_tmp)
@@ -450,7 +368,7 @@ cpuwidget:set_bgimage(beautiful.widget_display)
 mem_widget = lain.widgets.mem({
   settings = function()
     widget:set_markup(
-      space3 .. mem_now.used .. "MB" .. markup.font("Tamsyn 4", " ")
+      mem_now.used .. "MB"
     )
   end
 })
@@ -464,7 +382,7 @@ memwidget:set_bgimage(beautiful.widget_display)
 -- | FS | --
 
 fs_widget = wibox.widget.textbox()
-vicious.register(fs_widget, vicious.widgets.fs, vspace1 .. "${/ avail_gb}GB" .. vspace1, 2)
+vicious.register(fs_widget, vicious.widgets.fs, "${/ avail_gb}GB", 2)
 
 widget_fs = wibox.widget.imagebox()
 widget_fs:set_image(beautiful.widget_fs)
@@ -478,11 +396,8 @@ net_widgetdl = wibox.widget.textbox()
 net_widgetul = lain.widgets.net({
     iface = "enp2s0",
     settings = function()
-        widget:set_markup(markup.font("Tamsyn 1", "  ") .. net_now.sent)
-        net_widgetdl:set_markup(
-          markup.font("Tamsyn 1", " ") .. net_now.received ..
-          markup.font("Tamsyn 1", " ")
-        )
+        widget:set_markup(net_now.sent)
+        net_widgetdl:set_markup(net_now.received)
     end
 })
 
@@ -628,21 +543,6 @@ right_layout:add(spr)
 right_layout:add(spr5px)
 right_layout:add(wibox.widget.systray())
 right_layout:add(spr5px)
-
---right_layout:add(spr)
-
---right_layout:add(prev_icon)
---right_layout:add(spr)
---right_layout:add(stop_icon)
---right_layout:add(spr)
---right_layout:add(play_pause_icon)
---right_layout:add(spr)
---right_layout:add(next_icon)
---right_layout:add(mpd_sepl)
---right_layout:add(musicwidget)
---right_layout:add(mpd_sepr)
-
---right_layout:add(spr)
 
 --right_layout:add(widget_mail)
 --right_layout:add(widget_display_l)

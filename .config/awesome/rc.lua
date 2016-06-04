@@ -500,8 +500,8 @@ netwidgetul:set_bgimage(beautiful.widget_display)
 
 -- | Clock / Calendar | --
 
--- mytextclock    = awful.widget.textclock(markup(clockgf, space3 .. markup.font(theme.font, "%H:%M") .. space2 ))
--- mytextcalendar = awful.widget.textclock(markup(clockgf, space3 .. markup.font(theme.font, "%a %d %b")))
+mytextclock    = awful.widget.textclock(markup.font(theme.font, "%H:%M"))
+mytextcalendar = awful.widget.textclock(markup.font(theme.font, "%a %d %b"))
 
 widget_clock = wibox.widget.imagebox()
 widget_clock:set_image(beautiful.widget_clock)
@@ -523,8 +523,6 @@ clockwidget:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
 -- }}}
 
 -- {{{ Wibox
--- Create a textclock widget
-mytextclock = awful.widget.textclock()
 
 -- Create a wibox for each screen and add it
 mywibox = {}

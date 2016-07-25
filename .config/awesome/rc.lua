@@ -491,7 +491,7 @@ mytasklist.buttons = awful.util.table.join(
 )
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "top", screen = lastscreen, height = hidpi[lastscreen] and 36 or 18 })
+mywibox = awful.wibox({ position = "left", orientation="north", screen = lastscreen, width = hidpi[lastscreen] and 36 or 18 })
 
 mypromptbox = awful.widget.prompt()
 
@@ -609,8 +609,14 @@ layout:set_left(left_layout)
 layout:set_middle(mytasklist)
 layout:set_right(right_layout)
 
+-- Rotate entire wibox: http://unix.stackexchange.com/a/297984/1925
+local rotate = wibox.layout.rotate()
+rotate:set_direction("west")
+rotate:set_widget(layout)
+
 mywibox:set_bg(beautiful.panel)
-mywibox:set_widget(layout)
+mywibox:set_widget(rotate)
+
 -- }}}
 
 -- {{{ Mouse bindings

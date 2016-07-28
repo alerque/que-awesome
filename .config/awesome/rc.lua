@@ -800,6 +800,7 @@ clientkeys = awful.util.table.join(
     awful.key(mods.W___, "f", function (c) c.fullscreen = not c.fullscreen end, "Toggle fullscreen"),
     awful.key(mods.W___, "q", function (c) c:kill() end, "Kill"),
     awful.key(mods.W___, "g", awful.client.floating.toggle, "Toggle floating"),
+    awful.key(mods.WC__, "a", function (c) if c.opacity == 1 then c.opacity = 0.6 else c.opacity = 1 end end, "Toggle opacity"),
     awful.key(mods.W_S_, "Return", function (c) c:swap(awful.client.getmaster()) end, "Swap with master"),
     awful.key(mods.WC__, "o", awful.client.movetoscreen, "Move to other screen"),
     awful.key(mods.W___, "t", function (c) c.ontop = not c.ontop end, "Toggle on-top"),

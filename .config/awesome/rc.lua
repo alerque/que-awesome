@@ -121,7 +121,6 @@ mykbdcfg.widget:set_font(theme.emojifont)
 mykbdcfg.setopts = function ()
   os.execute( "setxkbmap -option" )
   os.execute( "setxkbmap -option nbsp:zwnj2nb3zwj4" )
-  os.execute( "setxkbmap -option misc:typo" )
   os.execute( "setxkbmap -option grp_led:caps" )
   os.execute( "setxkbmap -option grp:rshift_toggle" )
   if hostname == "emircik\n" then

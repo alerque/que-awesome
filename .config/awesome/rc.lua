@@ -475,7 +475,7 @@ mytasklist.buttons = awful.util.table.join(
       instance = nil
     else
       instance = awful.menu.clients({
-        theme = { width = 250 }
+        theme = { width = 500 }
       })
     end
   end),
@@ -651,7 +651,7 @@ globalkeys = awful.util.table.join(
   end, "Show all tags on screen 2"),
 
   keydoc.group("Window Navigation"),
-  awful.key(mods.W___, ";", function() awful.menu.clients( { width = 250 }, { keygrabber = true } ) end, "Show list of all windows"),
+  awful.key(mods.W___, ";", function() awful.menu.clients( { theme={ width=500 }, { keygrabber=true  } }) end, "Show list of all windows"),
   awful.key(mods.W___, "Tab", function ()
     awful.client.focus.history.previous()
     if client.focus then

@@ -76,7 +76,7 @@ function QuakeConsole:display()
    end
 
    -- Comptute size
-   local geom = capi.screen[self.screen].workarea
+   local geom = capi.screen[self.screen].geometry
    local width, height = self.width, self.height
    if width  <= 1 then width = geom.width * width end
    if height <= 1 then height = geom.height * height end

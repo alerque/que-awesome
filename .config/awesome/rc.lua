@@ -211,12 +211,18 @@ local layouts = {
 -- }}}
 
 -- {{{ Wallpaper
-if beautiful.wallpaper then
-  for s = 1, screen.count() do
-    --gears.wallpaper.tiled(beautiful.wallpaper, s)
-    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+function set_wallpaper(screen)
+  if beautiful.wallpaper then
+    local wallpaper = beautiful.wallpaper
+    -- If wallpaper is a function, call it with the screen
+    if type(wallpaper) == "function" then
+      wallpaper = wallpaper(screen)
+    end
+    gears.wallpaper.maximized(wallpaper, screen, true)
   end
 end
+-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+screen.connect_signal("property::geometry", set_wallpaper)
 -- }}}
 
 -- {{{ Dropdown terminal (and other directions)

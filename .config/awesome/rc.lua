@@ -110,7 +110,7 @@ local home   = os.getenv("HOME")
 local exec   = function (s) oldspawn(s, false) end
 local shexec = awful.util.spawn_with_shell
 
-hostname = awful.util.pread("uname -n")
+hostname = io.popen("uname -n"):read("l")
 
 lastscreen = screen.count()
 
@@ -123,13 +123,13 @@ mykbdcfg.setopts = function ()
   os.execute( "setxkbmap -option nbsp:zwnj2nb3zwj4" )
   os.execute( "setxkbmap -option grp_led:caps" )
   os.execute( "setxkbmap -option grp:rshift_toggle" )
-  if hostname == "emircik\n" then
+  if hostname == "emircik" then
     os.execute( "setxkbmap -option compose:rctrl" )
     os.execute( "setxkbmap -option lv3:ralt_switch" )
     -- os.execute( "setxkbmap -option ctrl:swapcaps" )
     -- os.execute( "setxkbmap -option caps:shiftlock" )
     os.execute( "setxkbmap -option caps:ctrl_modifier" )
-  elseif hostname == "jaguar\n" or hostname == "lemur\n" then
+  elseif hostname == "jaguar" or hostname == "lemur" then
     os.execute( "setxkbmap -option compose:menu" )
     os.execute( "setxkbmap -option lv3:caps_switch" )
   else

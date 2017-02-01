@@ -788,8 +788,8 @@ end
 
 clientkeys = awful.util.table.join(
     keydoc.group("Window Management"),
-    awful.key(mods.W___, "Next", function () awful.client.moveresize( 20,  20, -40, -40) end, "Scale down"),
-    awful.key(mods.W___, "Prior", function () awful.client.moveresize(-20, -20,  40,  40) end, "Scale up"),
+    awful.key(mods.W___, "Page_Down", function () awful.client.moveresize( 20,  20, -40, -40) end, "Scale down"),
+    awful.key(mods.W___, "Page_Up", function () awful.client.moveresize(-20, -20,  40,  40) end, "Scale up"),
     awful.key(mods.W___, "Down", function () awful.client.moveresize(  0,  20,   0,   0) end, "Move down"),
     awful.key(mods.W___, "Up", function () awful.client.moveresize(  0, -20,   0,   0) end, "Move up"),
     awful.key(mods.W___, "Left", function () awful.client.moveresize(-20,   0,   0,   0) end, "Move Left"),
@@ -798,7 +798,7 @@ clientkeys = awful.util.table.join(
     awful.key(mods.WC__, "KP_Right", function (c) c:geometry( { width = ww() / 2, height = wh(), x = ww() / 2, y = ph() } ) end),
     awful.key(mods.WC__, "KP_Up", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = ph() } ) end),
     awful.key(mods.WC__, "KP_Down", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end),
-    awful.key(mods.WC__, "kp_prior", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = ph() } ) end),
+    awful.key(mods.WC__, "KP_Prior", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = ph() } ) end),
     awful.key(mods.WC__, "KP_Next", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = wh() / 2 + ph() } ) end),
     awful.key(mods.WC__, "KP_Home", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = ph() } ) end),
     awful.key(mods.WC__, "KP_End", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end),

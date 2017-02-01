@@ -292,8 +292,9 @@ systemmenu = {
   { "hibernate", "uyut " .. hostname },
   { "poweroff",  "sudo systemctl poweroff"     },
   { "reboot",    "sudo systemctl reboot"       },
-  { "logout",      awesome.quit        }
+  { "logout", function () awesome.quit() end }
 }
+
 awesomemenu = {
   { "restart",   awesome.restart     },
   { "edit config", editor_cmd .. " " .. awesome.conffile }

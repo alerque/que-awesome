@@ -933,14 +933,6 @@ awful.rules.rules = {
     }
   },
   { rule_any = {
-      class = { "Gvim" }
-    },
-    callback = function(c)
-      awful.client.setslave(c)
-      awful.tag.setmwfact(0.666)
-    end
-  },
-  { rule_any = {
       class = { "rdesktop" }
     },
     properties = {

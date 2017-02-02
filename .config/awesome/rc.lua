@@ -269,15 +269,6 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ Tags
--- Define a tag tables which hold each screens tags.
-tags = {}
-for s = 1, screen.count() do
-  tags[s] = awful.tag({ "  ", "  ", "  ", "  ", "  " }, s, layouts[1])
-  tags[s][1].selected = true
-end
--- }}}
-
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 systemmenu = {
@@ -438,11 +429,7 @@ clockwidget:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
 -- {{{ Wibox
 
 -- Create a wibox for each screen and add it
-mywibox = {}
-mypromptbox = {}
-mylayoutbox = {}
-mytaglist = {}
-mytaglist.buttons = awful.util.table.join(
+local taglist_buttons = awful.util.table.join(
   awful.button(mods.____, 1, function (t) t:view_only() end),
   awful.button(mods.W___, 1, function (t) if client.focus then client.focus:move_to_tag(t) end end),
   awful.button(mods.____, 3, awful.tag.viewtoggle),
@@ -451,7 +438,7 @@ mytaglist.buttons = awful.util.table.join(
   awful.button(mods.____, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 mytasklist = {}
-mytasklist.buttons = awful.util.table.join(
+local tasklist_buttons = awful.util.table.join(
   awful.button({ }, 1, function (c)
     if c == client.focus then
       c.minimized = true
@@ -505,29 +492,45 @@ left_layout:add(spr5px)
 --left_layout:add(mylauncher)
 --left_layout:add(spr5px)
 
+-- {{{ Tags
+-- Define a tag tables which hold each screens tags.
+tags = {}
 for s = 1, screen.count() do
+  tags[s] = awful.tag({ "  ", "  ", "  ", "  ", "  " }, s, layouts[1])
+  tags[s][1].selected = true
+end
+-- }}}
+
+awful.screen.connect_for_each_screen(function (s)
+    -- Wallpaper
+    set_wallpaper(s)
+
+    -- Each screen has its own tag table.
+    awful.tag({ "  ", "  ", "  ", "  ", "  " }, s, layouts[1])
+
     -- Create a promptbox for each screen
+
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    mylayoutbox[s] = awful.widget.layoutbox(s)
-    mylayoutbox[s]:buttons(awful.util.table.join(
+    s.layoutbox = awful.widget.layoutbox(s)
+    s.layoutbox:buttons(awful.util.table.join(
       awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
       awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
       awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
       awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)
     ))
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    s.taglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
     -- Create a tasklist widget
 
     left_layout:add(spr)
 
     left_layout:add(spr5px)
-    left_layout:add(mylayoutbox[s])
-    left_layout:add(mytaglist[s])
+    left_layout:add(s.layoutbox)
+    left_layout:add(s.taglist)
     left_layout:add(spr5px)
-end
+end)
 
 left_layout:add(spr5px)
 left_layout:add(mypromptbox)
@@ -698,10 +701,10 @@ globalkeys = awful.util.table.join(
   end, "Send to background"),
 
   keydoc.group("Launchers"),
-  awful.key(mods.____, "Insert", function() quakeconsole["top"][mouse.screen]:toggle() end, "Dropdown terminal"),
-  awful.key(mods.W___, "Insert", function() quakeconsole["right"][mouse.screen]:toggle() end, "Right sidebar terminal"),
-  awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][mouse.screen]:toggle() end, "Pullup terminal"),
-  awful.key(mods._C__, "Insert", function() quakeconsole["left"][mouse.screen]:toggle() end, "Left sidebar terminal"),
+  awful.key(mods.____, "Insert", function() quakeconsole["top"][awful.screen.focused().index]:toggle() end, "Dropdown terminal"),
+  awful.key(mods.W___, "Insert", function() quakeconsole["right"][awful.screen.focused().index]:toggle() end, "Right sidebar terminal"),
+  awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][awful.screen.focused().index]:toggle() end, "Pullup terminal"),
+  awful.key(mods._C__, "Insert", function() quakeconsole["left"][awful.screen.focused().index]:toggle() end, "Left sidebar terminal"),
   awful.key(mods.W___, "p",      function() menubar.show() end, "Applications menubar"),
   awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, "Terminal + TMUX"),
   awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, "Terminal"),
@@ -766,15 +769,15 @@ globalkeys = awful.util.table.join(
 )
 
 ww = function()
-    local wa = screen[mouse.screen].workarea
+    local wa = awful.screen.focused().workarea
     return wa.width
 end
 wh = function()
-    local wa = screen[mouse.screen].workarea
+    local wa = awful.screen.focused().workarea
     return wa.height
 end
 ph = function() -- get panel height for screen
-    local s = screen[mouse.screen]
+    local s = awful.screen.focused()
     return hidpi[s] and 36 or 22
 end
 
@@ -883,7 +886,9 @@ awful.rules.rules = {
       focus = awful.client.focus.filter,
       keys = clientkeys,
       size_hints_honor = false,
-      buttons = clientbuttons
+      buttons = clientbuttons,
+      screen = awful.screen.preferred,
+      placement = awful.placement.no_overlap + awful.placement.no_offscreen
     }
   },
   { rule_any = {

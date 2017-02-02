@@ -713,50 +713,52 @@ globalkeys = awful.util.table.join(
   awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, "Chromium"),
   awful.key(mods.W___, "r",      function() mypromptbox:run() end, "Run prompt"),
   awful.key(mods.W___, "s",      function()
-    awful.prompt.run(
-      { prompt = "ssh: " },
-      mypromptbox.widget,
-      function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
-      function(cmd, cur_pos, ncomp)
-        -- get hosts and hostnames
-        local hosts = {}
-        --f = io.popen("eval echo $(sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config) | sort")
-        f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
-        for host in f:lines() do
-          table.insert(hosts, host)
-        end
-        f:close()
-        -- abort completion under certain circumstances
-        if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
-          return cmd, cur_pos
-        end
-        -- match
-        local matches = {}
-        for _, host in pairs(hosts) do
-          if hosts[host]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
-            table.insert(matches, hosts[host])
+    awful.prompt.run {
+      prompt = "ssh: ",
+      textbox = mypromptbox.widget,
+      exec_callback = function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
+      history_callback = function(cmd, cur_pos, ncomp)
+          -- get hosts and hostnames
+          local hosts = {}
+          --f = io.popen("eval echo $(sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config) | sort")
+          f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
+          for host in f:lines() do
+            table.insert(hosts, host)
           end
-        end
-        -- if there are no matches
-        if #matches == 0 then
+          f:close()
+          -- abort completion under certain circumstances
+          if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
+            return cmd, cur_pos
+          end
+          -- match
+          local matches = {}
+          for _, host in pairs(hosts) do
+            if hosts[host]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
+              table.insert(matches, hosts[host])
+            end
+          end
+          -- if there are no matches
+          if #matches == 0 then
+            return cmd, cur_pos
+          end
+          -- cycle
+          while ncomp > #matches do
+            ncomp = ncomp - #matches
+          end
+          -- return match and position
+          --return matches[ncomp], #matches[ncomp] + 1
           return cmd, cur_pos
-        end
-        -- cycle
-        while ncomp > #matches do
-          ncomp = ncomp - #matches
-        end
-        -- return match and position
-        --return matches[ncomp], #matches[ncomp] + 1
-        return cmd, cur_pos
-      end,
-      awful.util.getdir("cache") .. "/ssh_history"
-    )
+        end,
+      history_path = awful.util.get_cache_dir() .. "/history_ssh"
+    }
   end, "SSH promt"),
   awful.key(mods.W___, "x", function ()
-    awful.prompt.run({ prompt = "Run Lua code: " },
-    mypromptbox.widget,
-    awful.util.eval, nil,
-    awful.util.getdir("cache") .. "/history_eval")
+    awful.prompt.run {
+      prompt = "Run Lua code: ",
+      textbox = mypromptbox.widget,
+      exe_callback = awful.util.eval,
+      history_path = awful.util.get_cache_dir() .. "/history_eval"
+    }
   end, "Lua promt"),
 
   keydoc.group("Session"),

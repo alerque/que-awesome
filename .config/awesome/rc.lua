@@ -443,12 +443,12 @@ mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
-  awful.button(mods.____, 1, awful.tag.viewonly),
-  awful.button(mods.W___, 1, awful.client.movetotag),
+  awful.button(mods.____, 1, function (t) t:view_only() end),
+  awful.button(mods.W___, 1, function (t) if client.focus then client.focus:move_to_tag(t) end end),
   awful.button(mods.____, 3, awful.tag.viewtoggle),
   awful.button(mods.W___, 3, awful.client.toggletag),
-  awful.button(mods.____, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-  awful.button(mods.____, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+  awful.button(mods.____, 4, function(t) awful.tag.viewnext(t.screen) end),
+  awful.button(mods.____, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
@@ -459,8 +459,8 @@ mytasklist.buttons = awful.util.table.join(
       -- Without this, the following
       -- :isvisible() makes no sense
       c.minimized = false
-      if not c:isvisible() then
-        awful.tag.viewonly(c:tags()[1])
+      if not c:isvisible() and c.first_tag then
+        c.first_tag:view_only()
       end
       -- This will also un-minimize
       -- the client, if needed
@@ -800,7 +800,7 @@ clientkeys = awful.util.table.join(
     awful.key(mods.W___, "g", awful.client.floating.toggle, "Toggle floating"),
     awful.key(mods.WC__, "a", function (c) if c.opacity == 1 then c.opacity = 0.6 else c.opacity = 1 end end, "Toggle opacity"),
     awful.key(mods.W_S_, "Return", function (c) c:swap(awful.client.getmaster()) end, "Swap with master"),
-    awful.key(mods.WC__, "o", awful.client.movetoscreen, "Move to other screen"),
+    awful.key(mods.WC__, "o", function (c) c:move_to_screen() end, "Move to other screen"),
     awful.key(mods.W___, "t", function (c) c.ontop = not c.ontop end, "Toggle on-top"),
     awful.key(mods.WC__, "t", function (c) c.sticky = not c.sticky end, "Toggle tag sticky"),
     awful.key(mods.W___, "n", function (c)

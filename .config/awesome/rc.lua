@@ -25,7 +25,8 @@ local lain        = require("lain")
 local cyclefocus  = require('cyclefocus')
 
 -- Keybinding docstring hinter
-local keydoc      = require('keydoc')
+local hotkeys_popup = require("awful.hotkeys_popup").widget
+
 local remote      = require('awful.remote')
 
 -- {{{ Theme setup
@@ -35,11 +36,6 @@ local remote      = require('awful.remote')
 local theme_name = "grey-new"
 beautiful.init("/usr/share/awesome/themes/" .. theme_name .. "/theme.lua")
 local theme = beautiful.get()
-
--- Keydoc requires some things not set in my theme
-beautiful.fg_widget_value = theme.fg_normal
-beautiful.fg_widget_clock = theme.fg_focus
-beautiful.fg_widget_value_important = theme.fg_urgent
 
 -- }}}
 
@@ -634,84 +630,78 @@ root.buttons(awful.util.table.join(globalButtons,
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-  keydoc.group("Keyboard Layout"),
-  awful.key(mods.W___, "e", function () mykbdcfg.switch_dvp() end, "Programmers Dvorak"),
-  awful.key(mods.W___, "u", function () mykbdcfg.switch_ptf() end, "Programmers Turkish F"),
-  awful.key(mods.W___, "a", function () mykbdcfg.switch_ptf() end, "Programmers Turkish F"),
+  awful.key(mods.W___, "e", function () mykbdcfg.switch_dvp() end, { description="Programmers Dvorak", group="Keyboard Layout" }),
+  awful.key(mods.W___, "u", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
+  awful.key(mods.W___, "a", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
 
-  keydoc.group("Tag Navigation"),
-  awful.key(mods.W___, "Up", awful.tag.viewprev, "View previous tag"),
-  awful.key(mods.W___, "Down", awful.tag.viewnext, "View next tag"),
-  awful.key(mods.W___, "Escape", awful.tag.history.restore, "Restore tag history"),
-  awful.key(mods.W___, "b", awful.tag.viewnone, "Hide all"),
-  awful.key(mods.W___, "v", revelation, "Revelation"),
+  awful.key(mods.W___, "Up", awful.tag.viewprev, { description="View previous tag", group="Tag Navigation" }),
+  awful.key(mods.W___, "Down", awful.tag.viewnext, { description="View next tag", group="Tag Navigation" }),
+  awful.key(mods.W___, "Escape", awful.tag.history.restore, { description="Restore tag history", group="Tag Navigation" }),
+  awful.key(mods.W___, "b", awful.tag.viewnone, { description="Hide all", group="Tag Navigation" }),
+  awful.key(mods.W___, "v", revelation, { description="Revelation", group="Tag Navigation" }),
   awful.key(mods.W___, "#15", function()
       awful.tag.viewmore(awful.tag.gettags(1),  1)
-  end, "Show all tags on screen 1"),
+  end, { description="Show all tags on screen 1", group="Tag Navigation" }),
   awful.key(mods.W___, "#16", function()
       awful.tag.viewmore(awful.tag.gettags(2),  2)
-  end, "Show all tags on screen 2"),
+  end, { description="Show all tags on screen 2", group="Tag Navigation" }),
 
-  keydoc.group("Window Navigation"),
-  awful.key(mods.W___, ";", function() awful.menu.clients( { theme={ width=500 }, { keygrabber=true  } }) end, "Show list of all windows"),
+  awful.key(mods.W___, ";", function() awful.menu.clients( { theme={ width=500 }, { keygrabber=true  } }) end, { description="Show list of all windows", group="Window Navigation" }),
   awful.key(mods.W___, "Tab", function ()
     awful.client.focus.history.previous()
     if client.focus then
       client.focus:raise()
     end
-  end, "Switch focus"),
-  awful.key(mods.W___, "h",      function() awful.client.focus.global_bydirection("left")  end, "Focus window to the left"),
-  awful.key(mods.W___, "l",      function() awful.client.focus.global_bydirection("right") end, "Focus window to the right"),
+  end, { description="Switch focus", group="Window Navigation" }),
+  awful.key(mods.W___, "h",      function() awful.client.focus.global_bydirection("left")  end, { description="Focus window to the left", group="Window Navigation" }),
+  awful.key(mods.W___, "l",      function() awful.client.focus.global_bydirection("right") end, { description="Focus window to the right", group="Window Navigation" }),
   awful.key(mods.W___, "j",      function ()
     awful.client.focus.byidx(1)
     if client.focus then client.focus:raise() end
-  end, "Focus previous window"),
+  end, { description="Focus previous window", group="Window Navigation" }),
   awful.key(mods.W___, "k",      function ()
     awful.client.focus.byidx(-1)
     if client.focus then client.focus:raise() end
-  end, "Focus next window"),
-  awful.key(mods.W___, "o",      function () awful.screen.focus_relative(-1) end, "Focus previous screen"),
-  awful.key(mods.W___, "w",      function () mymainmenu:show() end, "Close window"),
+  end, { description="Focus next window", group="Window Navigation" }),
+  awful.key(mods.W___, "o",      function () awful.screen.focus_relative(-1) end, { description="Focus previous screen", group="Window Navigation" }),
+  awful.key(mods.W___, "w",      function () mymainmenu:show() end, { description="Close window", group="Window Navigation" }),
 
-  keydoc.group("Layout Manipulation"),
-  awful.key(mods.WC__, "j",      function () awful.client.swap.byidx(1) end, "Swap window with previous"),
-  awful.key(mods.WC__, "k",      function () awful.client.swap.byidx(-1) end, "Swap window with next"),
-  awful.key(mods.W_S_, "g",      function () awful.tag.incmwfact(0.05) end, "Grow master window size"),
-  awful.key(mods.W_S_, "s",      function () awful.tag.incmwfact(-0.05) end, "Shrink master window size"),
-  awful.key(mods.W_S_, "h",      function () awful.tag.incnmaster(1) end, "Increase number of master windows"),
-  awful.key(mods.WCS_, "s",      function () awful.client.incwfact(-0.05) end, "Shrink slave window size"),
-  awful.key(mods.WCS_, "g",      function () awful.client.incwfact(0.05) end, "Grow slave window size"),
-  awful.key(mods.W_S_, "l",      function () awful.tag.incnmaster(-1) end, "Decrease number of master windows"),
-  awful.key(mods.WC__, "h",      function () awful.tag.incncol( 1) end, "Increase sumber of column windows"),
-  awful.key(mods.WC__, "l",      function () awful.tag.incncol(-1) end, "Decrease sumber of column windows"),
+  awful.key(mods.WC__, "j",      function () awful.client.swap.byidx(1) end, { description="Swap window with previous", group="Layout Manipulation" }),
+  awful.key(mods.WC__, "k",      function () awful.client.swap.byidx(-1) end, { description="Swap window with next", group="Layout Manipulation" }),
+  awful.key(mods.W_S_, "g",      function () awful.tag.incmwfact(0.05) end, { description="Grow master window size", group="Layout Manipulation" }),
+  awful.key(mods.W_S_, "s",      function () awful.tag.incmwfact(-0.05) end, { description="Shrink master window size", group="Layout Manipulation" }),
+  awful.key(mods.W_S_, "h",      function () awful.tag.incnmaster(1) end, { description="Increase number of master windows", group="Layout Manipulation" }),
+  awful.key(mods.WCS_, "s",      function () awful.client.incwfact(-0.05) end, { description="Shrink slave window size", group="Layout Manipulation" }),
+  awful.key(mods.WCS_, "g",      function () awful.client.incwfact(0.05) end, { description="Grow slave window size", group="Layout Manipulation" }),
+  awful.key(mods.W_S_, "l",      function () awful.tag.incnmaster(-1) end, { description="Decrease number of master windows", group="Layout Manipulation" }),
+  awful.key(mods.WC__, "h",      function () awful.tag.incncol( 1) end, { description="Increase sumber of column windows", group="Layout Manipulation" }),
+  awful.key(mods.WC__, "l",      function () awful.tag.incncol(-1) end, { description="Decrease sumber of column windows", group="Layout Manipulation" }),
 
-  keydoc.group("Layout Navigation"),
-  awful.key(mods.W___, "space",  function () awful.layout.inc(layouts, 1) end, "Use next layout"),
-  awful.key(mods.W_S_, "space",  function () awful.layout.inc(layouts, -1) end, "Use previous layout"),
-  awful.key(mods.W___, "#14",    function() return end, "Display just tag #"),
-  awful.key(mods.WC__, "#14",    function() return end, "Add tag # to display"),
-  awful.key(mods.W_S_, "#14",    function() return end, "Move window to tag #"),
-  awful.key(mods.WCS_, "#14",    function() return end, "Add window to tag #"),
+  awful.key(mods.W___, "space",  function () awful.layout.inc(layouts, 1) end, { description="Use next layout", group="Layout Navigation" }),
+  awful.key(mods.W_S_, "space",  function () awful.layout.inc(layouts, -1) end, { description="Use previous layout", group="Layout Navigation" }),
+  awful.key(mods.W___, "#14",    function() return end, { description="Display just tag #", group="Layout Navigation" }),
+  awful.key(mods.WC__, "#14",    function() return end, { description="Add tag # to display", group="Layout Navigation" }),
+  awful.key(mods.W_S_, "#14",    function() return end, { description="Move window to tag #", group="Layout Navigation" }),
+  awful.key(mods.WCS_, "#14",    function() return end, { description="Add window to tag #", group="Layout Navigation" }),
   awful.key(mods.W___, "z", function()
     if client.focus then
       if client.focus.screen == 2 then i = 5 else i = 1 end
       bgtag = awful.tag.gettags(mouse.screen)[i]
       awful.client.movetotag(bgtag)
     end
-  end, "Send to background"),
+  end, { description="Send to background", group="Layout Navigation" }),
 
-  keydoc.group("Launchers"),
-  awful.key(mods.____, "Insert", function() quakeconsole["top"][awful.screen.focused().index]:toggle() end, "Dropdown terminal"),
-  awful.key(mods.W___, "Insert", function() quakeconsole["right"][awful.screen.focused().index]:toggle() end, "Right sidebar terminal"),
-  awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][awful.screen.focused().index]:toggle() end, "Pullup terminal"),
-  awful.key(mods._C__, "Insert", function() quakeconsole["left"][awful.screen.focused().index]:toggle() end, "Left sidebar terminal"),
-  awful.key(mods.W___, "p",      function() menubar.show() end, "Applications menubar"),
-  awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, "Terminal + TMUX"),
-  awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, "Terminal"),
-  awful.key(mods.W___, "/",      function() runOnce(browser) end, "Firefox"),
-  awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, "Zathura"),
-  awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, "Chromium"),
-  awful.key(mods.W___, "r",      function() mypromptbox:run() end, "Run prompt"),
+  awful.key(mods.____, "Insert", function() quakeconsole["top"][awful.screen.focused().index]:toggle() end, { description="Dropdown terminal", group="Launchers" }),
+  awful.key(mods.W___, "Insert", function() quakeconsole["right"][awful.screen.focused().index]:toggle() end, { description="Right sidebar terminal", group="Launchers" }),
+  awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][awful.screen.focused().index]:toggle() end, { description="Pullup terminal", group="Launchers" }),
+  awful.key(mods._C__, "Insert", function() quakeconsole["left"][awful.screen.focused().index]:toggle() end, { description="Left sidebar terminal", group="Launchers" }),
+  awful.key(mods.W___, "p",      function() menubar.show() end, { description="Applications menubar", group="Launchers" }),
+  awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, { description="Terminal + TMUX", group="Launchers" }),
+  awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, { description="Terminal", group="Launchers" }),
+  awful.key(mods.W___, "/",      function() runOnce(browser) end, { description="Firefox", group="Launchers" }),
+  awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, { description="Zathura", group="Launchers" }),
+  awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, { description="Chromium", group="Launchers" }),
+  awful.key(mods.W___, "r",      function() mypromptbox:run() end, { description="Run prompt", group="Launchers" }),
   awful.key(mods.W___, "s",      function()
     awful.prompt.run {
       prompt = "ssh: ",
@@ -751,7 +741,7 @@ globalkeys = awful.util.table.join(
         end,
       history_path = awful.util.get_cache_dir() .. "/history_ssh"
     }
-  end, "SSH promt"),
+  end, { description="SSH promt", group="Launchers" }),
   awful.key(mods.W___, "x", function ()
     awful.prompt.run {
       prompt = "Run Lua code: ",
@@ -759,15 +749,12 @@ globalkeys = awful.util.table.join(
       exe_callback = awful.util.eval,
       history_path = awful.util.get_cache_dir() .. "/history_eval"
     }
-  end, "Lua promt"),
+  end, { description="Lua promt", group="Launchers" }),
 
-  keydoc.group("Session"),
-  awful.key(mods.WC__, "r", awesome.restart, "Restart Awesome"),
-  awful.key(mods.W_S_, "q", awesome.quit, "Quit Awesome"),
-  awful.key(mods.W___, "F1", keydoc.display, "Keybinding hinter"),
-
-  keydoc.group("Window Management"),
-  awful.key(mods.WC__, "n", awful.client.restore, "Restore minimized windows")
+  awful.key(mods.WC__, "r", awesome.restart, { description="Restart Awesome", group="Session" }),
+  awful.key(mods.W_S_, "q", awesome.quit, { description="Quit Awesome", group="Session" }),
+  awful.key(mods.W___, "F1", hotkeys_popup.show_help, { description="Keybinding hinter", group="Session" }),
+  awful.key(mods.WC__, "n", awful.client.restore, { description="Restore minimized windows", group="Window Management" })
 )
 
 ww = function()
@@ -784,39 +771,38 @@ ph = function() -- get panel height for screen
 end
 
 clientkeys = awful.util.table.join(
-    keydoc.group("Window Management"),
-    awful.key(mods.W___, "Page_Down", function () awful.client.moveresize( 20,  20, -40, -40) end, "Scale down"),
-    awful.key(mods.W___, "Page_Up", function () awful.client.moveresize(-20, -20,  40,  40) end, "Scale up"),
-    awful.key(mods.W___, "Down", function () awful.client.moveresize(  0,  20,   0,   0) end, "Move down"),
-    awful.key(mods.W___, "Up", function () awful.client.moveresize(  0, -20,   0,   0) end, "Move up"),
-    awful.key(mods.W___, "Left", function () awful.client.moveresize(-20,   0,   0,   0) end, "Move Left"),
-    awful.key(mods.W___, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end, "Move Right"),
-    awful.key(mods.WC__, "KP_Left", function (c) c:geometry( { width = ww() / 2, height = wh(), x = 0, y = ph() } ) end),
-    awful.key(mods.WC__, "KP_Right", function (c) c:geometry( { width = ww() / 2, height = wh(), x = ww() / 2, y = ph() } ) end),
-    awful.key(mods.WC__, "KP_Up", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = ph() } ) end),
-    awful.key(mods.WC__, "KP_Down", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end),
-    awful.key(mods.WC__, "KP_Prior", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = ph() } ) end),
-    awful.key(mods.WC__, "KP_Next", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = wh() / 2 + ph() } ) end),
-    awful.key(mods.WC__, "KP_Home", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = ph() } ) end),
-    awful.key(mods.WC__, "KP_End", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end),
-    awful.key(mods.WC__, "KP_Begin", function (c) c:geometry( { width = ww(), height = wh(), x = 0, y = ph() } ) end),
-    awful.key(mods.W___, "f", function (c) c.fullscreen = not c.fullscreen end, "Toggle fullscreen"),
-    awful.key(mods.W___, "q", function (c) c:kill() end, "Kill"),
-    awful.key(mods.W___, "g", awful.client.floating.toggle, "Toggle floating"),
-    awful.key(mods.WC__, "a", function (c) if c.opacity == 1 then c.opacity = 0.6 else c.opacity = 1 end end, "Toggle opacity"),
-    awful.key(mods.W_S_, "Return", function (c) c:swap(awful.client.getmaster()) end, "Swap with master"),
-    awful.key(mods.WC__, "o", function (c) c:move_to_screen() end, "Move to other screen"),
-    awful.key(mods.W___, "t", function (c) c.ontop = not c.ontop end, "Toggle on-top"),
-    awful.key(mods.WC__, "t", function (c) c.sticky = not c.sticky end, "Toggle tag sticky"),
+    awful.key(mods.W___, "Page_Down", function () awful.client.moveresize( 20,  20, -40, -40) end, { description="Scale down", group="Window Management" }),
+    awful.key(mods.W___, "Page_Up", function () awful.client.moveresize(-20, -20,  40,  40) end, { description="Scale up", group="Window Management" }),
+    awful.key(mods.W___, "Down", function () awful.client.moveresize(  0,  20,   0,   0) end, { description="Move down", group="Window Management" }),
+    awful.key(mods.W___, "Up", function () awful.client.moveresize(  0, -20,   0,   0) end, { description="Move up", group="Window Management" }),
+    awful.key(mods.W___, "Left", function () awful.client.moveresize(-20,   0,   0,   0) end, { description="Move Left", group="Window Management" }),
+    awful.key(mods.W___, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end, { description="Move Right", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Left", function (c) c:geometry( { width = ww() / 2, height = wh(), x = 0, y = ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Right", function (c) c:geometry( { width = ww() / 2, height = wh(), x = ww() / 2, y = ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Up", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Down", function (c) c:geometry( { width = ww(), height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Prior", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Next", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = ww() / 2, y = wh() / 2 + ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Home", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_End", function (c) c:geometry( { width = ww() / 2, height = wh() / 2, x = 0, y = wh() / 2 + ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.WC__, "KP_Begin", function (c) c:geometry( { width = ww(), height = wh(), x = 0, y = ph() } ) end, { description="thing", group="Window Management" }),
+    awful.key(mods.W___, "f", function (c) c.fullscreen = not c.fullscreen end, { description="Toggle fullscreen", group="Window Management" }),
+    awful.key(mods.W___, "q", function (c) c:kill() end, { description="Kill", group="Window Management" }),
+    awful.key(mods.W___, "g", awful.client.floating.toggle, { description="Toggle floating", group="Window Management" }),
+    awful.key(mods.WC__, "a", function (c) if c.opacity == 1 then c.opacity = 0.6 else c.opacity = 1 end end, { description="Toggle opacity", group="Window Management" }),
+    awful.key(mods.W_S_, "Return", function (c) c:swap(awful.client.getmaster()) end, { description="Swap with master", group="Window Management" }),
+    awful.key(mods.WC__, "o", function (c) c:move_to_screen() end, { description="Move to other screen", group="Window Management" }),
+    awful.key(mods.W___, "t", function (c) c.ontop = not c.ontop end, { description="Toggle on-top", group="Window Management" }),
+    awful.key(mods.WC__, "t", function (c) c.sticky = not c.sticky end, { description="Toggle tag sticky", group="Window Management" }),
     awful.key(mods.W___, "n", function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
-    end, "Minimize"),
+    end, { description="Minimize", group="Window Management" }),
     awful.key(mods.W___, "m", function (c)
       c.maximized_horizontal = not c.maximized_horizontal
       c.maximized_vertical   = not c.maximized_vertical
-    end, "Maximize")
+    end, { description="Maximize", group="Window Management" })
 )
 
 -- Bind all key numbers to tags.
@@ -839,21 +825,21 @@ for s = 1, screen.count() do
       awful.key(mods.W___, key, function()
         awful.screen.focus(s)
         awful.tag.viewonly(tag)
-      end),
+      end, { description="Workspace", group="Workspace" }),
       awful.key(mods.WC__, key, function()
         awful.screen.focus(s)
         awful.tag.viewtoggle(tag)
-      end),
+      end, { description="Workspace", group="Workspace" }),
       awful.key(mods.W_S_, key, function()
         if client.focus then
           awful.client.movetotag(tag)
         end
-      end),
+      end, { description="Workspace", group="Workspace" }),
       awful.key(mods.WCS_, key, function()
         if client.focus then
           awful.client.toggletag(tag)
         end
-      end)
+      end, { description="Workspace", group="Workspace" })
     )
   end
 end

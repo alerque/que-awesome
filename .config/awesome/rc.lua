@@ -52,14 +52,8 @@ if not table.foreach then
   end
 end
 
--- Disable cursor animation:
-local oldspawn = awful.util.spawn
-awful.util.spawn = function (s)
-  oldspawn(s, false)
-end
-
 -- Java GUI's fix:
-awful.util.spawn_with_shell("wmname LG3D")
+awful.spawn.with_shell("wmname LG3D")
 
 -- }}}
 
@@ -107,8 +101,6 @@ theme.emojifont = hidpi[1] and "Emoji One Color 22" or "Emoji One Color 11"
 theme.border_width = 0
 
 local home   = os.getenv("HOME")
-local exec   = function (s) oldspawn(s, false) end
-local shexec = awful.util.spawn_with_shell
 
 hostname = io.popen("uname -n"):read("l")
 
@@ -711,17 +703,17 @@ globalkeys = awful.util.table.join(
   awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][mouse.screen]:toggle() end, "Pullup terminal"),
   awful.key(mods._C__, "Insert", function() quakeconsole["left"][mouse.screen]:toggle() end, "Left sidebar terminal"),
   awful.key(mods.W___, "p",      function() menubar.show() end, "Applications menubar"),
-  awful.key(mods.W___, "Return", function() awful.util.spawn(terminal_login) end, "Terminal + TMUX"),
-  awful.key(mods.WC__, "Return", function() awful.util.spawn(terminal_plain) end, "Terminal"),
+  awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, "Terminal + TMUX"),
+  awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, "Terminal"),
   awful.key(mods.W___, "/",      function() runOnce(browser) end, "Firefox"),
-  awful.key(mods.W_S_, "z",      function() awful.util.spawn(zathura) end, "Zathura"),
+  awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, "Zathura"),
   awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, "Chromium"),
   awful.key(mods.W___, "r",      function() mypromptbox:run() end, "Run prompt"),
   awful.key(mods.W___, "s",      function()
     awful.prompt.run(
       { prompt = "ssh: " },
       mypromptbox.widget,
-      function(h) awful.util.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
+      function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
       function(cmd, cur_pos, ncomp)
         -- get hosts and hostnames
         local hosts = {}

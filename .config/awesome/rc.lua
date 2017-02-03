@@ -50,8 +50,11 @@ hotkeys_popup.default_widget.labels.Insert = " ⎀ "
 hotkeys_popup.default_widget.labels.space = " ⍽ "
 hotkeys_popup.default_widget.labels.Tab = " ⇆ "
 hotkeys_popup.default_widget.labels['#108'] = " ⌨ "
-      -- ["#14"] = "#",
-      -- ["&"] = "＆", -- ampersands break the html formatting in naughty
+-- ["#14"] = "#",
+-- ["&"] = "＆", -- ampersands break the html formatting in naughty
+
+hotkeys_popup.default_widget.title_font = "Hack Bold 9"
+hotkeys_popup.default_widget.description_font = "Hack 8"
 
 -- local theme_name = "pro-dark"
 -- beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme_name .. "/theme.lua")

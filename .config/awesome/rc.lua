@@ -31,6 +31,25 @@ local remote      = require('awful.remote')
 
 -- {{{ Theme setup
 
+-- Use pretty Unicode characters to represent special keys in hotkey hinter
+hotkeys_popup.default_widget.labels.Mod4 = " ⊞ "
+hotkeys_popup.default_widget.labels.Mod1 = " ⎇ "
+hotkeys_popup.default_widget.labels.Shift = " ⇧ "
+hotkeys_popup.default_widget.labels.Control = " ⎈ "
+hotkeys_popup.default_widget.labels.Left = " ◀ "
+hotkeys_popup.default_widget.labels.Right = " ▶ "
+hotkeys_popup.default_widget.labels.Up = " ▲ "
+hotkeys_popup.default_widget.labels.Down = " ▼ "
+hotkeys_popup.default_widget.labels.Page_Down = " ↧ "
+hotkeys_popup.default_widget.labels.Page_Up = " ↥ "
+hotkeys_popup.default_widget.labels.Escape = " ⎋ "
+hotkeys_popup.default_widget.labels.Return = " ⏎ "
+hotkeys_popup.default_widget.labels.Insert = " ⎀ "
+hotkeys_popup.default_widget.labels.space = " ⍽ "
+hotkeys_popup.default_widget.labels.Tab = " ⇆ "
+      -- ["#14"] = "#",
+      -- ["&"] = "＆", -- ampersands break the html formatting in naughty
+
 -- local theme_name = "pro-dark"
 -- beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme_name .. "/theme.lua")
 local theme_name = "grey-new"

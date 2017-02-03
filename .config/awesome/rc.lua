@@ -44,9 +44,12 @@ hotkeys_popup.default_widget.labels.Page_Down = " ↧ "
 hotkeys_popup.default_widget.labels.Page_Up = " ↥ "
 hotkeys_popup.default_widget.labels.Escape = " ⎋ "
 hotkeys_popup.default_widget.labels.Return = " ⏎ "
+hotkeys_popup.default_widget.labels.Backspace = " ⌫ "
+hotkeys_popup.default_widget.labels.Delete = " ⌦ "
 hotkeys_popup.default_widget.labels.Insert = " ⎀ "
 hotkeys_popup.default_widget.labels.space = " ⍽ "
 hotkeys_popup.default_widget.labels.Tab = " ⇆ "
+hotkeys_popup.default_widget.labels['#108'] = " ⌨ "
       -- ["#14"] = "#",
       -- ["&"] = "＆", -- ampersands break the html formatting in naughty
 

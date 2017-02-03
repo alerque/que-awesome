@@ -825,21 +825,21 @@ for s = 1, screen.count() do
       awful.key(mods.W___, key, function()
         awful.screen.focus(s)
         awful.tag.viewonly(tag)
-      end, { description="Workspace", group="Workspace" }),
+      end, { description="Isolate tag " .. i .. " on screen " .. s, group="Workspace" }),
       awful.key(mods.WC__, key, function()
         awful.screen.focus(s)
         awful.tag.viewtoggle(tag)
-      end, { description="Workspace", group="Workspace" }),
+      end, { description="Toggle visibility tag " .. i .. " on screen " .. s, group="Workspace" }),
       awful.key(mods.W_S_, key, function()
         if client.focus then
           awful.client.movetotag(tag)
         end
-      end, { description="Workspace", group="Workspace" }),
+      end), -- { description="Move to tag " .. i .. " on screen " .. s, group="Workspace" }),
       awful.key(mods.WCS_, key, function()
         if client.focus then
           awful.client.toggletag(tag)
         end
-      end, { description="Workspace", group="Workspace" })
+      end) -- { description="Toggle tagging with tag " .. i .. " on screen " .. s, group="Workspace" })
     )
   end
 end

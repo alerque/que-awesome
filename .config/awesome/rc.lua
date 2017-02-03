@@ -502,18 +502,20 @@ mywibox = awful.wibox({ position = "left", orientation="north", screen = lastscr
 local wa = awful.screen.focused().workarea
 mypopup = awful.wibar({
     ontop = true,
-    type = dialog,
+    type = "dialog",
     visible = false,
     width = wa.width / 2,
     height = hidpi[awful.screen.focused().index] and 36 or 22
   })
-mypopup:geometry({
-    x = wa.x + wa.width / 2 - wa.width / 6,
-    y = wa.y + wa.height / 2 - 50
-  })
 mypromptbox = awful.widget.prompt()
 mypopup:set_widget(mypromptbox)
 local mypopoupprompt = function (args)
+  mypopup.screen = awful.screen.focused()
+  local wa = awful.screen.focused().workarea
+  mypopup:geometry({
+      x = wa.x + wa.width / 2 - wa.width / 6,
+      y = wa.y + wa.height / 2 - 50
+    })
   mypopup.visible = true
   args = args or {}
   args.prompt = args.prompt or "Run: "
@@ -746,11 +748,14 @@ globalkeys = awful.util.table.join(
   awful.key(mods.W___, "/",      function() runOnce(browser) end, { description="Firefox", group="Launchers" }),
   awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, { description="Zathura", group="Launchers" }),
   awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, { description="Chromium", group="Launchers" }),
-  awful.key(mods.W___, "r",      mypopoupprompt, { description="Run prompt", group="Launchers" }),
+  awful.key(mods.W___, "r",      function ()
+    mypopoupprompt({
+        history_path = awful.util.get_cache_dir() .. "/history_run"
+      })
+  end, { description="Run prompt", group="Launchers" }),
   awful.key(mods.W___, "s",      function()
-    awful.prompt.run {
-      prompt = "ssh: ",
-      textbox = mypromptbox.widget,
+    mypopoupprompt({
+      prompt = "SSH to host: ",
       exe_callback = function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
       history_callback = function(cmd, cur_pos, ncomp)
           -- get hosts and hostnames
@@ -785,15 +790,14 @@ globalkeys = awful.util.table.join(
           return cmd, cur_pos
         end,
       history_path = awful.util.get_cache_dir() .. "/history_ssh"
-    }
+    })
   end, { description="SSH promt", group="Launchers" }),
   awful.key(mods.W___, "x", function ()
-    awful.prompt.run {
+    mypopoupprompt({
       prompt = "Run Lua code: ",
-      textbox = mypromptbox.widget,
       exe_callback = awful.util.eval,
       history_path = awful.util.get_cache_dir() .. "/history_eval"
-    }
+    })
   end, { description="Lua promt", group="Launchers" }),
 
   awful.key(mods.WC__, "r", awesome.restart, { description="Restart Awesome", group="Session" }),

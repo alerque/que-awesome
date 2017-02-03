@@ -499,7 +499,29 @@ local tasklist_buttons = awful.util.table.join(
 -- Create the wibox
 mywibox = awful.wibox({ position = "left", orientation="north", screen = lastscreen, width = hidpi[lastscreen] and 36 or 18 })
 
+local wa = awful.screen.focused().workarea
+mypopup = awful.wibar({
+    ontop = true,
+    type = dialog,
+    visible = false,
+    width = wa.width / 2,
+    height = hidpi[awful.screen.focused().index] and 36 or 22
+  })
+mypopup:geometry({
+    x = wa.x + wa.width / 2 - wa.width / 6,
+    y = wa.y + wa.height / 2 - 50
+  })
 mypromptbox = awful.widget.prompt()
+mypopup:set_widget(mypromptbox)
+local mypopoupprompt = function (args)
+  mypopup.visible = true
+  args = args or {}
+  args.prompt = args.prompt or "Run: "
+  args.done_callback = args.done_callback or function () mypopup.visible = false end
+  args.textbox = args.textbox or mypromptbox.widget
+  args.exe_callback = args.exe_callback or awful.spawn
+  awful.prompt.run(args)
+end
 
 -- Widgets that are aligned to the left
 local left_layout = wibox.layout.fixed.horizontal()
@@ -553,8 +575,6 @@ awful.screen.connect_for_each_screen(function (s)
     left_layout:add(spr5px)
 end)
 
-left_layout:add(spr5px)
-left_layout:add(mypromptbox)
 left_layout:add(spr5px)
 
 -- Widgets that are aligned to the right
@@ -726,12 +746,12 @@ globalkeys = awful.util.table.join(
   awful.key(mods.W___, "/",      function() runOnce(browser) end, { description="Firefox", group="Launchers" }),
   awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, { description="Zathura", group="Launchers" }),
   awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, { description="Chromium", group="Launchers" }),
-  awful.key(mods.W___, "r",      function() mypromptbox:run() end, { description="Run prompt", group="Launchers" }),
+  awful.key(mods.W___, "r",      mypopoupprompt, { description="Run prompt", group="Launchers" }),
   awful.key(mods.W___, "s",      function()
     awful.prompt.run {
       prompt = "ssh: ",
       textbox = mypromptbox.widget,
-      exec_callback = function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
+      exe_callback = function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
       history_callback = function(cmd, cur_pos, ncomp)
           -- get hosts and hostnames
           local hosts = {}

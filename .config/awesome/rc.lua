@@ -129,37 +129,31 @@ lastscreen = screen.count()
 
 mykbdcfg = {}
 mykbdcfg.widget = wibox.widget.textbox()
+-- mykbdcfg.widget = awful.widget.keyboardlayout()
 mykbdcfg.widget:set_font(theme.emojifont)
 
-mykbdcfg.setopts = function ()
-  os.execute( "setxkbmap -option" )
-  os.execute( "setxkbmap -option nbsp:zwnj2nb3zwj4" )
-  os.execute( "setxkbmap -option grp_led:caps" )
-  os.execute( "setxkbmap -option grp:rshift_toggle" )
+mykbdcfg.options = function ()
+  local options = " -option -option nbsp:zwnj2nb3zwj4 -option grp_led:caps -option grp:rshift_toggle"
   if hostname == "emircik" then
-    os.execute( "setxkbmap -option compose:rctrl" )
-    os.execute( "setxkbmap -option lv3:ralt_switch" )
-    -- os.execute( "setxkbmap -option ctrl:swapcaps" )
-    -- os.execute( "setxkbmap -option caps:shiftlock" )
-    os.execute( "setxkbmap -option caps:ctrl_modifier" )
+    options = options .. " -option compose:rctrl -option lv3:ralt_switch -option caps:ctrl_modifier"
+    -- awful.spawn( "setxkbmap -option ctrl:swapcaps" )
+    -- awful.spawn( "setxkbmap -option caps:shiftlock" )
   elseif hostname == "jaguar" or hostname == "lemur" then
-    os.execute( "setxkbmap -option compose:menu" )
-    os.execute( "setxkbmap -option lv3:caps_switch" )
+    options = options .. " -option compose:menu -option lv3:caps_switch"
   else
-    os.execute( "setxkbmap -option caps:swapescape" )
+    options = options .. " -option caps:swapescape"
   end
+  return options
 end
 
 mykbdcfg.switch_dvp = function ()
   mykbdcfg.widget:set_text("🇺🇸")
-  os.execute( "setxkbmap dvp" )
-  mykbdcfg.setopts()
+  awful.spawn( "setxkbmap dvp" .. mykbdcfg.options() )
 end
 
 mykbdcfg.switch_ptf = function ()
   mykbdcfg.widget:set_text("🇹🇷")
-  os.execute( "setxkbmap ptf" )
-  mykbdcfg.setopts()
+  awful.spawn( "setxkbmap ptf" .. mykbdcfg.options() )
 end
 
 -- Run or switche to...

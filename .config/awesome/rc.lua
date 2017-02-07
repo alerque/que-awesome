@@ -1,31 +1,25 @@
 -- {{{ Includes
 
 -- Standard awesome library
-local gears       = require("gears")
-local awful       = require("awful")
-      awful.rules = require("awful.rules")
-                    require("awful.autofocus")
-
+local gears = require("gears")
+local awful = require("awful")
+require("awful.autofocus")
 -- Widget and layout library
-local wibox       = require("wibox")
-
+local wibox = require("wibox")
 -- Theme handling library
-local beautiful   = require("beautiful")
-
+local beautiful = require("beautiful")
 -- Notification library
-local naughty     = require("naughty")
-local menubar     = require("menubar")
---local volume = require("volume")
+local naughty = require("naughty")
+local menubar = require("menubar")
+local hotkeys_popup = require("awful.hotkeys_popup").widget
 
+-- Plugins (Arch packages)
 local revelation  = require("revelation")
 
--- External libraries as git submodules
+-- Plugins (git submodules))
 local vicious     = require("vicious")
 local lain        = require("lain")
 local cyclefocus  = require('cyclefocus')
-
--- Keybinding docstring hinter
-local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 local remote      = require('awful.remote')
 
@@ -82,27 +76,24 @@ awful.spawn.with_shell("wmname LG3D")
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
-  naughty.notify({
-    preset = naughty.config.presets.critical,
-    title = "Oops, there were errors during startup!",
-    text = awesome.startup_errors
-  })
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "Oops, there were errors during startup!",
+                     text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
 do
-  local in_error = false
-  awesome.connect_signal("debug::error", function (err)
-    -- Make sure we don't go into an endless error loop
-    if in_error then return end
-    in_error = true
-    naughty.notify({
-      preset = naughty.config.presets.critical,
-      title = "Oops, an error happened!",
-      text = err
-    })
-    in_error = false
-  end)
+    local in_error = false
+    awesome.connect_signal("debug::error", function (err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then return end
+        in_error = true
+
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, an error happened!",
+                         text = tostring(err) })
+        in_error = false
+    end)
 end
 -- }}}
 
@@ -888,11 +879,10 @@ for s = 1, screen.count() do
 end
 
 clientbuttons = awful.util.table.join(
-  globalButtons,
-  awful.button({         }, 1, function (c) client.focus = c; c:raise() end),
-  awful.button(mods.W___, 1, awful.mouse.client.move),
-  awful.button(mods.W___, 3, awful.mouse.client.resize)
-)
+    globalButtons,
+    awful.button(mods.____, 1, function (c) client.focus = c; c:raise() end),
+    awful.button(mods.W___, 1, awful.mouse.client.move),
+    awful.button(mods.W___, 3, awful.mouse.client.resize))
 
 awful.menu.menu_keys = {
   up    = { "k", "Up" },
@@ -908,154 +898,182 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
+-- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
-  { rule = {
+    -- All clients will match this rule.
+    { rule = { },
+      properties = { border_width = beautiful.border_width,
+                     border_color = beautiful.border_normal,
+                     focus = awful.client.focus.filter,
+                     raise = true,
+                     keys = clientkeys,
+                     size_hints_honor = false,
+                     buttons = clientbuttons,
+                     screen = awful.screen.preferred,
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+     }
     },
-    properties = {
-      border_width = beautiful.border_width,
-      border_color = beautiful.border_normal,
-      focus = awful.client.focus.filter,
-      keys = clientkeys,
-      size_hints_honor = false,
-      buttons = clientbuttons,
-      screen = awful.screen.preferred,
-      placement = awful.placement.no_overlap + awful.placement.no_offscreen
-    }
-  },
-  { rule_any = {
-      class = { "MPlayer", "Shutter", "SimpleScreenRecorder" },
-      instance = { "plugin-container", "exe" },
-      role = { "GtkFileChooserDialog" }
-    },
-    properties = {
+
+    -- Floating clients.
+    { rule_any = {
+        instance = {
+          "DTA",  -- Firefox addon DownThemAll.
+          "copyq",  -- Includes session name in class.
+          "plugin-container",
+          "exe"
+        },
+        class = {
+          "Arandr",
+          "Gpick",
+          "Kruler",
+          "MessageWin",  -- kalarm.
+          "MPlayer",
+          "Shutter",
+          "SimpleScreenRecorder",
+          "Sxiv",
+          "Wpa_gui",
+          "pinentry",
+          "veromix",
+          "xtightvncviewer"},
+
+        name = {
+          "Event Tester",  -- xev.
+        },
+        role = {
+          "AlarmWindow",  -- Thunderbird's calendar.
+          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+          "GtkFileChooserDialog"
+      },
+      type = {
+          "normal",
+          "dialog"
+      }
+  }, properties = {
       floating = true,
-      size_hints_honor = true
+      size_hints_honor = true,
+  }},
+
+    -- Add titlebars to normal clients and dialogs
+    { rule_any = {type = { "normal", "dialog" }
+      }, properties = { titlebars_enabled = true }
     },
-    callback = function(c)
-      awful.placement.centered(c,nil)
-    end
-  },
-  { rule_any = {
-      name = { "^Google Play Music$" }
+
+    { rule_any = {
+            name = { "^Google Play Music$" }
+        },
+        --callback = function(c)
+        --awful.client.moveresize(3595, 945, 250, 140, c)
+        --end,
+        properties = {
+            focusable = false,
+            floating = true,
+            sticky = true,
+            ontop = true,
+            opacity = 0.5,
+            width = 250,
+            height = 140,
+            x = 3595,
+            y = 945,
+            size_hints_honor = false
+        }
     },
-    --callback = function(c)
-      --awful.client.moveresize(3595, 945, 250, 140, c)
-    --end,
-    properties = {
-      focusable = false,
-      floating = true,
-      sticky = true,
-      ontop = true,
-      opacity = 0.5,
-      width = 250,
-      height = 140,
-      x = 3595,
-      y = 945,
-      size_hints_honor = false
+
+    { rule_any = {
+            instance = { "QuakeTop", "QuakeRight", "QuakeBottom", "QuakeLeft" }
+        },
+        properties = {
+            opacity = 0.85
+        }
+    },
+
+    { rule_any = {
+            class = { "rdesktop" }
+        },
+        properties = {
+            floating = true,
+        }
+    },
+
+    { rule_any = {
+            name = { "Auto-Type - KeePassX" }
+        },
+        properties = {
+            size_hints_honor = false,
+            floating = true,
+            ontop = true,
+            opacity = 0.80
+        },
+
+        callback = function(c)
+            awful.placement.centered(c,nil)
+        end
     }
-  },
-  { rule_any = {
-      instance = { "QuakeTop", "QuakeRight", "QuakeBottom", "QuakeLeft" }
-    },
-    properties = {
-      opacity = 0.85
-    }
-  },
-  { rule_any = {
-      class = { "rdesktop" }
-    },
-    properties = {
-      focus = false,
-      focusable = false,
-      floating = true,
-      sticky = true,
-      ontop = true,
-      opacity = 0.5
-    }
-  },
-  { rule_any = {
-      name = { "Auto-Type - KeePassX" }
-    },
-    properties = {
-      size_hints_honor = false,
-      floating = true,
-      ontop = true,
-      opacity = 0.80
-    },
-    callback = function(c)
-      awful.placement.centered(c,nil)
-    end
-  }
 }
 -- }}}
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.connect_signal("manage", function (c, startup)
-    -- Enable sloppy focus
-  c:connect_signal("mouse::enter", function(c)
-    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-      and awful.client.focus.filter(c) then
-      client.focus = c
-    end
-  end)
-
-  if not startup then
+client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- awful.client.setslave(c)
+    -- if not awesome.startup then awful.client.setslave(c) end
 
-    -- Put windows in a smart way, only if they does not set an initial position.
-    if not c.size_hints.user_position and not c.size_hints.program_position then
-      awful.placement.no_overlap(c)
-      awful.placement.no_offscreen(c)
+    if awesome.startup and
+      not c.size_hints.user_position
+      and not c.size_hints.program_position then
+        -- Prevent clients from being unreachable after screen count changes.
+        awful.placement.no_offscreen(c)
     end
-  end
+end)
 
-  local titlebars_enabled = false
-  if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
+-- Add a titlebar if titlebars_enabled is set to true in the rules.
+client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
     local buttons = awful.util.table.join(
-      awful.button(mods.____, 1, function()
-        client.focus = c
-        c:raise()
-        awful.mouse.client.move(c)
-      end),
-      awful.button(mods.____, 3, function()
-        client.focus = c
-        c:raise()
-        awful.mouse.client.resize(c)
-      end)
+        awful.button(mods.____, 1, function()
+            client.focus = c
+            c:raise()
+            awful.mouse.client.move(c)
+        end),
+        awful.button(mods.____, 3, function()
+            client.focus = c
+            c:raise()
+            awful.mouse.client.resize(c)
+        end)
     )
 
-    -- Widgets that are aligned to the left
-    local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(awful.titlebar.widget.iconwidget(c))
-    left_layout:buttons(buttons)
+    awful.titlebar(c) : setup {
+        { -- Left
+            awful.titlebar.widget.iconwidget(c),
+            buttons = buttons,
+            layout  = wibox.layout.fixed.horizontal
+        },
+        { -- Middle
+            { -- Title
+                align  = "center",
+                widget = awful.titlebar.widget.titlewidget(c)
+            },
+            buttons = buttons,
+            layout  = wibox.layout.flex.horizontal
+        },
+        { -- Right
+            awful.titlebar.widget.floatingbutton (c),
+            awful.titlebar.widget.maximizedbutton(c),
+            awful.titlebar.widget.stickybutton   (c),
+            awful.titlebar.widget.ontopbutton    (c),
+            awful.titlebar.widget.closebutton    (c),
+            layout = wibox.layout.fixed.horizontal()
+        },
+        layout = wibox.layout.align.horizontal
+    }
+end)
 
-    -- Widgets that are aligned to the right
-    local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(awful.titlebar.widget.floatingbutton(c))
-    right_layout:add(awful.titlebar.widget.maximizedbutton(c))
-    right_layout:add(awful.titlebar.widget.stickybutton(c))
-    right_layout:add(awful.titlebar.widget.ontopbutton(c))
-    right_layout:add(awful.titlebar.widget.closebutton(c))
-
-    -- The title goes in the middle
-    local middle_layout = wibox.layout.flex.horizontal()
-    local title = awful.titlebar.widget.titlewidget(c)
-    title:set_align("center")
-    middle_layout:add(title)
-    middle_layout:buttons(buttons)
-
-    -- Now bring it all together
-    local layout = wibox.layout.align.horizontal()
-    layout:set_left(left_layout)
-    layout:set_right(right_layout)
-    layout:set_middle(middle_layout)
-
-    awful.titlebar(c):set_widget(layout)
-  end
+-- Enable sloppy focus, so that focus follows mouse.
+client.connect_signal("mouse::enter", function(c)
+    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+        and awful.client.focus.filter(c) then
+        client.focus = c
+    end
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)

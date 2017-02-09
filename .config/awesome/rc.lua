@@ -581,7 +581,7 @@ right_layout:add(clockwidget)
 right_layout:add(widget_display_r)
 right_layout:add(spr5px)
 
-mytasklist = awful.widget.tasklist(lastscreen, awful.widget.tasklist.filter.allscreen, mytasklist.buttons)
+mytasklist = awful.widget.tasklist(lastscreen, awful.widget.tasklist.filter.allscreen, tasklist_buttons)
 
 -- Now bring it all together (with the tasklist in the middle)
 local layout = wibox.layout.align.horizontal()

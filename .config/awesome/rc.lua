@@ -573,55 +573,6 @@ right_layout:add(spr5px)
 right_layout:add(wibox.widget.systray())
 right_layout:add(spr5px)
 
---right_layout:add(widget_mail)
---right_layout:add(widget_display_l)
---right_layout:add(mailwidget)
---right_layout:add(widget_display_r)
---right_layout:add(spr5px)
-
---right_layout:add(spr)
-
---right_layout:add(spr5px)
---right_layout:add(mytextclock)
-
---right_layout:add(spr)
-
---right_layout:add(widget_cpu)
---right_layout:add(widget_display_l)
---right_layout:add(cpuwidget)
---right_layout:add(widget_display_r)
--- right_layout:add(widget_display_c)
--- right_layout:add(tmpwidget)
--- right_layout:add(widget_tmp)
--- right_layout:add(widget_display_r)
---right_layout:add(spr5px)
-
---right_layout:add(spr)
-
---right_layout:add(widget_mem)
---right_layout:add(widget_display_l)
---right_layout:add(memwidget)
---right_layout:add(widget_display_r)
---right_layout:add(spr5px)
-
---right_layout:add(spr)
-
---right_layout:add(widget_fs)
---right_layout:add(widget_display_l)
---right_layout:add(fswidget)
---right_layout:add(widget_display_r)
---right_layout:add(spr5px)
-
---right_layout:add(spr)
-
---right_layout:add(widget_netdl)
---right_layout:add(widget_display_l)
---right_layout:add(netwidgetdl)
---right_layout:add(widget_display_c)
---right_layout:add(netwidgetul)
---right_layout:add(widget_display_r)
---right_layout:add(widget_netul)
-
 right_layout:add(spr)
 
 right_layout:add(widget_clock)

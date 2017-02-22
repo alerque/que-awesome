@@ -147,7 +147,18 @@ mykbdcfg.switch_ptf = function ()
   awful.spawn( "setxkbmap ptf" .. mykbdcfg.options() )
 end
 
--- Run or switche to...
+-- Run or switch to...
+local keepass_autotype = function()
+  local ismydb = function (c) return awful.rules.match(c, { name = "caleb - KeePassX" }) end
+  for c in awful.client.iterate(ismydb) do
+    awful.spawn.with_shell("sleep 0.2 && xdotool key ctrl+shift+p")
+    return true
+  end
+  local isrunning = function (c) return awful.rules.match(c, { class = "Keepassx2" }) end
+  return awful.client.run_or_raise("keepassx2", isrunning)
+end
+
+-- Run or switch to...
 runOnce = function(n)
   local matcher = function(c)
     return awful.rules.match(c, { class = n[2] })
@@ -681,6 +692,7 @@ globalkeys = awful.util.table.join(
   awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][awful.screen.focused().index]:toggle() end, { description="Pullup terminal", group="Launchers" }),
   awful.key(mods._C__, "Insert", function() quakeconsole["left"][awful.screen.focused().index]:toggle() end, { description="Left sidebar terminal", group="Launchers" }),
   awful.key(mods.W___, "p",      function() menubar.show() end, { description="Applications menubar", group="Launchers" }),
+  awful.key(mods.W___, "y",      keepass_autotype, { description="Autotype from keepass", group="Launchers" }),
   awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, { description="Terminal + TMUX", group="Launchers" }),
   awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, { description="Terminal", group="Launchers" }),
   awful.key(mods.W___, "/",      function() runOnce(browser) end, { description="Firefox", group="Launchers" }),

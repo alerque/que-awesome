@@ -485,15 +485,17 @@ local tasklist_buttons = awful.util.table.join(
 mywibox = awful.wibox({ position = "left", orientation="north", screen = lastscreen, width = hidpi[lastscreen] and 36 or 18 })
 
 local wa = awful.screen.focused().workarea
-mypopup = awful.wibar({
+mypopup = wibox({
     ontop = true,
-    type = "dialog",
     visible = false,
-    width = wa.width / 2,
-    height = hidpi[awful.screen.focused().index] and 36 or 22
+    width = wa.width / 3,
+    height = hidpi[awful.screen.focused().index] and 76 or 62
   })
+local mypopupcontainer = wibox.container.margin()
+mypopupcontainer.margins = 20
 mypromptbox = awful.widget.prompt()
-mypopup:set_widget(mypromptbox)
+mypopupcontainer.widget = mypromptbox
+mypopup:set_widget(mypopupcontainer)
 local mypopoupprompt = function (args)
   mypopup.screen = awful.screen.focused()
   local wa = awful.screen.focused().workarea

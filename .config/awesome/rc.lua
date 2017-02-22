@@ -631,7 +631,7 @@ globalkeys = awful.util.table.join(
       awful.tag.viewmore(awful.tag.gettags(2),  2)
   end, { description="Show all tags on screen 2", group="Tag Navigation" }),
 
-  awful.key(mods.W___, ";", function() awful.menu.clients( { theme={ width=500 }, { keygrabber=true  } }) end, { description="Show list of all windows", group="Window Navigation" }),
+  awful.key(mods.W___, ";", function() awful.menu.clients( { theme = { width = 500 } } ) end, { description="Show list of all windows", group="Window Navigation" }),
   awful.key(mods.W___, "Tab", function ()
     awful.client.focus.history.previous()
     if client.focus then
@@ -1030,6 +1030,11 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- Unminimize anything we try to activate
+client.connect_signal("request::activate", function(c)
+    c.minimized = false
+end)
 -- }}}
 
 mykbdcfg.switch_dvp()

@@ -518,6 +518,7 @@ local mypopoupprompt = function (args)
   args = args or {}
   args.prompt = args.prompt or "Run: "
   args.done_callback = args.done_callback or function () mypopup.visible = false end
+  args.completion_callback = awful.completion.shell
   args.textbox = args.textbox or mypromptbox.widget
   args.exe_callback = args.exe_callback or awful.spawn
   awful.prompt.run(args)

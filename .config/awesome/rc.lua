@@ -1,5 +1,7 @@
 -- {{{ Includes
 
+hostname = io.popen("uname -n"):read("l")
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -55,6 +57,10 @@ hotkeys_popup.default_widget.description_font = "Hack 8"
 local theme_name = "grey-new"
 beautiful.init("/usr/share/awesome/themes/" .. theme_name .. "/theme.lua")
 local theme = beautiful.get()
+
+if hostname == "emircik" then
+    beautiful.wallpaper = "/etc/share/kingfisher.jpg"
+end
 
 -- }}}
 
@@ -113,8 +119,6 @@ theme.emojifont = hidpi[1] and "Emoji One Color 22" or "Emoji One Color 11"
 theme.border_width = 0
 
 local home   = os.getenv("HOME")
-
-hostname = io.popen("uname -n"):read("l")
 
 lastscreen = screen.count()
 

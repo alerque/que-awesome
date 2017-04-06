@@ -705,7 +705,7 @@ globalkeys = gears.table.join(
   awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, { description="Chromium", group="Launchers" }),
   awful.key(mods.W___, "r",      function ()
     mypopoupprompt({
-        history_path = awful.util.get_cache_dir() .. "/history_run"
+        history_path = gears.filesystem.get_cache_dir() .. "/history_run"
       })
   end, { description="Run prompt", group="Launchers" }),
   awful.key(mods.W___, "s",      function()
@@ -744,14 +744,14 @@ globalkeys = gears.table.join(
           --return matches[ncomp], #matches[ncomp] + 1
           return cmd, cur_pos
         end,
-      history_path = awful.util.get_cache_dir() .. "/history_ssh"
+      history_path = gears.filesystem.get_cache_dir() .. "/history_ssh"
     })
   end, { description="SSH promt", group="Launchers" }),
   awful.key(mods.W___, "x", function ()
     mypopoupprompt({
       prompt = "Run Lua code: ",
       exe_callback = awful.util.eval,
-      history_path = awful.util.get_cache_dir() .. "/history_eval"
+      history_path = gears.filesystem.get_cache_dir() .. "/history_eval"
     })
   end, { description="Lua promt", group="Launchers" }),
 

@@ -439,7 +439,7 @@ local index = 1
 local loop_widgets = { mytextclock, mytextcalendar }
 local loop_widgets_icons = { beautiful.widget_clock, beautiful.widget_cal }
 
-clockwidget:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
+clockwidget:buttons(gears.table.join(awful.button(mods.____, 1, function ()
     index = index % #loop_widgets + 1
     clockwidget:set_widget(loop_widgets[index])
     widget_clock:set_image(loop_widgets_icons[index])
@@ -450,7 +450,7 @@ clockwidget:buttons(awful.util.table.join(awful.button(mods.____, 1, function ()
 -- {{{ Wibox
 
 -- Create a wibox for each screen and add it
-local taglist_buttons = awful.util.table.join(
+local taglist_buttons = gears.table.join(
   awful.button(mods.____, 1, function (t) t:view_only() end),
   awful.button(mods.W___, 1, function (t) if client.focus then client.focus:move_to_tag(t) end end),
   awful.button(mods.____, 3, awful.tag.viewtoggle),
@@ -459,7 +459,7 @@ local taglist_buttons = awful.util.table.join(
   awful.button(mods.____, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 mytasklist = {}
-local tasklist_buttons = awful.util.table.join(
+local tasklist_buttons = gears.table.join(
   awful.button({ }, 1, function (c)
     if c == client.focus then
       c.minimized = true
@@ -561,7 +561,7 @@ awful.screen.connect_for_each_screen(function (s)
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.layoutbox = awful.widget.layoutbox(s)
-    s.layoutbox:buttons(awful.util.table.join(
+    s.layoutbox:buttons(gears.table.join(
       awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
       awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
       awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
@@ -618,19 +618,19 @@ mywibox:set_widget(rotate)
 -- }}}
 
 -- {{{ Mouse bindings
-globalButtons = awful.util.table.join(
+globalButtons = gears.table.join(
   awful.button(mods.W___,  8, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
   awful.button(mods.W___,  9, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
   awful.button(mods.____, 13, revelation)
 )
 
-root.buttons(awful.util.table.join(globalButtons,
+root.buttons(gears.table.join(globalButtons,
     awful.button({ }, 3, function () mymainmenu:toggle() end)
 ))
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = awful.util.table.join(
+globalkeys = gears.table.join(
   awful.key(mods.W___, "e", function () mykbdcfg.switch_dvp() end, { description="Programmers Dvorak", group="Keyboard Layout" }),
   awful.key(mods.W___, "u", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
   awful.key(mods.W___, "a", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
@@ -774,7 +774,7 @@ ph = function() -- get panel height for screen
     return hidpi[s] and 36 or 22
 end
 
-clientkeys = awful.util.table.join(
+clientkeys = gears.table.join(
     awful.key(mods.W___, "Page_Down", function () awful.client.moveresize( 20,  20, -40, -40) end, { description="Scale down", group="Window Management" }),
     awful.key(mods.W___, "Page_Up", function () awful.client.moveresize(-20, -20,  40,  40) end, { description="Scale up", group="Window Management" }),
     awful.key(mods.W___, "Down", function () awful.client.moveresize(  0,  20,   0,   0) end, { description="Move down", group="Window Management" }),
@@ -824,7 +824,7 @@ for s = 1, screen.count() do
   for i = 1, 5 do
     local key = DVPTagKeys[s][i]
     local tag = awful.tag.gettags(s)[i]
-    globalkeys = awful.util.table.join(
+    globalkeys = gears.table.join(
       globalkeys,
       awful.key(mods.W___, key, function()
         awful.screen.focus(s)
@@ -848,7 +848,7 @@ for s = 1, screen.count() do
   end
 end
 
-clientbuttons = awful.util.table.join(
+clientbuttons = gears.table.join(
     globalButtons,
     awful.button(mods.____, 1, function (c) client.focus = c; c:raise() end),
     awful.button(mods.W___, 1, awful.mouse.client.move),
@@ -998,7 +998,7 @@ end)
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
-    local buttons = awful.util.table.join(
+    local buttons = gears.table.join(
         awful.button(mods.____, 1, function()
             client.focus = c
             c:raise()

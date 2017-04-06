@@ -14,6 +14,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
+-- Enable VIM help for hotkeys widget when client with matching name is opened:
+require("awful.hotkeys_popup.keys.vim")
 
 -- Plugins (Arch packages)
 local revelation  = require("revelation")
@@ -49,8 +51,8 @@ hotkeys_popup.default_widget.labels['#108'] = " ⌨ "
 -- ["#14"] = "#",
 -- ["&"] = "＆", -- ampersands break the html formatting in naughty
 
-hotkeys_popup.default_widget.title_font = "Hack Bold 9"
-hotkeys_popup.default_widget.description_font = "Hack 8"
+beautiful.hotkeys_font = "Hack Bold 9"
+beautiful.hotkeys_description_font = "Hack 8"
 
 -- local theme_name = "pro-dark"
 -- beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. theme_name .. "/theme.lua")

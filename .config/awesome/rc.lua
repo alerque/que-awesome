@@ -62,6 +62,8 @@ local theme = beautiful.get()
 
 if hostname == "emircik" then
     beautiful.wallpaper = "/etc/share/kingfisher.jpg"
+elseif hostname == "jaguar" then
+    beautiful.wallpaper = "/etc/share/jaguar.jpg"
 end
 
 -- }}}

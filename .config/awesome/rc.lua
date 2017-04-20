@@ -538,12 +538,6 @@ left_layout:add(spr5px)
 left_layout:add(mykbdcfg.widget)
 left_layout:add(spr5px)
 
---left_layout:add(spr)
-
---left_layout:add(spr5px)
---left_layout:add(mylauncher)
---left_layout:add(spr5px)
-
 -- {{{ Tags
 -- Define a tag tables which hold each screens tags.
 tags = {}

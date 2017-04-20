@@ -501,7 +501,7 @@ local tasklist_buttons = gears.table.join(
 )
 
 -- Create the wibox
-mywibox = awful.wibox({ position = "left", orientation="north", screen = lastscreen, width = hidpi[lastscreen] and 36 or 18 })
+mywibox = awful.wibox({ position = "left", orientation="north", screen = 1, width = hidpi[lastscreen] and 36 or 18 })
 
 local wa = awful.screen.focused().workarea
 mypopup = wibox({

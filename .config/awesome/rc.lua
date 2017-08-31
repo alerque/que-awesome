@@ -157,12 +157,12 @@ end
 
 -- Run or switch to...
 local keepass_autotype = function()
-  local ismydb = function (c) return awful.rules.match(c, { name = "caleb - KeePassX" }) end
+  local ismydb = function (c) return awful.rules.match(c, { name = "caleb - KeePassXC" }) end
   for c in awful.client.iterate(ismydb) do
     awful.spawn.with_shell("sleep 0.2 && xdotool key ctrl+shift+p")
     return true
   end
-  local isrunning = function (c) return awful.rules.match(c, { class = "Keepassx2" }) end
+  local isrunning = function (c) return awful.rules.match(c, { class = "Keepassxc" }) end
   return awful.client.run_or_raise("keepassx2", isrunning)
 end
 

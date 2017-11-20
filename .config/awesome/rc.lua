@@ -802,8 +802,9 @@ clientkeys = gears.table.join(
             c.minimized = true
     end, { description="Minimize", group="Window Management" }),
     awful.key(mods.W___, "m", function (c)
-      c.maximized_horizontal = not c.maximized_horizontal
-      c.maximized_vertical   = not c.maximized_vertical
+      c.maximized = not c.maximized
+      c.maximized_horizontal = c.maximized
+      c.maximized_vertical   = c.maximized
     end, { description="Maximize", group="Window Management" })
 )
 

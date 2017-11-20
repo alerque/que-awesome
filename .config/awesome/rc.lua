@@ -886,7 +886,6 @@ awful.rules.rules = {
     -- Floating clients.
     { rule_any = {
         instance = {
-          "DTA",  -- Firefox addon DownThemAll.
           "copyq",  -- Includes session name in class.
           "plugin-container",
           "exe"
@@ -903,8 +902,8 @@ awful.rules.rules = {
           "Wpa_gui",
           "pinentry",
           "veromix",
-          "xtightvncviewer"},
-
+          "xtightvncviewer"
+        },
         name = {
           "Event Tester",  -- xev.
         },
@@ -922,7 +921,7 @@ awful.rules.rules = {
   }},
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "dialog" }
+    { rule_any = { type = { "dialog" }
       }, properties = { titlebars_enabled = true }
     },
 

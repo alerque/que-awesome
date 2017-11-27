@@ -117,9 +117,11 @@ for s = 1, screen.count() do
     hidpi[s] = wa.width == 3200
 end
 
-theme.font = hidpi[1] and "Hack 16" or "Hack 8"
+theme.font = hidpi[1] and "Hack 8" or "Hack 8"
+theme.menu_height = hidpi[1] and "40" or "20"
+theme.menu_width = hidpi[1] and "600" or "300"
 -- awesome.font = theme.font
-theme.emojifont = hidpi[1] and "Emoji One Color 22" or "Emoji One Color 11"
+theme.emojifont = hidpi[1] and "Emoji One Color 12" or "Emoji One Color 12"
 theme.border_width = 0
 
 local home   = os.getenv("HOME")
@@ -507,8 +509,8 @@ local wa = awful.screen.focused().workarea
 mypopup = wibox({
     ontop = true,
     visible = false,
-    width = wa.width / 3,
-    height = hidpi[awful.screen.focused().index] and 76 or 62
+    width = wa.width / 4 * 3,
+    height = hidpi[awful.screen.focused().index] and 96 or 72
   })
 local mypopupcontainer = wibox.container.margin()
 mypopupcontainer.margins = 20
@@ -519,8 +521,8 @@ local mypopoupprompt = function (args)
   mypopup.screen = awful.screen.focused()
   local wa = awful.screen.focused().workarea
   mypopup:geometry({
-      x = wa.x + wa.width / 2 - wa.width / 6,
-      y = wa.y + wa.height / 2 - 50
+      x = wa.x + wa.width / 8,
+      y = wa.y + wa.height / 2 - 75
     })
   mypopup.visible = true
   args = args or {}

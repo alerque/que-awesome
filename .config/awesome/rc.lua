@@ -121,7 +121,7 @@ theme.font = hidpi[1] and "Hack 8" or "Hack 8"
 theme.menu_height = hidpi[1] and "40" or "20"
 theme.menu_width = hidpi[1] and "600" or "300"
 -- awesome.font = theme.font
-theme.emojifont = hidpi[1] and "Emoji One Color 12" or "Emoji One Color 12"
+theme.emojifont = hidpi[1] and "Noto Color Emoji 12" or "Noto Color Emoji 16"
 theme.border_width = 0
 
 local home   = os.getenv("HOME")

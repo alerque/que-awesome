@@ -157,6 +157,11 @@ mykbdcfg.switch_ptf = function ()
   awful.spawn( "setxkbmap ptf" .. mykbdcfg.options() )
 end
 
+mykbdcfg.switch_jcu = function ()
+  mykbdcfg.widget:set_text("🇰🇿")
+  awful.spawn( "setxkbmap ru" .. mykbdcfg.options() )
+end
+
 -- Run or switch to...
 local keepass_autotype = function()
   local ismydb = function (c) return awful.rules.match(c, { name = "caleb - KeePassXC" }) end
@@ -631,9 +636,20 @@ root.buttons(gears.table.join(globalButtons,
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+  -- From DVP layout to others
   awful.key(mods.W___, "e", function () mykbdcfg.switch_dvp() end, { description="Programmers Dvorak", group="Keyboard Layout" }),
   awful.key(mods.W___, "u", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
+  awful.key(mods.W___, "j", function () mykbdcfg.switch_jcu() end, { description="Russian JCUKEN", group="Keyboard Layout" }),
+
+  -- From PTF layout to others
+  awful.key(mods.W___, "e", function () mykbdcfg.switch_dvp() end, { description="Programmers Dvorak", group="Keyboard Layout" }),
   awful.key(mods.W___, "a", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
+  awful.key(mods.W___, "v", function () mykbdcfg.switch_jcu() end, { description="Russian JCUKEN", group="Keyboard Layout" }),
+
+  -- From JCUKEN layout to others
+  awful.key(mods.W___, "в", function () mykbdcfg.switch_dvp() end, { description="Programmers Dvorak", group="Keyboard Layout" }),
+  awful.key(mods.W___, "а", function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
+  awful.key(mods.W___, "с", function () mykbdcfg.switch_jcu() end, { description="Russian JCUKEN", group="Keyboard Layout" }),
 
   awful.key(mods.W___, "Up", awful.tag.viewprev, { description="View previous tag", group="Tag Navigation" }),
   awful.key(mods.W___, "Down", awful.tag.viewnext, { description="View next tag", group="Tag Navigation" }),

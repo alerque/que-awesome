@@ -639,7 +639,7 @@ globalkeys = gears.table.join(
   -- Swap keyboard layouts based on keycodes so the bindings map across layouts:
   awful.key(mods.W___, "#40" --[[ e / e / в ]], function () mykbdcfg.switch_dvp() end, { description="Programmers Dvorak", group="Keyboard Layout" }),
   awful.key(mods.W___, "#41" --[[ u / a / а ]], function () mykbdcfg.switch_ptf() end, { description="Programmers Turkish F", group="Keyboard Layout" }),
-  awful.key(mods.W___, "#54" --[[ v / j / с ]], function () mykbdcfg.switch_jcu() end, { description="Russian JCUKEN", group="Keyboard Layout" }),
+  awful.key(mods.W___, "#42" --[[ i / ü / п ]], function () mykbdcfg.switch_jcu() end, { description="Russian JCUKEN", group="Keyboard Layout" }),
 
   awful.key(mods.W___, "Up", awful.tag.viewprev, { description="View previous tag", group="Tag Navigation" }),
   awful.key(mods.W___, "Down", awful.tag.viewnext, { description="View next tag", group="Tag Navigation" }),

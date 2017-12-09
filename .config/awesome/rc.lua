@@ -136,7 +136,7 @@ mykbdcfg.widget:set_font(theme.emojifont)
 mykbdcfg.options = function ()
   local options = " -option -option nbsp:zwnj2nb3zwj4 -option grp_led:caps -option grp:rshift_toggle"
   if hostname == "emircik" then
-    options = options .. " -option compose:rctrl -option lv3:ralt_switch -option caps:ctrl_modifier"
+    options = options .. " -option compose:menu -option compose:rctrl -option lv3:ralt_switch -option caps:ctrl_modifier"
     -- awful.spawn( "setxkbmap -option ctrl:swapcaps" )
     -- awful.spawn( "setxkbmap -option caps:shiftlock" )
   elseif hostname == "jaguar" or hostname == "lemur" then

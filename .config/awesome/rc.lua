@@ -170,7 +170,7 @@ local keepass_autotype = function()
     return true
   end
   local isrunning = function (c) return awful.rules.match(c, { class = "Keepassxc" }) end
-  return awful.client.run_or_raise("keepassx2", isrunning)
+  return awful.client.run_or_raise("keepassxc", isrunning)
 end
 
 -- Run or switch to...

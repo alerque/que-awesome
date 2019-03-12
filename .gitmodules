@@ -1,4 +1,0 @@
-[submodule ".config/awesome/cyclefocus"]
-	path = .config/awesome/cyclefocus
-	url = git@github.com:blueyed/awesome-cyclefocus.git
-	branch = master

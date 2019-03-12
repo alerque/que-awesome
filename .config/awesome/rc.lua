@@ -23,7 +23,7 @@ local revelation  = require("revelation")
 -- Plugins (git submodules))
 local vicious     = require("vicious")
 local lain        = require("lain")
-local cyclefocus  = require('cyclefocus')
+-- local cyclefocus  = require('cyclefocus')
 
 local remote      = require('awful.remote')
 

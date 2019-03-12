@@ -363,7 +363,7 @@ mailwidget:set_bgimage(beautiful.widget_display)
 
 -- | CPU / TMP | --
 
-cpu_widget = lain.widgets.cpu({
+cpu_widget = lain.widget.cpu({
   settings = function()
     widget:set_markup(cpu_now.usage .. "%")
   end
@@ -372,7 +372,7 @@ cpu_widget = lain.widgets.cpu({
 widget_cpu = wibox.widget.imagebox()
 widget_cpu:set_image(beautiful.widget_cpu)
 cpuwidget = wibox.widget.background()
-cpuwidget:set_widget(cpu_widget)
+-- cpuwidget:set_widget(cpu_widget)
 cpuwidget:set_bgimage(beautiful.widget_display)
 
 -- tmp_widget = wibox.widget.textbox()
@@ -386,7 +386,7 @@ cpuwidget:set_bgimage(beautiful.widget_display)
 
 -- | MEM | --
 
-mem_widget = lain.widgets.mem({
+mem_widget = lain.widget.mem({
   settings = function()
     widget:set_markup(
       mem_now.used .. "MB"
@@ -397,7 +397,7 @@ mem_widget = lain.widgets.mem({
 widget_mem = wibox.widget.imagebox()
 widget_mem:set_image(beautiful.widget_mem)
 memwidget = wibox.widget.background()
-memwidget:set_widget(mem_widget)
+-- memwidget:set_widget(mem_widget)
 memwidget:set_bgimage(beautiful.widget_display)
 
 -- | FS | --
@@ -408,13 +408,13 @@ vicious.register(fs_widget, vicious.widgets.fs, "${/ avail_gb}GB", 2)
 widget_fs = wibox.widget.imagebox()
 widget_fs:set_image(beautiful.widget_fs)
 fswidget = wibox.widget.background()
-fswidget:set_widget(fs_widget)
+-- fswidget:set_widget(fs_widget)
 fswidget:set_bgimage(beautiful.widget_display)
 
 -- | NET | --
 
 net_widgetdl = wibox.widget.textbox()
-net_widgetul = lain.widgets.net({
+net_widgetul = lain.widget.net({
     iface = "enp2s0",
     settings = function()
         widget:set_markup(net_now.sent)
@@ -425,13 +425,13 @@ net_widgetul = lain.widgets.net({
 widget_netdl = wibox.widget.imagebox()
 widget_netdl:set_image(beautiful.widget_netdl)
 netwidgetdl = wibox.widget.background()
-netwidgetdl:set_widget(net_widgetdl)
+-- netwidgetdl:set_widget(net_widgetdl)
 netwidgetdl:set_bgimage(beautiful.widget_display)
 
 widget_netul = wibox.widget.imagebox()
 widget_netul:set_image(beautiful.widget_netul)
 netwidgetul = wibox.widget.background()
-netwidgetul:set_widget(net_widgetul)
+-- netwidgetul:set_widget(net_widgetul)
 netwidgetul:set_bgimage(beautiful.widget_display)
 
 -- | Clock / Calendar | --
@@ -443,7 +443,7 @@ widget_clock = wibox.widget.imagebox()
 widget_clock:set_image(beautiful.widget_clock)
 
 clockwidget = wibox.widget.background()
-clockwidget:set_widget(mytextclock)
+-- clockwidget:set_widget(mytextclock)
 clockwidget:set_bgimage(beautiful.widget_display)
 
 local index = 1

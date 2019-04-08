@@ -18,14 +18,14 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 require("awful.hotkeys_popup.keys.vim")
 
 -- Plugins (Arch packages)
+local lain        = require("lain")
+local remote      = require('awful.remote')
 local revelation  = require("revelation")
+local vicious     = require("vicious")
 
 -- Plugins (git submodules))
-local vicious     = require("vicious")
-local lain        = require("lain")
 -- local cyclefocus  = require('cyclefocus')
 
-local remote      = require('awful.remote')
 
 -- {{{ Theme setup
 
@@ -135,7 +135,7 @@ mykbdcfg.widget:set_font(theme.emojifont)
 
 mykbdcfg.options = function ()
   local options = " -option -option nbsp:zwnj2nb3zwj4 -option grp_led:caps -option grp:rshift_toggle"
-  if hostname == "emircik" then
+  if hostname == "emircik" or hostname == "karabatak" then
     options = options .. " -option compose:menu -option compose:rctrl -option lv3:ralt_switch -option caps:ctrl_modifier"
     -- awful.spawn( "setxkbmap -option ctrl:swapcaps" )
     -- awful.spawn( "setxkbmap -option caps:shiftlock" )
@@ -443,7 +443,7 @@ widget_clock = wibox.widget.imagebox()
 widget_clock:set_image(beautiful.widget_clock)
 
 clockwidget = wibox.widget.background()
--- clockwidget:set_widget(mytextclock)
+clockwidget:set_widget(mytextclock)
 clockwidget:set_bgimage(beautiful.widget_display)
 
 local index = 1

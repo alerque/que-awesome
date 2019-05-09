@@ -251,54 +251,60 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 -- {{{ Dropdown terminal (and other directions)
 local quake = require('quake')
-quakeconsole = {
-  top = {},
-  right = {},
-  bottom = {},
-  left = {}
-}
+
+local quakeconsoles = {}
+
+local togglequakeconsole = function (session)
+	local id = session .. awful.screen.focused().index
+	local console = quakeconsoles[id]
+	for k, v in pairs(quakeconsoles) do
+		if k ~= id then
+			v.visible = false
+			v:display()
+		end
+	end
+	console:toggle()
+end
+
+local newquake = function(screen, session, spec)
+	spec.name = "Quake" .. session
+	spec.terminal = "env tmux_session=" .. session .. " " .. terminal_login
+	spec.argname = spec.argname or "--name %s"
+	spec.width = spec.width or 0.5
+	spec.width = spec.width or 0.5
+	spec.horiz = spec.horiz or "center"
+	spec.vert = spec.vert or "center"
+	spec.screen = screen
+	quakeconsoles[session .. screen] = quake(spec)
+end
+
 for s = 1, screen.count() do
-  quakeconsole["top"][s] = quake({
-    terminal = "env tmux_session=quake " .. terminal_login,
-    name = "QuakeTop",
-    argname = "--name %s",
+  newquake(s, "quake", {
     width = 0.95,
     height = 0.6,
     horiz = "center",
-    vert = "top",
-    screen = s
+    vert = "top"
   })
-  quakeconsole["right"][s] = quake({
-    terminal = "env tmux_session=scratch " .. terminal_login,
-    name = "QuakeRight",
-    argname = "--name %s",
+  newquake(s, "scratch", {
     height = 0.95,
     width = 0.6,
     horiz = "right",
-    vert = "center",
-    screen = s
+    vert = "center"
   })
-  quakeconsole["bottom"][s] = quake({
-    terminal = "env tmux_session=system " .. terminal_login,
-    name = "QuakeBottom",
-    argname = "--name %s",
+  newquake(s, "system", {
     width = 0.95,
     height = 0.6,
     horiz = "center",
-    vert = "bottom",
-    screen = s
+    vert = "bottom"
   })
-  quakeconsole["left"][s] = quake({
-    terminal = "env tmux_session=comms " .. terminal_login,
-    name = "QuakeLeft",
-    argname = "--name %s",
+  newquake(s, "comms", {
     height = 0.95,
     width = 0.6,
     horiz = "left",
-    vert = "center",
-    screen = s
+    vert = "center"
   })
 end
+
 -- }}}
 
 -- {{{ Menu
@@ -698,10 +704,10 @@ globalkeys = gears.table.join(
     end
   end, { description="Send to background", group="Layout Navigation" }),
 
-  awful.key(mods.____, "Insert", function() quakeconsole["top"][awful.screen.focused().index]:toggle() end, { description="Dropdown terminal", group="Launchers" }),
-  awful.key(mods.W___, "Insert", function() quakeconsole["right"][awful.screen.focused().index]:toggle() end, { description="Right sidebar terminal", group="Launchers" }),
-  awful.key(mods.WC__, "Insert", function() quakeconsole["bottom"][awful.screen.focused().index]:toggle() end, { description="Pullup terminal", group="Launchers" }),
-  awful.key(mods._C__, "Insert", function() quakeconsole["left"][awful.screen.focused().index]:toggle() end, { description="Left sidebar terminal", group="Launchers" }),
+  awful.key(mods.____, "Insert", function() togglequakeconsole("quake") end, { description="Dropdown terminal", group="Launchers" }),
+  awful.key(mods.W___, "Insert", function() togglequakeconsole("scratch") end, { description="Right sidebar terminal", group="Launchers" }),
+  awful.key(mods.WC__, "Insert", function() togglequakeconsole("system") end, { description="Pullup terminal", group="Launchers" }),
+  awful.key(mods._C__, "Insert", function() togglequakeconsole("comms") end, { description="Left sidebar terminal", group="Launchers" }),
   awful.key(mods.W___, "p",      function() menubar.show() end, { description="Applications menubar", group="Launchers" }),
   awful.key(mods.W___, "y",      keepass_autotype, { description="Autotype from keepass", group="Launchers" }),
   awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, { description="Terminal + TMUX", group="Launchers" }),

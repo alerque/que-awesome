@@ -251,6 +251,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 -- {{{ Dropdown terminal (and other directions)
 local quake = require('quake')
+local quakeactive = false
 
 local quakeconsoles = {}
 
@@ -264,6 +265,7 @@ local togglequakeconsole = function (session)
 		end
 	end
 	console:toggle()
+  quakeactive = console.visible
 end
 
 local newquake = function(screen, session, spec)
@@ -1051,10 +1053,11 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-        and awful.client.focus.filter(c) then
-        client.focus = c
-    end
+  if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+    and awful.client.focus.filter(c)
+    and not quakeactive then
+    client.focus = c
+  end
 end)
 
 -- client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)

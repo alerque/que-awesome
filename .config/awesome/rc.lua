@@ -256,15 +256,15 @@ local quakeactive = false
 local quakeconsoles = {}
 
 local togglequakeconsole = function (session)
-	local id = session .. awful.screen.focused().index
-	local console = quakeconsoles[id]
-	for k, v in pairs(quakeconsoles) do
-		if k ~= id then
-			v.visible = false
-			v:display()
-		end
-	end
-	console:toggle()
+  local id = session .. awful.screen.focused().index
+  local console = quakeconsoles[id]
+  for k, v in pairs(quakeconsoles) do
+    if k ~= id then
+      v.visible = false
+      v:display()
+    end
+  end
+  console:toggle()
   quakeactive = console.visible
 end
 
@@ -1054,8 +1054,7 @@ end)
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
   if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-    and awful.client.focus.filter(c)
-    and not quakeactive then
+    and awful.client.focus.filter(c) then
     client.focus = c
   end
 end)

@@ -1,6 +1,6 @@
 -- {{{ Includes
 
-hostname = io.popen("uname -n"):read("l")
+local hostname = io.popen("uname -n"):read("l")
 
 -- Standard awesome library
 local gears = require("gears")
@@ -26,6 +26,11 @@ local vicious     = require("vicious")
 -- Plugins (git submodules))
 -- local cyclefocus  = require('cyclefocus')
 
+-- Lua convenience utilities
+local function file_exists (name)
+  local f = io.open(name, "r")
+  if f ~= nil then io.close(f) return true else return false end
+end
 
 -- {{{ Theme setup
 
@@ -60,18 +65,14 @@ local theme_name = "grey-new"
 beautiful.init("/usr/share/awesome/themes/" .. theme_name .. "/theme.lua")
 local theme = beautiful.get()
 
-if hostname == "emircik" then
-    beautiful.wallpaper = "/etc/share/kingfisher.jpg"
-elseif hostname == "jaguar" then
-    beautiful.wallpaper = "/etc/share/jaguar.jpg"
-elseif hostname == "pars" then
-    beautiful.wallpaper = "/etc/share/pars.jpg"
+local hostbg = "/etc/share/" .. hostname .. ".jpg"
+if file_exists(hostbg) then
+    beautiful.wallpaper = hostbg
 end
 
 -- }}}
 
 -- {{{ Misc fixes
-
 -- Lua 5.2 depricated this fuction which many awesome configs use
 if not table.foreach then
   table.foreach = function(t, f)
@@ -1072,4 +1073,4 @@ end)
 
 mykbdcfg.switch_dvp()
 
--- vim: ft=lua ts=4 sw=4 expandtab fdm=marker
+-- vim: ft=lua ts=2 sw=2 expandtab fdm=marker

@@ -64,6 +64,8 @@ if hostname == "emircik" then
     beautiful.wallpaper = "/etc/share/kingfisher.jpg"
 elseif hostname == "jaguar" then
     beautiful.wallpaper = "/etc/share/jaguar.jpg"
+elseif hostname == "pars" then
+    beautiful.wallpaper = "/etc/share/pars.jpg"
 end
 
 -- }}}

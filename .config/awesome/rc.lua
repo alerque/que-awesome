@@ -373,11 +373,11 @@ mailwidget:set_bgimage(beautiful.widget_display)
 
 -- | CPU / TMP | --
 
-cpu_widget = lain.widget.cpu({
-  settings = function()
-    widget:set_markup(cpu_now.usage .. "%")
-  end
-})
+-- cpu_widget = lain.widget.cpu({
+--   settings = function()
+--     widget:set_markup(cpu_now.usage .. "%")
+--   end
+-- })
 
 widget_cpu = wibox.widget.imagebox()
 widget_cpu:set_image(beautiful.widget_cpu)
@@ -396,13 +396,13 @@ cpuwidget:set_bgimage(beautiful.widget_display)
 
 -- | MEM | --
 
-mem_widget = lain.widget.mem({
-  settings = function()
-    widget:set_markup(
-      mem_now.used .. "MB"
-    )
-  end
-})
+-- mem_widget = lain.widget.mem({
+--   settings = function()
+--     widget:set_markup(
+--       mem_now.used .. "MB"
+--     )
+--   end
+-- })
 
 widget_mem = wibox.widget.imagebox()
 widget_mem:set_image(beautiful.widget_mem)
@@ -423,14 +423,14 @@ fswidget:set_bgimage(beautiful.widget_display)
 
 -- | NET | --
 
-net_widgetdl = wibox.widget.textbox()
-net_widgetul = lain.widget.net({
-    iface = "enp2s0",
-    settings = function()
-        widget:set_markup(net_now.sent)
-        net_widgetdl:set_markup(net_now.received)
-    end
-})
+-- net_widgetdl = wibox.widget.textbox()
+-- net_widgetul = lain.widget.net({
+--     iface = "enp2s0",
+--     settings = function()
+--         widget:set_markup(net_now.sent)
+--         net_widgetdl:set_markup(net_now.received)
+--     end
+-- })
 
 widget_netdl = wibox.widget.imagebox()
 widget_netdl:set_image(beautiful.widget_netdl)

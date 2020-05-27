@@ -54,7 +54,7 @@ hotkeys_popup.default_widget.labels.space = " ⍽ "
 hotkeys_popup.default_widget.labels.Tab = " ⇆ "
 hotkeys_popup.default_widget.labels['#108'] = " ⌨ "
 -- ["#14"] = "#",
--- ["&"] = "＆", -- ampersands break the html formatting in naughty
+hotkeys_popup.default_widget.labels["&"] = "＆" -- ampersands break the html formatting in naughty
 
 beautiful.hotkeys_font = "Hack Bold 9"
 beautiful.hotkeys_description_font = "Hack 8"

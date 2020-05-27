@@ -185,9 +185,9 @@ runOnce = function(n)
 end
 
 -- This is used later as the default terminal and editor to run.
-terminal_login = "termite"
-terminal_plain = "env TMUX=/dev/null termite"
-terminal_fancy = "gnome-terminal"
+terminal_login = "alacritty"
+terminal_plain = "env TMUX=/dev/null alacritty"
+terminal_other = "termite"
 browser        = { "firefox", "Firefox" }
 altbrowser     = { "chromium", "chromium" }
 filemanager    = "nautilus"
@@ -273,7 +273,7 @@ end
 
 local newquake = function(screen, session, spec)
 	spec.name = "Quake" .. session
-	spec.terminal = "env tmux_session=" .. session .. " " .. terminal_login
+	spec.terminal = "env tmux_session=" .. session .. " " .. terminal_other
 	spec.argname = spec.argname or "--name %s"
 	spec.width = spec.width or 0.5
 	spec.width = spec.width or 0.5
@@ -331,7 +331,7 @@ mymainmenu = awful.menu({ items = {
   { "system",   awesomemenu, beautiful.awesome_icon },
   { filemanager, filemanager    },
   { "tmux",     terminal_login },
-  { "fancy terminal", terminal_fancy },
+  { "other terminal", terminal_other },
   { "plain terminal", terminal_plain }
 } })
 

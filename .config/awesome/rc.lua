@@ -245,7 +245,7 @@ function set_wallpaper(screen)
     if type(wallpaper) == "function" then
       wallpaper = wallpaper(screen)
     end
-    gears.wallpaper.maximized(wallpaper, screen, true)
+    gears.wallpaper.centered(wallpaper, screen)
   end
 end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)

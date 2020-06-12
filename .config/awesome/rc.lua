@@ -142,7 +142,7 @@ mykbdcfg.options = function ()
     options = options .. " -option compose:menu -option compose:rctrl -option lv3:ralt_switch -option caps:ctrl_modifier"
     -- awful.spawn( "setxkbmap -option ctrl:swapcaps" )
     -- awful.spawn( "setxkbmap -option caps:shiftlock" )
-  elseif hostname == "jaguar" or hostname == "lemur" or hostname == "pars" then
+  elseif hostname == "aslan" or hostname == "jaguar" or hostname == "lemur" or hostname == "pars" then
     options = options .. " -option compose:menu -option lv3:caps_switch"
   else
     options = options .. " -option caps:swapescape"

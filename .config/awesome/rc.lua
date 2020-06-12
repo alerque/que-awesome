@@ -117,7 +117,7 @@ revelation.init()
 local hidpi = {}
 for s = 1, screen.count() do
     local wa = screen[s].workarea
-    hidpi[s] = wa.width == 3200
+    hidpi[s] = wa.width > 1920
 end
 
 theme.font = hidpi[1] and "Hack 8" or "Hack 8"

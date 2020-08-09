@@ -35,7 +35,7 @@ local capi   = { mouse = mouse,
 		 timer = timer }
 
 -- I use a namespace for my modules...
-module("quake")
+-- module("quake")
 
 local QuakeConsole = {}
 
@@ -164,4 +164,5 @@ function QuakeConsole:toggle()
    self:display()
 end
 
-setmetatable(_M, { __call = function(_, ...) return QuakeConsole:new(...) end })
+setmetatable(QuakeConsole, { __call = function(_, ...) return QuakeConsole:new(...) end })
+return QuakeConsole

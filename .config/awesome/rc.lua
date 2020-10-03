@@ -694,6 +694,7 @@ globalkeys = gears.table.join(
   awful.key(mods.W_S_, "l",      function () awful.tag.incnmaster(-1) end, { description="Decrease number of master windows", group="Layout Manipulation" }),
   awful.key(mods.WC__, "h",      function () awful.tag.incncol( 1) end, { description="Increase sumber of column windows", group="Layout Manipulation" }),
   awful.key(mods.WC__, "l",      function () awful.tag.incncol(-1) end, { description="Decrease sumber of column windows", group="Layout Manipulation" }),
+  awful.key(mods.W___, "t",      function() mywibox.visible = not mywibox.visible end, { description="Hide wibox", group="Layout Manipulation" }),
 
   awful.key(mods.W___, "space",  function () awful.layout.inc(layouts, 1) end, { description="Use next layout", group="Layout Navigation" }),
   awful.key(mods.W_S_, "space",  function () awful.layout.inc(layouts, -1) end, { description="Use previous layout", group="Layout Navigation" }),

@@ -261,14 +261,16 @@ local quakeconsoles = {}
 local togglequakeconsole = function (session)
   local id = session .. awful.screen.focused().index
   local console = quakeconsoles[id]
+  local any_active = false
   for k, v in pairs(quakeconsoles) do
-    if k ~= id then
-      v.visible = false
-      v:display()
-    end
+    if v.visible then any_active = true end
+    v.visible = false
+    v:display()
   end
-  console:toggle()
-  quakeactive = console.visible
+  if not any_active then
+    console:toggle()
+    quakeactive = console.visible
+  end
 end
 
 local newquake = function(screen, session, spec)

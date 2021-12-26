@@ -187,7 +187,7 @@ end
 -- This is used later as the default terminal and editor to run.
 terminal_login = "alacritty"
 terminal_plain = "env TMUX=/dev/null alacritty"
-terminal_other = "termite"
+terminal_other = "alacritty"
 browser        = { "firefox", "Firefox" }
 altbrowser     = { "chromium", "chromium" }
 filemanager    = "nautilus"
@@ -276,11 +276,12 @@ end
 local newquake = function(screen, session, spec)
 	spec.name = "Quake" .. session
 	spec.terminal = "env tmux_session=" .. session .. " " .. terminal_other
-	spec.argname = spec.argname or "--name %s"
+	spec.argname = spec.argname or "--class %s"
 	spec.width = spec.width or 0.5
 	spec.width = spec.width or 0.5
 	spec.horiz = spec.horiz or "center"
 	spec.vert = spec.vert or "center"
+  spec.opacity = 0.5
 	spec.screen = screen
 	quakeconsoles[session .. screen] = quake(spec)
 end
@@ -964,14 +965,6 @@ awful.rules.rules = {
             x = 3595,
             y = 945,
             size_hints_honor = false
-        }
-    },
-
-    { rule_any = {
-            instance = { "QuakeTop", "QuakeRight", "QuakeBottom", "QuakeLeft" }
-        },
-        properties = {
-            opacity = 0.85
         }
     },
 

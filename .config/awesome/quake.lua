@@ -101,8 +101,8 @@ function QuakeConsole:display()
    client.sticky = true
 
    -- This is not a normal window, don't apply any specific keyboard stuff
-   client:buttons({})
-   client:keys({})
+   -- client:buttons({})
+   -- client:keys({})
 
    -- Toggle display
    if self.visible then

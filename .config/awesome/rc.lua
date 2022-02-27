@@ -795,6 +795,18 @@ ph = function() -- get panel height for screen
     return hidpi[s] and 36 or 22
 end
 
+local toggle_share = function (c)
+  awful.client.floating.toggle(c)
+  c.ontop = not c.ontop
+  local w, h = 1600, 900
+  c:geometry({
+      width = w,
+      height = h,
+      x = ww()+36-w,
+      y = wh()-h
+    })
+end
+
 clientkeys = gears.table.join(
     awful.key(mods.W___, "Page_Down", function () awful.client.moveresize( 20,  20, -40, -40) end, { description="Scale down", group="Window Management" }),
     awful.key(mods.W___, "Page_Up", function () awful.client.moveresize(-20, -20,  40,  40) end, { description="Scale up", group="Window Management" }),
@@ -814,6 +826,7 @@ clientkeys = gears.table.join(
     awful.key(mods.W___, "f", function (c) c.fullscreen = not c.fullscreen end, { description="Toggle fullscreen", group="Window Management" }),
     awful.key(mods.W___, "q", function (c) c:kill() end, { description="Kill", group="Window Management" }),
     awful.key(mods.W___, "g", awful.client.floating.toggle, { description="Toggle floating", group="Window Management" }),
+    awful.key(mods.W___, "c", toggle_share, { description="Toggle window for screen sharing", group="Window Management" }),
     awful.key(mods.WC__, "a", function (c) if c.opacity == 1 then c.opacity = 0.6 else c.opacity = 1 end end, { description="Toggle opacity", group="Window Management" }),
     awful.key(mods.W_S_, "Return", function (c) c:swap(awful.client.getmaster()) end, { description="Swap with master", group="Window Management" }),
     awful.key(mods.WC__, "o", function (c) c:move_to_screen() end, { description="Move to other screen", group="Window Management" }),

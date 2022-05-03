@@ -165,15 +165,40 @@ mykbdcfg.switch_jcu = function ()
   awful.spawn( "setxkbmap ru" .. mykbdcfg.options() )
 end
 
+local unlocked_keepass_pattern = { name = "caleb - KeePassXC" }
+
+local started_authenticated_apps = false
+
+function unlock_keepass ()
+  local matcher = function (c) return
+    awful.rules.match(c, unlocked_keepass_pattern)
+  end
+  for c in awful.client.iterate(matcher) do
+    return c
+  end
+end
+
+function watch_for_secrets (c)
+  c:connect_signal("unfocus", function()
+    if started_authenticated_apps then return end
+    if unlock_keepass() then have_secrets() end
+  end)
+end
+
+function have_secrets ()
+  if started_authenticated_apps then return end
+  awful.spawn.single_instance("nextcloud", {})
+  awful.spawn.with_shell("bin/que-auth.zsh")
+  started_authenticated_apps = true
+end
+
 -- Run or switch to...
 local keepass_autotype = function()
-  local ismydb = function (c) return awful.rules.match(c, { name = "caleb - KeePassXC" }) end
-  for c in awful.client.iterate(ismydb) do
+  if unlock_keepass() then
     awful.spawn.with_shell("sleep 0.2 && xdotool key ctrl+shift+p")
     return true
   end
-  local isrunning = function (c) return awful.rules.match(c, { class = "Keepassxc" }) end
-  return awful.client.run_or_raise("keepassxc", isrunning)
+  return awful.spawn.raise_or_spawn("keepassxc", { class = "Keepassxc" })
 end
 
 -- Run or switch to...
@@ -989,7 +1014,14 @@ awful.rules.rules = {
         callback = function(c)
             awful.placement.centered(c,nil)
         end
-    }
+    },
+
+    { rule_any = {
+        name = { "KeePassXC$" }
+      },
+      callback = watch_for_secrets
+    },
+
 }
 -- }}}
 

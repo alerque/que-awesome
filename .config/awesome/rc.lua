@@ -661,8 +661,15 @@ mywibox:set_widget(rotate)
 
 -- }}}
 
+local opacity_step = 0.05
+local function opaqueme (client, direction)
+  client.opacity = client.opacity + (opacity_step * direction)
+end
+
 -- {{{ Mouse bindings
 globalButtons = gears.table.join(
+  awful.button(mods.W___,  4, function (c) return opaqueme(c, 1) end, { description="Decrease opacity", group="Window Management" }),
+  awful.button(mods.W___,  5, function (c) return opaqueme(c, -1) end, { description="Increase opacity", group="Window Management" }),
   awful.button(mods.W___,  8, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
   awful.button(mods.W___,  9, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
   awful.button(mods.____, 13, revelation)

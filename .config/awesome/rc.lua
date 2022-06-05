@@ -732,7 +732,7 @@ globalkeys = gears.table.join(
   awful.key(mods.W___, "s",      function()
     mypopoupprompt({
       prompt = "SSH to host: ",
-      exe_callback = function(h) awful.spawn(terminal_plain .. " -e 'mosh " .. h .. "'") end,
+      exe_callback = function(h) awful.spawn(terminal_login .. " -e mosh " .. h) end,
       history_callback = function(cmd, cur_pos, ncomp)
           -- get hosts and hostnames
           local hosts = {}

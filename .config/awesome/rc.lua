@@ -216,7 +216,7 @@ terminal_other = "alacritty"
 browser        = { "firefox", "Firefox" }
 altbrowser     = { "chromium", "chromium" }
 filemanager    = "nautilus"
-editor         = "gvim"
+editor         = "env TMUX=false neovide --multigrid"
 zathura        = "zathura"
 editor_cmd     = editor
 
@@ -753,6 +753,8 @@ globalkeys = gears.table.join(
   awful.key(mods.W___, "y",      keepass_autotype, { description="Autotype from keepass", group="Launchers" }),
   awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, { description="Terminal + TMUX", group="Launchers" }),
   awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, { description="Terminal", group="Launchers" }),
+  awful.key(mods.W___, "a",      function() awful.spawn(editor) end, { description="Neovide", group="Launchers" }),
+  -- awful.key(mods.W___, "a",      function() runOnce({"cvlc ~/Documents/akm.xspf", "VLC media player"}) end, { description="AKM", group="Launchers" }),
   awful.key(mods.W___, "/",      function() runOnce(browser) end, { description="Firefox", group="Launchers" }),
   awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, { description="Zathura", group="Launchers" }),
   awful.key(mods.WC__, "/",      function() runOnce(altbrowser) end, { description="Chromium", group="Launchers" }),

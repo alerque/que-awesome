@@ -218,7 +218,8 @@ altbrowser     = { "chromium", "chromium" }
 filemanager    = "nautilus"
 editor         = "env TMUX=false neovide --multigrid"
 zathura        = "zathura"
-editor_cmd     = editor
+
+guieditor = editor --.. [[ -c ":lua require'telescope'.extensions.project.project()"]]
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -351,7 +352,7 @@ systemmenu = {
 
 awesomemenu = {
   { "restart",   awesome.restart     },
-  { "edit config", editor_cmd .. " " .. awesome.conffile }
+  { "edit config", editor .. " " .. awesome.conffile }
 }
 
 mymainmenu = awful.menu({ items = {
@@ -753,7 +754,7 @@ globalkeys = gears.table.join(
   awful.key(mods.W___, "y",      keepass_autotype, { description="Autotype from keepass", group="Launchers" }),
   awful.key(mods.W___, "Return", function() awful.spawn(terminal_login) end, { description="Terminal + TMUX", group="Launchers" }),
   awful.key(mods.WC__, "Return", function() awful.spawn(terminal_plain) end, { description="Terminal", group="Launchers" }),
-  awful.key(mods.W___, "a",      function() awful.spawn(editor) end, { description="Neovide", group="Launchers" }),
+  awful.key(mods.W___, "a",      function() awful.spawn(guieditor) end, { description="Neovide", group="Launchers" }),
   -- awful.key(mods.W___, "a",      function() runOnce({"cvlc ~/Documents/akm.xspf", "VLC media player"}) end, { description="AKM", group="Launchers" }),
   awful.key(mods.W___, "/",      function() runOnce(browser) end, { description="Firefox", group="Launchers" }),
   awful.key(mods.W_S_, "z",      function() awful.spawn(zathura) end, { description="Zathura", group="Launchers" }),

@@ -216,7 +216,7 @@ terminal_other = "alacritty"
 browser        = { "firefox", "Firefox" }
 altbrowser     = { "chromium", "chromium" }
 filemanager    = "nautilus"
-editor         = "env TMUX=false neovide --multigrid"
+editor         = "env TMUX=false neovide --multigrid --novsync"
 zathura        = "zathura"
 
 guieditor = editor --.. [[ -c ":lua require'telescope'.extensions.project.project()"]]
